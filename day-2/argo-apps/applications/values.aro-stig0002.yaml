@@ -1,0 +1,14 @@
+clusterName: 'aro-stig0002'
+
+git:
+  targetRevision: main
+
+# Helm does not support merge for variables of type list. 
+# The complete list have be provided if variable specified.
+modules:
+  - name: openshift-gitops
+    config_path: day-2/argo-init/openshift-gitops
+    sync_wave: 0
+  - name: openshift-compliance
+    config_path: day-2/modules/compliance-operator
+    sync_wave: 1

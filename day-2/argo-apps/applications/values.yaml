@@ -1,0 +1,12 @@
+resourceNamePrefix: 'day2-gitops'
+clusterName: 'changeme' # REQUIRED
+git:
+  repoURL: 'https://github.com/luqmanbarry/aro-classic-terraform.git' # REQUIRED
+  targetRevision: main # REQUIRED
+
+modules:
+  - name: openshift-gitops
+    config_path: day-2/argo-init/openshift-gitops
+    sync_wave: 0
+
+      
