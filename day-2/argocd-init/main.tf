@@ -1,6 +1,7 @@
 resource "helm_release" "deploy_openshift_gitops" {
   chart       = local.gitops_install_helm_chart_dir
   name        = "openshift-gitops-operator"
+  namespace   = "openshift-gitops"
   lint        = true
   max_history = 10
   verify      = false
@@ -16,6 +17,7 @@ resource "helm_release" "deploy_openshift_gitops_argocd_configs" {
 
   chart         = local.gitops_config_helm_chart_dir
   name          = "argocd-config"
+  namespace     = "openshift-gitops"
   lint          = true
   max_history   = 10
   verify        = false

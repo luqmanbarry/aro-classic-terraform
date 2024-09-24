@@ -5,6 +5,7 @@ locals {
 
   tmp_secrets_dir                = "${path.module}/../.tmp"
   console_url_content_path       = "${path.module}/${local.tmp_secrets_dir}/console_url"
+  latest_ocp_version             = "${path.module}/${local.tmp_secrets_dir}/latest_ocp_version"
   api_server_url_content_path    = "${path.module}/${local.tmp_secrets_dir}/api_server_url"
   admin_username_content_path    = "${path.module}/${local.tmp_secrets_dir}/admin_username"
   admin_password_content_path    = "${path.module}/${local.tmp_secrets_dir}/admin_password"
@@ -22,6 +23,9 @@ locals {
     local.derived_tags, var.default_tags
   )
 
+  openshift_versions  = sort(jsonencode(trimspace(data.local_file.get_latest_openshift_version)))
+  openshift_version   = element(local.openshift_versions, length(local.openshift_versions)-1)
+
   cluster_details = {
     cluster_name      = trimspace(var.cluster_name)
     console_url       = trimspace(data.local_file.console_url.content)
@@ -30,5 +34,6 @@ locals {
     admin_password    = trimspace(data.local_file.admin_password.content)
     ingress_lb_ip     = trimspace(data.local_file.ingress_lb_ip.content)
     api_server_lb_ip  = trimspace(data.local_file.api_server_lb_ip.content)
+    openshift_version = local.openshift_version
   }
 }

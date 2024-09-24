@@ -7,10 +7,10 @@ git:
 # The complete list have be provided if variable specified.
 modules:
   - name: openshift-gitops
-    config_path: day-2/argo-init/openshift-gitops
+    config_path: day-2/argocd-init/openshift-gitops
     sync_wave: 0
   - name: argocd-config
-    config_path: day-2/argo-init/argocd-config
+    config_path: day-2/argocd-init/argocd-config
     sync_wave: 1
   - name: openshift-compliance
     config_path: day-2/modules/compliance-operator

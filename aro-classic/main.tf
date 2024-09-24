@@ -26,8 +26,30 @@ resource "random_string" "random_lower_str" {
   upper            = false
 }
 
+resource "null_resource" "get_latest_openshift_version" {
+  provisioner "local-exec" {
+    interpreter = [ "/bin/bash", "-c" ]
+    command = "az aro get-versions --location $LOCATION > $OUTPUT_LOCATION "
+
+    environment = {
+      LOCATION        = var.location
+      OUTPUT_LOCATION = local.latest_ocp_version
+    }
+  }
+}
+
+data "local_file" "get_latest_openshift_version" {
+  depends_on  = [ null_resource.get_latest_openshift_version ]
+  filename    = local.latest_ocp_version
+}
+
+
+
 # ARO Cluster
 resource "azurerm_redhat_openshift_cluster" "current_cluster" {
+
+  depends_on = [ data.local_file.get_latest_openshift_version ]
+
   name                = var.cluster_name
   location            = var.location
   resource_group_name = var.cluster_resource_group
@@ -35,7 +57,7 @@ resource "azurerm_redhat_openshift_cluster" "current_cluster" {
   cluster_profile {
     managed_resource_group_name = format("%s-cluster-resources", var.cluster_name)
     domain                      =  var.use_azure_provided_domain ? local.default_domain : var.custom_dns_domain_name
-    version                     = var.ocp_version
+    version                     = length(var.ocp_version) > 0 ? var.ocp_version : local.openshift_version
     pull_secret                 = file(local.ocp_pull_secret)
     fips_enabled                = var.fips_enabled
   }
@@ -48,7 +70,7 @@ resource "azurerm_redhat_openshift_cluster" "current_cluster" {
   main_profile {
     vm_size   = var.main_vm_size
     subnet_id = var.main_subnet_id
-    encryption_at_host_enabled = false
+    encryption_at_host_enabled = var.fips_enabled
   }
 
   worker_profile {
@@ -56,7 +78,7 @@ resource "azurerm_redhat_openshift_cluster" "current_cluster" {
     disk_size_gb = var.worker_disk_size_gb
     node_count   = var.worker_node_count
     subnet_id    = var.worker_subnet_id
-    encryption_at_host_enabled = false
+    encryption_at_host_enabled = var.fips_enabled
   }
   
   api_server_profile {
