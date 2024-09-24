@@ -5,7 +5,9 @@ metadata:
   labels:
     openshift.io/cluster-monitoring: 'true'
   annotations:
+    managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec: {}
 ---
 apiVersion: v1
@@ -15,5 +17,7 @@ metadata:
   labels:
     openshift.io/cluster-monitoring: 'true'
   annotations:
+    managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec: {}

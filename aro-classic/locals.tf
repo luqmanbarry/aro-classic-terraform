@@ -1,5 +1,5 @@
 locals {
-  default_domain  = format("%s.%s", var.cluster_name, var.organization)
+  default_domain  = format("%s-%s", var.cluster_name, var.organization)
   # default_domain  = "poc-101"
   ocp_pull_secret = "${path.module}/.pull-secret/pull-secret.json"
 
@@ -12,10 +12,10 @@ locals {
   api_server_lb_ip_content_path  = "${path.module}/${local.tmp_secrets_dir}/api_server_lb_ip"
 
   derived_tags = {
-      "organization"   = var.organization
-      "environment"     = var.platform_environment
-      "cost_center"     = var.cost_center
-      "created_by"      = format("%s", data.azuread_user.current.user_principal_name)
+    "organization"    = var.organization
+    "environment"     = var.platform_environment
+    "cost_center"     = var.cost_center
+    "created_by"      = format("%s", data.azuread_user.current.user_principal_name)
   }
 
   resource_tags = merge(

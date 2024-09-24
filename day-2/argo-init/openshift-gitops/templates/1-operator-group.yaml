@@ -1,9 +1,12 @@
+---
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: {{ .Values.namespace }}
-  namespace: {{ .Values.namespace }}
+  name: openshift-gitops-operator
+  namespace: openshift-gitops-operator
   annotations:
-      argocd.argoproj.io/sync-wave: "1"
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   upgradeStrategy: Default

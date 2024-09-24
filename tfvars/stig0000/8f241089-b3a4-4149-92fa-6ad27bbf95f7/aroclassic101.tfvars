@@ -67,33 +67,33 @@ subscription_id="8f241089-b3a4-4149-92fa-6ad27bbf95f7"
 
 private_cluster=false
 
-vnet_name="aro-stig0002"
+vnet_name="aroclassic101"
 
 vnet_cidr="10.91.0.0/22"
 
 main_subnet_cidr="10.91.1.0/24"
 
-main_subnet_id="/subscriptions/8f241089-b3a4-4149-92fa-6ad27bbf95f7/resourceGroups/aro-stig0002/providers/Microsoft.Network/virtualNetworks/aro-stig0002/subnets/aro-stig0002-main-subnet"
+main_subnet_id="/subscriptions/8f241089-b3a4-4149-92fa-6ad27bbf95f7/resourceGroups/aroclassic101/providers/Microsoft.Network/virtualNetworks/aroclassic101/subnets/aroclassic101-main-subnet"
 
 worker_subnet_cidr="10.91.2.0/24"
 
-worker_subnet_id="/subscriptions/8f241089-b3a4-4149-92fa-6ad27bbf95f7/resourceGroups/aro-stig0002/providers/Microsoft.Network/virtualNetworks/aro-stig0002/subnets/aro-stig0002-worker-subnet"
+worker_subnet_id="/subscriptions/8f241089-b3a4-4149-92fa-6ad27bbf95f7/resourceGroups/aroclassic101/providers/Microsoft.Network/virtualNetworks/aroclassic101/subnets/aroclassic101-worker-subnet"
 
 location="eastus"
 
 platform_environment="dev"
 
-cluster_name="aro-stig0002"
+cluster_name="aroclassic101"
 
-cluster_details_vault_secret_name="openshift-dev-aro-stig0002-cluster-details"
+cluster_details_vault_secret_name="openshift-dev-aroclassic101-cluster-details"
 
 acmhub_details_vault_secret_name="openshift-dev-aro-acm-hub-102-cluster-details"
 
-cluster_service_principal="aro-stig0002"
+cluster_service_principal="aroclassic101"
 
-cluster_sp_client_id="2b7785c1-8388-472d-8d69-57c8a3e5bea9"
+cluster_sp_client_id="a5f52af6-9a38-420b-a0a9-a2a83201c63e"
 
-cluster_resource_group="aro-stig0002"
+cluster_resource_group="aroclassic101"
 
 cost_center="47007"
 
@@ -123,7 +123,7 @@ tfstate_storage_account_name="stig0000devtfstate"
 
 tfstate_storage_container="ocp-tfstate"
 
-inbound_network_security_group_name="aro-stig0002"
+inbound_network_security_group_name="aroclassic101"
 
 base_dns_zone_name="openshift.sama-wat.com"
 
@@ -135,9 +135,9 @@ fips_enabled=true
 
 use_azure_provided_domain=true
 
-custom_dns_domain_prefix="aro-stig0002.dev.eastus.stig0000"
+custom_dns_domain_prefix="aroclassic101.dev.eastus.stig0000"
 
-custom_dns_domain_name="aro-stig0002.dev.eastus.stig0000.openshift.sama-wat.com"
+custom_dns_domain_name="aroclassic101.dev.eastus.stig0000.openshift.sama-wat.com"
 
 key_vault_name="stig0000-dev-vault"
 
@@ -151,6 +151,6 @@ acmhub_cluster_env="dev"
 
 acmhub_vault_secret_name="openshift-dev-acmhub-aro-acm-hub-102"
 
-cluster_infra_tags={"cluster_name"="aro-stig0002","cluster_type"="aro","contact_us"="lbarry@redhat.com","cost_center"="47007","created_by"="lbarry@redhat.com (lbarry@redhat.com)","environment"="dev","organization"="stig0000","team_owner"="platform-ops@example.com"}
+cluster_infra_tags={"cluster_name"="aroclassic101","cluster_type"="aro","contact_us"="lbarry@redhat.com","cost_center"="47007","created_by"="lbarry@redhat.com (lbarry@redhat.com)","environment"="dev","organization"="stig0000","team_owner"="platform-ops@example.com"}
 
 #%%%%%%%%%%%%%%%%%%%%%%%%% END: DERIVED VARIABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

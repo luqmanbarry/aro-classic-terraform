@@ -8,6 +8,7 @@ metadata:
   finalizers:
    - resources-finalizer.argocd.argoproj.io
   annotations:
+    managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "{{ $moduleItem.sync_wave }}"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   labels:

@@ -2,7 +2,7 @@ output "cluster_name" {
   value = var.cluster_name
 }
 
-output "domain" {
+output "custom_domain" {
   value = var.custom_dns_domain_name
 }
 

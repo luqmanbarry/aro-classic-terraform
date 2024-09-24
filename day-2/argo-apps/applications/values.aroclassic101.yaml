@@ -1,4 +1,4 @@
-clusterName: 'aro-stig0002'
+clusterName: 'aroclassic101'
 
 git:
   targetRevision: main
@@ -9,6 +9,9 @@ modules:
   - name: openshift-gitops
     config_path: day-2/argo-init/openshift-gitops
     sync_wave: 0
+  - name: argocd-config
+    config_path: day-2/argo-init/argocd-config
+    sync_wave: 1
   - name: openshift-compliance
     config_path: day-2/modules/compliance-operator
-    sync_wave: 1
+    sync_wave: 2

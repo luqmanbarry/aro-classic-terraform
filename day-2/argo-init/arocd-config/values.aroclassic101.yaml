@@ -1,0 +1,4 @@
+clusterName: 'aroclassic101'
+
+rbac:
+  policies: []
