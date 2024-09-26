@@ -45,20 +45,3 @@ resource "local_file" "write_output" {
   content = local.final_tfvars_content
   filename = local.final_tfvars_path
 }
-
-# DELETE cluster_client_id_filename
-resource "null_resource" "delete_cluster_sp_client_id" {
-  depends_on = [ local_file.write_output ]
-
-  provisioner "local-exec" {
-    interpreter = [ "/bin/bash", "-c" ]
-    command = "echo 'DO NOT DELETE' > $CLUSTER_SP_CLIENT_ID_FILE_NAME "
-    environment = {
-      CLUSTER_SP_CLIENT_ID_FILE_NAME = local.cluster_sp_client_id_filename
-    }
-  }
-
-  triggers = {
-    timestamp = "${timestamp()}"
-  }
-}
