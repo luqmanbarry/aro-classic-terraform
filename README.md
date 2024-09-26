@@ -26,6 +26,7 @@
 - [Terraform](https://developer.hashicorp.com/terraform/install#linux) 1.5.x or greater
 - Most recent [Openshift Client](https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest)
 - [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+- [Helm](https://helm.sh/docs/intro/install/)
 - [jq](https://jqlang.github.io/jq/download/)
 
 ## Execution Flow

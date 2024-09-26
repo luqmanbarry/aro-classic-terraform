@@ -29,7 +29,7 @@ resource "random_string" "random_lower_str" {
 resource "null_resource" "get_latest_openshift_version" {
   provisioner "local-exec" {
     interpreter = [ "/bin/bash", "-c" ]
-    command = "az aro get-versions --location $LOCATION > $OUTPUT_LOCATION "
+    command = "az aro get-versions --location $LOCATION -ojson > $OUTPUT_LOCATION "
 
     environment = {
       LOCATION        = var.location
@@ -44,8 +44,86 @@ data "local_file" "get_latest_openshift_version" {
 }
 
 
+data "azurerm_resource_group" "cluster_resource_group" {
+  name = var.cluster_name
+}
+
+# resource "azurerm_resource_group" "cluster_resources_rg" {
+#   name = format("%s-resources", var.cluster_name)
+#   location = var.location
+#   tags = local.resource_tags
+# }
 
 # ARO Cluster
+# resource "azapi_resource" "current_cluster" {
+
+#   depends_on = [ 
+#     data.local_file.get_latest_openshift_version
+#   ]
+
+#   name      = var.cluster_name
+#   parent_id = data.azurerm_resource_group.cluster_resource_group.id
+#   type      = "Microsoft.RedHatOpenShift/OpenShiftClusters@2023-04-01"
+#   location  = var.location
+
+#   timeouts {
+#     create = "120m"
+#   }
+
+#   body = {
+#     properties = {
+
+#       clusterProfile = {
+#         resourceGroupId      = format("%s-resources", var.cluster_name)
+#         domain               = var.use_azure_provided_domain ? local.default_domain : var.custom_dns_domain_name
+#         pullSecret           = file(local.ocp_pull_secret)
+#         fipsValidatedModules = var.fips_enabled ? "Enabled" : "Disabled"
+#         version              = length(var.ocp_version) > 0 ? var.ocp_version : local.openshift_version
+#       }
+
+#       networkProfile = {
+#         podCidr              = var.pod_cidr
+#         serviceCidr          = var.service_cidr
+#       }
+
+#       masterProfile = {
+#         vmSize               = var.main_vm_size
+#         subnetId             = var.main_subnet_id
+#         encryptionAtHost     = var.fips_enabled ? "Enabled" : "Disabled"
+#       }
+      
+#       workerProfiles = [
+#         {
+#           name               = "worker"
+#           vmSize             = var.worker_vm_size
+#           diskSizeGB         = var.worker_disk_size_gb
+#           subnetId           = var.worker_subnet_id
+#           count              = var.worker_node_count
+#           encryptionAtHost   = var.fips_enabled ? "Enabled" : "Disabled"
+#         }
+#       ]
+
+#       apiserverProfile = {
+#         visibility           = var.private_cluster ? "Private" : "Public"
+#       }
+
+#       ingressProfiles = [
+#         {
+#           name               = "default"
+#           visibility         = var.private_cluster ? "Private" : "Public"
+#         }
+#       ]
+
+#       servicePrincipalProfile = {
+#         clientId             = data.azuread_service_principal.current_cluster.client_id
+#         clientSecret         = azuread_service_principal_password.current_cluster.value
+#       }
+#     }
+#   }
+
+#   tags = local.resource_tags
+# }
+
 resource "azurerm_redhat_openshift_cluster" "current_cluster" {
 
   depends_on = [ data.local_file.get_latest_openshift_version ]
@@ -55,7 +133,7 @@ resource "azurerm_redhat_openshift_cluster" "current_cluster" {
   resource_group_name = var.cluster_resource_group
 
   cluster_profile {
-    managed_resource_group_name = format("%s-cluster-resources", var.cluster_name)
+    managed_resource_group_name = format("%s-resources", var.cluster_name)
     domain                      =  var.use_azure_provided_domain ? local.default_domain : var.custom_dns_domain_name
     version                     = length(var.ocp_version) > 0 ? var.ocp_version : local.openshift_version
     pull_secret                 = file(local.ocp_pull_secret)
@@ -70,7 +148,7 @@ resource "azurerm_redhat_openshift_cluster" "current_cluster" {
   main_profile {
     vm_size   = var.main_vm_size
     subnet_id = var.main_subnet_id
-    encryption_at_host_enabled = var.fips_enabled
+    encryption_at_host_enabled = false
   }
 
   worker_profile {
@@ -78,7 +156,7 @@ resource "azurerm_redhat_openshift_cluster" "current_cluster" {
     disk_size_gb = var.worker_disk_size_gb
     node_count   = var.worker_node_count
     subnet_id    = var.worker_subnet_id
-    encryption_at_host_enabled = var.fips_enabled
+    encryption_at_host_enabled = false
   }
   
   api_server_profile {
@@ -98,6 +176,7 @@ resource "azurerm_redhat_openshift_cluster" "current_cluster" {
 }
 
 resource "time_sleep" "wait_5min" {
+  # depends_on      = [ azurerm_redhat_openshift_cluster.current_cluster ]
   depends_on      = [ azurerm_redhat_openshift_cluster.current_cluster ]
   create_duration = "300s"
 }

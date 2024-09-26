@@ -11,6 +11,11 @@ terraform {
       version = "~> 2"
     }
 
+    azapi = {
+      source = "Azure/azapi"
+      version = "2.0.0-beta"
+    }
+
     # godaddy = {
     #   source = "n3integration/godaddy"
     #   version = "~> 1"
@@ -35,6 +40,10 @@ provider "azurerm" {
 
 provider "azuread" {
   # Authentication crdentials will be provided as env vars
+}
+
+provider "azapi" {
+  # Configuration options
 }
 
 # provider "godaddy" {

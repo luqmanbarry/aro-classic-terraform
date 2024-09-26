@@ -40,7 +40,7 @@ locals {
 
   # TFVARs Paths
   admin_tfvars_path                                = format("${path.module}/../tfvars/admin/admin.tfvars")
-  final_tfvars_path                                = format("${path.module}/../tfvars/%s/%s/%s.tfvars", var.organization, var.subscription_id, var.cluster_name)
+  final_tfvars_path                                = format("${path.module}/../tfvars/computed/%s/%s/%s.tfvars", var.organization, var.subscription_id, var.cluster_name)
   
   # FINAL OUTPUT
   admin_tfvars_content                            = [

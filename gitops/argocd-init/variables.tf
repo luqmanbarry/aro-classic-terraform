@@ -49,3 +49,9 @@ variable "git_branch" {
   description = "The base branch" 
   default = "main" 
 }
+
+variable "tf_resources_namespace" {
+  type = string
+  description = "The default namespace used by the Terraform Helm provider"
+  default = "tf-automation"
+}

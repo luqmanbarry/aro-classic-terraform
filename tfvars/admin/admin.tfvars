@@ -3,6 +3,7 @@ redhatopenshift_sp_client_id  = "f1dd0a37-89c6-4e07-bcd1-ffd3d43d8875"
 resource_name_suffix          = "platformops"
 cert_issuer_email             = "dhabbhoufaamou@gmail.com"
 cert_issuer_server            = "https://acme-v02.api.letsencrypt.org/directory"
+tf_resources_namespace        = "tf-resources"
 #================ OCP CLUSTER =========================================================
 dns_ttl                       = 300
 tls_certificates_ttl_seconds  = "15638400s"
@@ -50,6 +51,6 @@ default_tags = {
 #================= GIT MGMT OF TFVARS ================================================
 git_base_url            = "https://github.com/"
 git_owner               = "luqmanbarry"
-git_repository_name          = "aro-classic-terraform"
-git_branch         = "main"
+git_repository_name     = "aro-classic-terraform"
+git_branch              = "main"
 git_commit_email        = "dhabbhoufaamou@gmail.com"

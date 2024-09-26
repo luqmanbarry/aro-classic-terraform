@@ -1,4 +1,4 @@
-clusterName: 'aroclassic101'
+clusterName: 'aroclassic102'
 
 git:
   targetRevision: main
@@ -7,11 +7,11 @@ git:
 # The complete list have be provided if variable specified.
 modules:
   - name: openshift-gitops
-    config_path: day-2/argocd-init/openshift-gitops
+    config_path: gitops/argocd-init/openshift-gitops
     sync_wave: 0
   - name: argocd-config
-    config_path: day-2/argocd-init/argocd-config
+    config_path: gitops/argocd-init/argocd-config
     sync_wave: 1
   - name: openshift-compliance
-    config_path: day-2/modules/compliance-operator
+    config_path: gitops/modules/compliance-operator
     sync_wave: 2

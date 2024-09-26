@@ -6,7 +6,7 @@ git:
 
 modules:
   - name: openshift-gitops
-    config_path: day-2/argocd-init/openshift-gitops
+    config_path: gitops/argocd-init/openshift-gitops
     sync_wave: 0
 
       
