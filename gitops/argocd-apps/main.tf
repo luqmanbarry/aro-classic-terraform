@@ -16,5 +16,9 @@ resource "null_resource" "deploy_argocd_applications" {
       CLUSTER_NAME    = var.cluster_name
     }
   }
+
+  triggers = {
+    timestamp = "${timestamp()}"
+  }
 }
 

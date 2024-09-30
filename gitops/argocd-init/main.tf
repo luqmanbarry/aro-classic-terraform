@@ -39,6 +39,10 @@ resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
       GIT_TOKEN       = sensitive(var.git_token)
     }
   }
+
+  triggers = {
+    timestamp = "${timestamp()}"
+  }
 }
 
 
