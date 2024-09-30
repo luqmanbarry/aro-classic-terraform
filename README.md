@@ -31,7 +31,7 @@
 
 ## Execution Flow
 
-![ARO Build Stages](.assets/aro-classic-automation-steps.jpg)
+![ARO Build Stages](.assets/aro-classic-automation-steps-v2.jpg)
 
 
 ## Admin variables
