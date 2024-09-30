@@ -20,6 +20,7 @@ terraform {
 }
 
 provider "azurerm" {
+  environment = var.azure_cloud_environment
   features {
     key_vault {
       purge_soft_delete_on_destroy    = true
@@ -35,6 +36,7 @@ provider "azurerm" {
 
 provider "azuread" {
   # Authentication crdentials will be provided as env vars
+  environment = var.azure_cloud_environment
 }
 
 provider "kubectl" {

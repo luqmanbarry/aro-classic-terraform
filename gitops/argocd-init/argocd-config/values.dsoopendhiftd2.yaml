@@ -1,0 +1,4 @@
+clusterName: 'dsoopendhiftd2'
+
+rbac:
+  policies: []

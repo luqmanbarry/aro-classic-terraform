@@ -3,6 +3,15 @@ variable "organization" {
   description = "The business unit that owns the cluster"
 }
 
+variable "azure_cloud_environment" {
+  type = string
+  description = "The Azure Cloud Environment. Options: environment=public|usgovernment|china|german"
+  validation {
+    condition = contains(["environment", "public", "usgovernment", "usgovernmentl4", "usgovernmentl5", "china", "german"], var.azure_cloud_environment)
+    error_message = "Expected values are one of: environment, public, usgovernment, usgovernmentl4, usgovernmentl5, china, german"
+  }
+}
+
 variable "location" {
   type    = string
   default = "eastus"

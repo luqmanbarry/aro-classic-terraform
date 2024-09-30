@@ -1,16 +1,13 @@
 terraform {
   required_providers {
 
-    github = {
-      source  = "integrations/github"
-      version = "~> 6"
+    git = {
+      source = "metio/git"
+      version = "2024.9.13"
     }
   }
 }
 
-# Configure the GitHub Provider - OAuth / Personal Access Token
-provider "github" {
-  token               = var.git_token
-  # base_url            = var.git_base_url # UNCOMMENT IF GIT ENTERPRISE
-  owner               = var.git_owner # UNCOMMENT IF GIT ENTERPRISE
+provider "git" {
+  # Configuration options
 }

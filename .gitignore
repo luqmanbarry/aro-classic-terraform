@@ -33,3 +33,5 @@ override.tf.json
 **/user-inputs.ignore.sh
 
 **/.DS_Store
+
+**/tfvars/computed

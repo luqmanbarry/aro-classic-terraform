@@ -62,6 +62,7 @@ locals {
       format("worker_subnet_id=%q", data.azurerm_subnet.worker_subnet.id),
       format("location=%q", var.location),
       format("platform_environment=%q", var.platform_environment),
+      format("azure_cloud_environment=%q", var.azure_cloud_environment),
       format("cluster_name=%q", var.cluster_name),
       format("cluster_details_vault_secret_name=%q", local.cluster_details_vault_secret_name),
       format("acmhub_details_vault_secret_name=%q", local.acmhub_details_vault_secret_name),

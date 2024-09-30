@@ -10,6 +10,7 @@ terraform {
 }
 
 provider "azurerm" {
+  environment = var.azure_cloud_environment
   features {
     key_vault {
       purge_soft_delete_on_destroy    = true

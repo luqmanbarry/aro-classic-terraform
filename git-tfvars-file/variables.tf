@@ -15,6 +15,12 @@ variable "subscription_id" {
   description = "The subscription ID of the business unit org"
 }
 
+variable "git_username" {
+  type          = string
+  description   = "The GitHub username"
+  default = "luqmanbarry"
+}
+
 variable "git_token" {
   type          = string
   description   = "The GitHub Personal Access Token (PAT)"
@@ -27,7 +33,7 @@ variable "git_base_url" {
   default = "https://corporate.github.com/"
 }
 
-variable "git_owner" {
+variable "git_org" {
   type = string
   description = "This is the target GitHub organization or individual user account to manage"
   default = "platform-ops"

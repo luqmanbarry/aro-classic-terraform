@@ -51,7 +51,7 @@ default_tags = {
 
 #================= GIT MGMT OF TFVARS ================================================
 git_base_url            = "https://github.com/"
-git_owner               = "luqmanbarry"
+git_org               = "luqmanbarry"
 git_repository_name          = "aro-classic-terraform"
 git_branch         = "main"
 git_commit_email        = "dhabbhoufaamou@gmail.com"

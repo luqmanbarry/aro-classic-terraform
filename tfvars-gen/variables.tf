@@ -5,6 +5,15 @@ variable "platform_environment" {
   default = "dev"
 }
 
+variable "azure_cloud_environment" {
+  type = string
+  description = "The Azure Cloud Environment. Options: environment=public|usgovernment|china|german"
+  validation {
+    condition = contains(["environment", "public", "usgovernment", "usgovernmentl4", "usgovernmentl5", "china", "german"], var.azure_cloud_environment)
+    error_message = "Expected values are one of: environment, public, usgovernment, usgovernmentl4, usgovernmentl5, china, german"
+  }
+}
+
 variable "location" {
   type    = string
   default = "eastus"
@@ -222,7 +231,7 @@ variable "git_base_url" {
   default = "https://github.com/"
 }
 
-variable "git_owner" {
+variable "git_org" {
   type = string
   description = "This is the target GitHub organization or individual user account to manage"
   default = "luqmanbarry"

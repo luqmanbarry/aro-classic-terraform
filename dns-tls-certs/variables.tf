@@ -1,6 +1,10 @@
 variable "azure_cloud_environment" {
   type = string
-  default = "AzurePublicCloud"
+  description = "The Azure Cloud Environment. Options: environment=public|usgovernment|china|german"
+  validation {
+    condition = contains(["environment", "public", "usgovernment", "usgovernmentl4", "usgovernmentl5", "china", "german"], var.azure_cloud_environment)
+    error_message = "Expected values are one of: environment, public, usgovernment, usgovernmentl4, usgovernmentl5, china, german"
+  }
 }
 
 variable "platform_environment" {

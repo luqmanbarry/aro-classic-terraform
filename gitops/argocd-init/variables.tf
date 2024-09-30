@@ -32,7 +32,7 @@ variable "git_base_url" {
   default = "https://corporate.github.com/"
 }
 
-variable "git_owner" {
+variable "git_org" {
   type = string
   description = "This is the target GitHub organization or individual user account to manage"
   default = "platform-ops"

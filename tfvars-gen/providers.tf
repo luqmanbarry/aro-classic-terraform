@@ -15,6 +15,7 @@ terraform {
 }
 
 provider "azurerm" {
+  environment = var.azure_cloud_environment
   features {}
   # Authentication credentials will be exposed as environment variables
   # export ARM_CLIENT_ID="xxxxxx"
@@ -25,4 +26,5 @@ provider "azurerm" {
 
 provider "azuread" {
   # Authentication crdentials will be provided as env vars
+  environment = var.azure_cloud_environment
 }

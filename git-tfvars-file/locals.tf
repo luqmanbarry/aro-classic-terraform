@@ -1,5 +1,6 @@
 ## Declare common vars
 locals {
+  local_repository_dir      = "${path.module}/.."
   tfvars_file               = abspath(format("${path.module}/../tfvars/computed/%s/%s/%s.tfvars", var.organization, var.subscription_id, var.cluster_name))
   action_taken              = var.git_action_taken
   custom_cluster_name       = format("%s-%s-%s", var.organization, var.platform_environment, var.cluster_name)

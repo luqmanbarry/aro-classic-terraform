@@ -1,4 +1,4 @@
-clusterName: 'aroclassic102'
+clusterName: 'dsoopendhiftd2'
 
 git:
   targetRevision: main
