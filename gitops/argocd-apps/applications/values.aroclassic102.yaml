@@ -9,9 +9,6 @@ modules:
   - name: openshift-gitops
     config_path: gitops/argocd-init/openshift-gitops
     sync_wave: 0
-  # - name: argocd-config
-  #   config_path: gitops/argocd-init/argocd-config
-  #   sync_wave: 1
   - name: openshift-compliance
     config_path: gitops/modules/compliance-operator
     sync_wave: 2
