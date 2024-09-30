@@ -3,12 +3,12 @@
 **/.terraform.lock.hcl
 
 # .tfstate files
-*.tfstate
-*.tfstate.*
-*.out
+**/*.tfstate
+**/*.tfstate.*
+**/*.out
 
 # plan files
-*.plan
+**/*.plan
 
 # Crash log files
 crash.log

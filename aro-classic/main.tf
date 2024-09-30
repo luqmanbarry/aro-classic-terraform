@@ -48,6 +48,12 @@ data "azurerm_resource_group" "cluster_resource_group" {
   name = var.cluster_name
 }
 
+locals {
+  depends_on = [ data.local_file.get_latest_openshift_version ]
+  openshift_versions  = sort(jsondecode(trimspace(data.local_file.get_latest_openshift_version.content)))
+  openshift_version   = local.openshift_versions[0]
+}
+
 # ARO Cluster
 resource "azurerm_redhat_openshift_cluster" "current_cluster" {
 

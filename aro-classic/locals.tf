@@ -23,9 +23,6 @@ locals {
     local.derived_tags, var.default_tags
   )
 
-  openshift_versions  = sort(jsondecode(trimspace(data.local_file.get_latest_openshift_version.content)))
-  openshift_version   = local.openshift_versions[0]
-
   cluster_details = {
     cluster_name      = trimspace(var.cluster_name)
     console_url       = trimspace(data.local_file.console_url.content)
