@@ -20,7 +20,7 @@ resource "time_sleep" "wait_for_operator" {
 }
 
 resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
-
+  depends_on = [ time_sleep.wait_for_operator ]
   provisioner "local-exec" {
     interpreter = [ "/bin/bash", "-c" ]
     command = <<EOT
