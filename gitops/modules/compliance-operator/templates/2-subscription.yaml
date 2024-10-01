@@ -14,3 +14,10 @@ spec:
   name: compliance-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
+  config:
+    requests:
+    	memory: "256Mi"
+    	cpu: "250m"
+  	limits:
+    	memory: "1Gi"
+    	cpu: "500m"
