@@ -12,3 +12,6 @@ modules:
   - name: openshift-compliance
     config_path: gitops/modules/compliance-operator
     sync_wave: 2
+  - name: container-security
+    config_path: gitops/modules/container-security
+    sync_wave: 3
