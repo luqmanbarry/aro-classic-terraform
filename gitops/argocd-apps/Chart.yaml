@@ -1,6 +1,6 @@
 apiVersion: v2
-name: applications
-description: A Helm chart for that acts as the main (entrypoint) Applications for day2 GitOps configuration.
+name: argocd-apps
+description: A Helm chart for that acts as the main (entrypoint) argocd-apps for day2 GitOps configuration.
 
 # A chart can be either an 'application' or a 'library' chart.
 #
