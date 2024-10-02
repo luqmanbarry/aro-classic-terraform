@@ -1,4 +1,3 @@
-clusterName: 'changeme'
 
 # Add more groups and roles for RBAC configuration
 rbac:

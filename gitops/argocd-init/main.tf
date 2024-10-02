@@ -26,7 +26,6 @@ resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
     command = <<EOT
       helm template --kubeconfig $KUBECONFIG $RELEASE_NAME $CHART_DIR \
         --values "$CHART_DIR/values.yaml" \
-        --values "$CHART_DIR/values.$CLUSTER_NAME.yaml" \
         --set git.repository.username="$GIT_USERNAME" \
         --set git.repository.password="$GIT_TOKEN" | oc apply -f -
     EOT
