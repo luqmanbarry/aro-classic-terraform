@@ -2,9 +2,10 @@ clusterName: 'changeme'
 
 # Add more groups and roles for RBAC configuration
 rbac:
-  policies: # Reference: https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
-    - group: MY_GROUP
-      role: my_role
+  policies: []
+  # Reference: https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
+    # - group: MY_GROUP
+    #   role: my_role
 
 git:
   repository:

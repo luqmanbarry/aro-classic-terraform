@@ -7,6 +7,7 @@ git:
 modules:
   - name: openshift-gitops
     config_path: gitops/argocd-init/openshift-gitops
+    hasClusterValues: false
     sync_wave: 0
 
       

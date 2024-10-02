@@ -23,7 +23,9 @@ spec:
     helm:
       valueFiles:
       - values.yaml
+      {{ if $moduleItem.hasClusterValues }}
       - "values.{{ $.Values.clusterName }}.yaml"
+      {{ end }}
 
   # Destination cluster and namespace to deploy the application
   destination:
