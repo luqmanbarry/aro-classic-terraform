@@ -22,7 +22,7 @@ spec:
     helm:
       valueFiles:
       - values.yaml
-      - values.{{ clusterName }}.yaml
+      - values.{{ .Values.clusterName }}.yaml
 
   # Destination cluster and namespace to deploy the application
   destination:

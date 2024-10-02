@@ -21,6 +21,10 @@ resource "null_resource" "deploy_openshift_gitops" {
 resource "time_sleep" "wait_for_operator" {
   depends_on = [ null_resource.deploy_openshift_gitops ]
   create_duration = "180s"
+  
+  triggers = {
+    timestamp = "${timestamp()}"
+  }
 }
 
 resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
@@ -30,9 +34,10 @@ resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
     command = <<EOT
       helm template --kubeconfig $KUBECONFIG $RELEASE_NAME $CHART_DIR \
         --values "$CHART_DIR/values.yaml" \
+        --values "$CHART_DIR/values.$CLUSTER_NAME.yaml" \
         --set git.repository.username="$GIT_USERNAME" \
         --set git.repository.password="$GIT_TOKEN" \
-        --set argocdSkipSyncFlag=$SKIP_REPO_SECRET | oc apply -f -
+        --set skipArgoCDSync=$SKIP_REPO_SECRET | oc apply -f -
     EOT
     environment = {
       KUBECONFIG        = var.managed_cluster_kubeconfig_filename
