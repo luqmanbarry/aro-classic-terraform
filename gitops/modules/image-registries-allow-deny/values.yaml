@@ -1,0 +1,15 @@
+# REGISTRIES ARE BLOCKED BY DEFAULT - ADD REGISTRY/IMAGE TO UNBLOCK
+allowedRegistriesForImport: # Ref: https://access.redhat.com/solutions/6547281
+  - domainName: quay.io
+    insecure: false
+  - domainName: registry.redhat.io
+    insecure: false
+  - domainName: registry.connect.redhat.com
+    insecure: false
+
+allowList:
+  - mcr.microsoft.com
+  - ghcr.io
+  - gcr.io
+  - public.ecr.aws
+  - registry1.dso.mil

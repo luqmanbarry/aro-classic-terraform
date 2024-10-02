@@ -1,0 +1,11 @@
+enableUserWorkload: true
+# Cluster Metrics
+prometheusK8s:
+  storageClassName: managed-csi
+# User Workloads Metrics
+prometheus:
+  storageClassName: managed-csi
+alertmanagerMain:
+  storageClassName: managed-csi
+thanosRuler:
+  storageClassName: managed-csi
