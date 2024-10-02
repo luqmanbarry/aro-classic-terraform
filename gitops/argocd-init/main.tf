@@ -31,7 +31,8 @@ resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
       helm template --kubeconfig $KUBECONFIG $RELEASE_NAME $CHART_DIR \
         --values "$CHART_DIR/values.yaml" \
         --set git.repository.username="$GIT_USERNAME" \
-        --set git.repository.password="$GIT_TOKEN" | oc apply -f -
+        --set git.repository.password="$GIT_TOKEN" 
+        --set argocdSkipSyncFlag=$SKIP_REPO_SECRET | oc apply -f -
     EOT
     environment = {
       KUBECONFIG      = var.managed_cluster_kubeconfig_filename
@@ -40,6 +41,7 @@ resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
       CLUSTER_NAME    = var.cluster_name
       GIT_USERNAME    = "git"
       GIT_TOKEN       = sensitive(var.git_token)
+      SKIP_REPO_SECRET = false
     }
   }
 

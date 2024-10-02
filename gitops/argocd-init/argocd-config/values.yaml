@@ -15,4 +15,4 @@ git:
     username: git
     password: 'changeme'
     insecureTLS: true
-    mainAppPath: gitops/argocd-apps/applications
+    mainAppPath: gitops/argocd-applications
