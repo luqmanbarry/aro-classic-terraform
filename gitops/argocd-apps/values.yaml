@@ -7,7 +7,6 @@ git:
 modules:
   - name: openshift-gitops
     config_path: gitops/modules/container-security
-    hasClusterValues: false
     sync_wave: 0
 
       

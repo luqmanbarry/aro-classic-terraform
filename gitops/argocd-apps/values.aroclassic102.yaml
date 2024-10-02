@@ -13,7 +13,6 @@ modules: # List of modules to be deployed
   - name: argocd-config
     config_path: gitops/argocd-init/argocd-config
     sync_wave: 2
-    hasClusterValues: false
   # - name: openshift-compliance
   #   config_path: gitops/modules/compliance-operator
   #   sync_wave: 20
