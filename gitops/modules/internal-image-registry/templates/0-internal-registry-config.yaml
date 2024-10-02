@@ -9,12 +9,5 @@ spec:
   defaultRoute: {{ .Values.defaultRoute }}
   disableRedirect: {{ .Values.disableRedirect }}
   logLevel: Normal
-  # managementState: Managed
   operatorLogLevel: Normal
   replicas: 3
-  # storage:
-  #   azure:
-  #     accountName: {{ .Values.storage.azure.accountName }}
-  #     cloudName: {{ .Values.storage.azure.cloudName }}
-  #     container: image-registry
-  #   managementState: Unmanaged

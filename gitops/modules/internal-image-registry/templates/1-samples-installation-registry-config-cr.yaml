@@ -8,8 +8,7 @@ metadata:
 spec:
   architectures:
   - x86_64
-  # managementState: Managed
-  samplesRegistry: "registry.redhat.io" # Ref: https://access.redhat.com/solutions/6547281
+  samplesRegistry: "registry.redhat.io"
   additionalTrustedCA:
     name: registry-ca
   allowedRegistriesForImport:
