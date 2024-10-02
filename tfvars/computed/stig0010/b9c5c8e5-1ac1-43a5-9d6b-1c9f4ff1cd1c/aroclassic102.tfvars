@@ -100,7 +100,7 @@ cluster_resource_group="aroclassic102"
 
 cost_center="47007"
 
-ocp_version="4.14.16"
+ocp_version="4.15.27"
 
 acmhub_registration_enabled=false
 

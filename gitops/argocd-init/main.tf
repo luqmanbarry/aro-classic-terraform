@@ -12,11 +12,15 @@ resource "null_resource" "deploy_openshift_gitops" {
       CHART_DIR       = local.gitops_install_helm_chart_dir
     }
   }
+
+  triggers = {
+    timestamp = "${timestamp()}"
+  }
 }
 
 resource "time_sleep" "wait_for_operator" {
   depends_on = [ null_resource.deploy_openshift_gitops ]
-  create_duration = "120s"
+  create_duration = "180s"
 }
 
 resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
