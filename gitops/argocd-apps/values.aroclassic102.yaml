@@ -16,18 +16,15 @@ modules: # List of modules to be deployed
   - name: openshift-compliance
     config_path: gitops/modules/compliance-operator
     sync_wave: 20
-  # - name: container-security
-  #   config_path: gitops/modules/container-security
-  #   sync_wave: 30
-  #   hasClusterValues: false
-  # - name: internal-image-registry
-  #   config_path: gitops/modules/internal-image-registry
-  #   sync_wave: 40
-  #   hasClusterValues: false
-  # - name: self-provisioner
-  #   config_path: gitops/modules/self-provisioner
-  #   sync_wave: 50
-  #   hasClusterValues: false
+  - name: container-security
+    config_path: gitops/modules/container-security
+    sync_wave: 30
+  - name: internal-image-registry
+    config_path: gitops/modules/internal-image-registry
+    sync_wave: 40
+  - name: self-provisioner
+    config_path: gitops/modules/self-provisioner
+    sync_wave: 50
   # - name: user-workload-monitoring
   #   config_path: gitops/modules/user-workload-monitoring
   #   sync_wave: 60
