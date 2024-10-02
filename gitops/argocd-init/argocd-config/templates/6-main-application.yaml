@@ -18,7 +18,7 @@ spec:
   source:
     repoURL: "{{ .Values.git.repository.repoURL }}"
     targetRevision: "{{ .Values.git.repository.targetRevision }}"
-    path: "{{ .Values.git.repository.mainAppPath }}"
+    path: "{{ .Values.git.repository.appOfAppsPath }}"
     helm:
       valueFiles:
       - values.yaml
