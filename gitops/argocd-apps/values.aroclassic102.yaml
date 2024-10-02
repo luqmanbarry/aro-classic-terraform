@@ -25,11 +25,9 @@ modules: # List of modules to be deployed
   - name: self-provisioner
     config_path: gitops/modules/self-provisioner
     sync_wave: 50
-  # - name: user-workload-monitoring
-  #   config_path: gitops/modules/user-workload-monitoring
-  #   sync_wave: 60
-  #   hasClusterValues: false
-  # - name: image-registries-allow-deny
-  #   config_path: gitops/modules/image-registries-allow-deny
-  #   sync_wave: 70
-  #   hasClusterValues: false
+  - name: user-workload-monitoring
+    config_path: gitops/modules/user-workload-monitoring
+    sync_wave: 60
+  - name: image-registries-allow-deny
+    config_path: gitops/modules/image-registries-allow-deny
+    sync_wave: 70
