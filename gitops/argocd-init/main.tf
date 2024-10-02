@@ -36,7 +36,7 @@ resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
     EOT
     environment = {
       KUBECONFIG        = var.managed_cluster_kubeconfig_filename
-      RELEASE_NAME      = "openshift-gitops-operator"
+      RELEASE_NAME      = "openshift-gitops-config"
       CHART_DIR         = local.gitops_config_helm_chart_dir
       CLUSTER_NAME      = var.cluster_name
       GIT_USERNAME      = "git"

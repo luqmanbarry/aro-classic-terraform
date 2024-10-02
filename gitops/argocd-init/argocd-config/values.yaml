@@ -1,4 +1,5 @@
-argocdSkipSyncFlag: true
+clusterName: "changeme"
+skipArgoCDSync: true
 resourceNamePrefix: 'aro-day2-gitops'
 # Add more groups and roles for RBAC configuration
 rbac:
@@ -15,4 +16,4 @@ git:
     username: git
     password: 'changeme'
     insecureTLS: true
-    appOfAppsPath: gitops/argocd-applications
+    appOfAppsPath: gitops/argocd-apps
