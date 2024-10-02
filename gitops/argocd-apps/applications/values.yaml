@@ -1,4 +1,4 @@
-resourceNamePrefix: 'day2-gitops'
+resourceNamePrefix: 'aro-day2-gitops'
 clusterName: 'changeme' # REQUIRED
 git:
   repoURL: 'https://github.com/luqmanbarry/aro-classic-terraform.git' # REQUIRED
