@@ -35,13 +35,13 @@ resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
         --set argocdSkipSyncFlag=$SKIP_REPO_SECRET | oc apply -f -
     EOT
     environment = {
-      KUBECONFIG      = var.managed_cluster_kubeconfig_filename
-      RELEASE_NAME    = "openshift-gitops-operator"
-      CHART_DIR       = local.gitops_config_helm_chart_dir
-      CLUSTER_NAME    = var.cluster_name
-      GIT_USERNAME    = "git"
-      GIT_TOKEN       = var.git_token
-      SKIP_REPO_SECRET = false
+      KUBECONFIG        = var.managed_cluster_kubeconfig_filename
+      RELEASE_NAME      = "openshift-gitops-operator"
+      CHART_DIR         = local.gitops_config_helm_chart_dir
+      CLUSTER_NAME      = var.cluster_name
+      GIT_USERNAME      = "git"
+      GIT_TOKEN         = var.git_token
+      SKIP_REPO_SECRET  = false
     }
   }
 
