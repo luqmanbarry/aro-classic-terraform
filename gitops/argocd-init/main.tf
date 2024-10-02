@@ -20,8 +20,8 @@ resource "null_resource" "deploy_openshift_gitops" {
 
 resource "time_sleep" "wait_for_operator" {
   depends_on = [ null_resource.deploy_openshift_gitops ]
-  create_duration = "180s"
-  
+  create_duration = "120s"
+
   triggers = {
     timestamp = "${timestamp()}"
   }
