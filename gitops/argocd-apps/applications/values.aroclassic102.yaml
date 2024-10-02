@@ -15,3 +15,6 @@ modules: # List of modules to be deployed
   - name: container-security
     config_path: gitops/modules/container-security
     sync_wave: 3
+  - name: internal-image-registry
+    config_path: gitops/modules/internal-image-registry
+    sync_wave: 4
