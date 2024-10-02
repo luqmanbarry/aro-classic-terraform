@@ -26,6 +26,12 @@ variable "git_token" {
   default = "my-personal-access-token"
 }
 
+variable "git_repository_url" {
+  type          = string
+  description   = "This is the target GitHub base API endpoint. The value must end with a slash."
+  default = "https://corporate.github.com/org/my-repo.git"
+}
+
 variable "git_base_url" {
   type          = string
   description   = "This is the target GitHub base API endpoint. The value must end with a slash."
