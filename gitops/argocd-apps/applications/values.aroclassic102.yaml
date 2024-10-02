@@ -5,7 +5,7 @@ git:
 
 # Helm does not support merge for variables of type list. 
 # The complete list have be provided if variable specified.
-modules:
+modules: # List of modules to be deployed
   - name: openshift-gitops
     config_path: gitops/argocd-init/openshift-gitops
     sync_wave: 0
