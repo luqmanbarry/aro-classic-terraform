@@ -31,3 +31,6 @@ modules: # List of modules to be deployed
   - name: image-registries-allow-deny
     config_path: gitops/modules/image-registries-allow-deny
     sync_wave: 70
+  - name: global-cluster-pull-secret
+    config_path: gitops/modules/global-cluster-pull-secret
+    sync_wave: 80
