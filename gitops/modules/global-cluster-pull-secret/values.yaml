@@ -1,4 +1,4 @@
 enable: true
 resourceNamePrefix: 'day2-gitops'
-patchSchedule: "*/5 * * * *" # Run every 12th hour.
+patchSchedule: "0 5 * * *" # Run every 12th hour.
 ocpVersion: v4.15
