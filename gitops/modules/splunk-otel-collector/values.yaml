@@ -1,0 +1,95 @@
+
+# Complete var list: https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/values.yaml
+
+splunk-otel-collector: # subchart name to override its values.
+  clusterName: "changeme" # REQUIRED
+  cloudProvider: "azure" # {aws|azure|gke}
+  distribution: "openshift" # {eks, aks, eks/fargate,..}
+  environment: dev
+  source: "kubernetes"
+  maxConnections: 200
+  timeout: 30s
+  idleConnTimeout: 10s
+  logsEnabled: true
+  metricsEnabled: false
+  tracesEnabled: false
+  retryOnFailure:
+    enabled: true
+    initialInterval: 5s
+    maxInterval: 30s
+    maxElapsedTime: 300s
+
+  resources:
+    limits:
+      cpu: 300m
+      memory: 1Gi
+
+  service:
+    enabled: true
+
+  securityContext: {}
+
+  splunkPlatform:
+    endpoint: "changeme" # REQUIRED
+    token: "changeme" # REQUIRED - https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/templates/secret-splunk.yaml
+    index: "changeme" # REQUIRED
+
+  logsEngine: otel
+
+  logsCollection:
+
+  # Container logs collection
+  containers:
+    enabled: true
+    containerRuntime: ""
+    # Boolean for ingesting the agent's own log
+    excludeAgentLogs: false
+    # Extra operators for container logs.
+    # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/pkg/stanza/docs/operators/README.md
+    extraOperators: []
+
+  # Configuration for collecting journald logs using otel collector
+  journald:
+    enabled: true
+    directory: /run/log/journal
+    units:
+      - name: kubelet
+        priority: info
+      - name: docker
+        priority: info
+      - name: containerd
+        priority: info
+      - name: cri-o
+        priority: info
+    # Route journald logs to its own Splunk Index by specifying the index value below, else leave it blank. Please make sure the index exist in Splunk and is configured to receive HEC traffic. Not applicable to Splunk Observability.
+    index: ""
+
+  agent:
+    enabled: true
+
+  clusterReceiver:
+    enabled: true
+    # Scheduling configurations
+    nodeSelector:
+      beta.kubernetes.io/os: linux
+    tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+
+  rbac:
+    create: true
+
+  tolerations:
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
+
+  # Defines priorityClassName to assign a priority class to pods.
+  priorityClassName: ""
+
+  # Specifies whether to apply for k8s cluster with windows worker node.
+  isWindows: false
+
+  securityContextConstraints:
+    create: true

@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "argocd-config.name" -}}
+{{- define "splunk-otel-collector.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "argocd-config.fullname" -}}
+{{- define "splunk-otel-collector.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "argocd-config.chart" -}}
+{{- define "splunk-otel-collector.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "argocd-config.labels" -}}
-helm.sh/chart: {{ include "argocd-config.chart" . }}
-{{ include "argocd-config.selectorLabels" . }}
+{{- define "splunk-otel-collector.labels" -}}
+helm.sh/chart: {{ include "splunk-otel-collector.chart" . }}
+{{ include "splunk-otel-collector.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "argocd-config.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "argocd-config.name" . }}
+{{- define "splunk-otel-collector.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "splunk-otel-collector.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "argocd-config.serviceAccountName" -}}
+{{- define "splunk-otel-collector.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "argocd-config.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "splunk-otel-collector.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

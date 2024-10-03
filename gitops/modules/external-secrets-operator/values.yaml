@@ -1,0 +1,9 @@
+clusterName: "changeme"
+clusterKeyVaultName: "changeme"
+authNServiceAccountName: "workload-identity-sa"
+provider:
+  azurekv: # Key Vault ServicePrincipal credentials
+    clientID: changeme
+    tenantID: changeme
+    vaultURL: "https://my-keyvault-name.vault.azure.net"
+    
