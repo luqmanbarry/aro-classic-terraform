@@ -1,0 +1,62 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: "{{ .Values.resourceNamePrefix }}-global-cluster-pull-secret"
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  schedule: "{{ .Values.patchSchedule }}"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            argocd.argoproj.io/managed-by: openshift-gitops
+            app.kubernetes.io/part-of: aro-gitops
+        spec:
+          serviceAccountName: openshift-gitops-argocd-application-controller
+          serviceAccount: openshift-gitops-argocd-application-controller
+          restartPolicy: OnFailure
+          containers:
+          - name: "{{ .Values.resourceNamePrefix }}-global-cluster-pull-secret"
+            image: registry.redhat.io/openshift4/ose-tools-rhel8:{{ .Values.ocpVersion }}
+            command:
+            - /bin/sh
+            - -c
+            - |
+                set -e
+
+                echo -n "\n==> Fetch global pull secret inside cluster..."
+                oc get secret/pull-secret -n openshift-config --template={{`'{{index .data ".dockerconfigjson" | base64decode }}'`}} > /tmp/pull-secret.json
+
+                echo -n "\n==> Fetch cluster create pull secret..."
+                oc get secret/"{{ .Values.resourceNamePrefix }}-cluster-create-pull-secret" -n openshift-gitops --template={{`'{{index .data "pull_secret_json" | base64decode }}'`}} > /tmp/cluster-create-pull-secret.json
+                
+                echo "Backup fetched pull secret from openshift-config..."
+                cp /tmp/pull-secret.json /tmp/pull-secret-backup.json
+
+                {{ if .Values.enable }}
+
+                echo "Removing cloud.openshift.com key if it exists..."
+                cat /tmp/pull-secret.json | jq 'del(.auths."cloud.openshift.com")' > /tmp/pull-secret-tmp.json
+                cp /tmp/pull-secret-tmp.json /tmp/pull-secret.json
+
+                echo "Add cloud.openshift.com entry to global pull secret..."
+                NEW_CLOUD_AUTH=$(cat /tmp/cluster-create-pull-secret.json | jq '.auths."cloud.openshift.com"')
+                cat /tmp/pull-secret.json | jq -r --argjson new_json "$NEW_CLOUD_AUTH" '.auths += {"cloud.openshift.com" : $new_json }' > /tmp/pull-secret-new.json
+                
+                {{ end }}
+
+                {{ if not .Values.enable }}
+
+                echo "Remove cloud.openshift.com entry to global pull secret..."
+                cat /tmp/pull-secret.json | jq 'del(.auths."cloud.openshift.com")' > /tmp/pull-secret-new.json
+                
+                {{ end }}
+
+                echo "Update global pull secret..."
+                oc set data secret/pull-secret -n openshift-config --from-file=.dockerconfigjson=/tmp/pull-secret-new.json
