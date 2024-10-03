@@ -12,28 +12,28 @@ modules: # List of modules to be deployed
   #   hasClusterValues: false
   - name: argocd-config
     config_path: gitops/bootstrap/argocd-config
-    sync_wave: 2
+    sync_wave: 100
   - name: external-secrets-operator
     config_path: gitops/modules/external-secrets-operator
-    sync_wave: 9
+    sync_wave: 101
   - name: openshift-compliance
     config_path: gitops/modules/compliance-operator
-    sync_wave: 10
+    sync_wave: 102
   - name: container-security
     config_path: gitops/modules/container-security
-    sync_wave: 11
+    sync_wave: 103
   - name: internal-image-registry
     config_path: gitops/modules/internal-image-registry
-    sync_wave: 12
+    sync_wave: 104
   - name: self-provisioner
     config_path: gitops/modules/self-provisioner
-    sync_wave: 13
+    sync_wave: 105
   - name: user-workload-monitoring
     config_path: gitops/modules/user-workload-monitoring
-    sync_wave: 14
+    sync_wave: 106
   - name: image-registries-allow-deny
     config_path: gitops/modules/image-registries-allow-deny
-    sync_wave: 15
+    sync_wave: 107
   - name: global-cluster-pull-secret
     config_path: gitops/modules/global-cluster-pull-secret
-    sync_wave: 16
+    sync_wave: 108
