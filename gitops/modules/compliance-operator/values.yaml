@@ -8,4 +8,4 @@ scanProfiles:
   - ocp4-stig-node
 autoApplyRemediations: true
 enableDebug: true
-scanSchedule: 0 */4 * * * # https://crontab.guru/
+scanSchedule: 0 5 * * * # https://crontab.guru/

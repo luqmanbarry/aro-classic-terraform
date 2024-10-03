@@ -1,6 +1,6 @@
 apiVersion: v2
 name: image-registries-proxy
-description: A Helm chart for configuring allow/deny lists for image registries.
+description: A Helm chart for configuring workload image pull proxy.
 
 # A chart can be either an 'application' or a 'library' chart.
 #
