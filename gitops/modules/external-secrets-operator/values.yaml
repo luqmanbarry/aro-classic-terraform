@@ -1,5 +1,5 @@
 clusterName: "changeme"
-clusterKeyVaultName: "changeme"
+keyVaultName: "changeme"
 authNServiceAccountName: "workload-identity-sa"
 provider:
   azurekv: # Key Vault ServicePrincipal credentials

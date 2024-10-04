@@ -37,3 +37,9 @@ modules: # List of modules to be deployed
   - name: global-cluster-pull-secret
     config_path: gitops/modules/global-cluster-pull-secret
     sync_wave: 108
+  - name: image-registries-proxy
+    config_path: gitops/modules/image-registries-proxy
+    sync_wave: 109
+  - name: splunk-otel-collector
+    config_path: gitops/modules/splunk-otel-collector
+    sync_wave: 110

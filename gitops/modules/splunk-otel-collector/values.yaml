@@ -1,8 +1,11 @@
 
 # Complete var list: https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/values.yaml
-
+splunkHecSecretName: "aro-gitops-splunk-hec"
+keyVaultName: "changeme"
+splunkKVSecretName: "changeme"
 splunk-otel-collector: # subchart name to override its values.
   clusterName: "changeme" # REQUIRED
+  namespaceOverride: "splunk-otel-collector"
   cloudProvider: "azure" # {aws|azure|gke}
   distribution: "openshift" # {eks, aks, eks/fargate,..}
   environment: dev
