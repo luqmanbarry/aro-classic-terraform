@@ -40,6 +40,6 @@ modules: # List of modules to be deployed
   # - name: image-registries-proxy
   #   config_path: gitops/modules/image-registries-proxy
   #   sync_wave: 109
-  - name: splunk-otel-collector
-    config_path: gitops/modules/splunk-otel-collector
+  - name: logs-forwarder
+    config_path: gitops/modules/logs-forwarder
     sync_wave: 110
