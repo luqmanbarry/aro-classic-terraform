@@ -17,7 +17,7 @@ spec:
 
   source:
     repoURL: {{ .Values.helmChart.repoURL }}
-    targetRevision: {{ .Values.git.targetRevision }}
+    targetRevision: {{ .Values.helmChart.targetRevision }}
     chart: {{ .Values.helmChart.name }}
     helm:
       valueFiles:
