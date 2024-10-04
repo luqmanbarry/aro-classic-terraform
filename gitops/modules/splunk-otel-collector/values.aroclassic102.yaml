@@ -3,7 +3,7 @@
 keyVaultName: "stig0010-dev-vault"
 splunkKVSecretName: "splunk-platform-heck-token"
 splunk-otel-collector: # subchart name to override its values.
-  clusterName: "rh-sandbox3" # REQUIRED
+  clusterName: "aroclassic102" # REQUIRED
   cloudProvider: "azure" # {aws|azure|gke}
   distribution: "openshift" # {eks, aks, eks/fargate,..}
 
@@ -11,8 +11,8 @@ splunk-otel-collector: # subchart name to override its values.
     endpoint: "http://localhost:8088/services/collector" # REQUIRED
     secret:
       create: false
-      name: your-secret
-    token: "MY_ACCESS_TOKEN " # REQUIRED
+      name: "splunk-platform-heck-token"
+    # token: "MY_ACCESS_TOKEN " # REQUIRED
 
     # Name of the Splunk event type index targeted. Required when ingesting logs to Splunk Platform.
-    index: "rh-sandbox3" # REQUIRED
+    index: "openshift-v4" # REQUIRED

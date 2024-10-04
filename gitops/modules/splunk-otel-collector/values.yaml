@@ -9,63 +9,54 @@ splunk-otel-collector: # subchart name to override its values.
   cloudProvider: "azure" # {aws|azure|gke}
   distribution: "openshift" # {eks, aks, eks/fargate,..}
   environment: dev
-  source: "kubernetes"
-  maxConnections: 200
-  timeout: 30s
-  idleConnTimeout: 10s
+  # source: "kubernetes"
+  # maxConnections: 200
   logsEnabled: true
   metricsEnabled: false
   tracesEnabled: false
-  retryOnFailure:
-    enabled: true
-    initialInterval: 5s
-    maxInterval: 30s
-    maxElapsedTime: 300s
-
-  resources:
-    limits:
-      cpu: 300m
-      memory: 1Gi
 
   service:
     enabled: true
 
-  securityContext: {}
+  # securityContext: {}
 
   splunkPlatform:
     endpoint: "changeme" # REQUIRED
-    token: "changeme" # REQUIRED - https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/templates/secret-splunk.yaml
     index: "changeme" # REQUIRED
+    # token: "changeme" # REQUIRED - https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/templates/secret-splunk.yaml
+    secret:
+      create: false
+      name: "splunk-platform-heck-token"
 
   logsEngine: otel
 
   logsCollection:
 
   # Container logs collection
-  containers:
-    enabled: true
-    containerRuntime: ""
-    # Boolean for ingesting the agent's own log
-    excludeAgentLogs: false
-    # Extra operators for container logs.
-    # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/pkg/stanza/docs/operators/README.md
-    extraOperators: []
+  # containers:
+  #   enabled: true
+  #   containerRuntime: ""
+  #   # Boolean for ingesting the agent's own log
+  #   excludeAgentLogs: false
+  #   # Extra operators for container logs.
+  #   # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/pkg/stanza/docs/operators/README.md
+  #   extraOperators: []
 
   # Configuration for collecting journald logs using otel collector
-  journald:
-    enabled: true
-    directory: /run/log/journal
-    units:
-      - name: kubelet
-        priority: info
-      - name: docker
-        priority: info
-      - name: containerd
-        priority: info
-      - name: cri-o
-        priority: info
-    # Route journald logs to its own Splunk Index by specifying the index value below, else leave it blank. Please make sure the index exist in Splunk and is configured to receive HEC traffic. Not applicable to Splunk Observability.
-    index: ""
+  # journald:
+  #   enabled: true
+  #   directory: /run/log/journal
+  #   units:
+  #     - name: kubelet
+  #       priority: info
+  #     - name: docker
+  #       priority: info
+  #     - name: containerd
+  #       priority: info
+  #     - name: cri-o
+  #       priority: info
+  #   # Route journald logs to its own Splunk Index by specifying the index value below, else leave it blank. Please make sure the index exist in Splunk and is configured to receive HEC traffic. Not applicable to Splunk Observability.
+  #   index: ""
 
   agent:
     enabled: true
