@@ -3,7 +3,7 @@
 splunkHecSecretName: "aro-gitops-splunk-hec"
 keyVaultName: "changeme"
 splunkKVSecretName: "changeme"
-splunk-otel-collector: # subchart name to override its values.
+splunk_otel_collector: # subchart name to override its values.
   clusterName: "changeme" # REQUIRED
   namespaceOverride: "splunk-otel-collector"
   cloudProvider: "azure" # {aws|azure|gke}

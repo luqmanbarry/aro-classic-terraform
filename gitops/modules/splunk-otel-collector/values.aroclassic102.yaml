@@ -2,7 +2,7 @@
 # Complete var list: https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/values.yaml
 keyVaultName: "stig0010-dev-vault"
 splunkKVSecretName: "splunk-platform-heck-token"
-splunk-otel-collector: # subchart name to override its values.
+splunk_otel_collector: # subchart name to override its values.
   clusterName: "aroclassic102" # REQUIRED
   cloudProvider: "azure" # {aws|azure|gke}
   distribution: "openshift" # {eks, aks, eks/fargate,..}
