@@ -17,8 +17,8 @@ spec:
 
   source:
     repoURL: {{ .Values.helmChart.repoURL }}
-    targetRevision: "{{ $.Values.git.targetRevision }}"
-    chart: logs-forwarder
+    targetRevision: {{ .Values.git.targetRevision }}
+    chart: {{ .Values.helmChart.name }}
     helm:
       valueFiles:
       - values.yaml

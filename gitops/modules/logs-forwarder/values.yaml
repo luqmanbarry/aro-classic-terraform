@@ -5,8 +5,9 @@ keyVaultName: "changeme"
 splunkKVSecretName: "changeme"
 
 helmChart:
+  name: splunk-otel-collector
   repoURL: https://signalfx.github.io/splunk-otel-collector-chart
-  targetRevision: v0.110.0
+  targetRevision: 0.110.0
 
 # splunk-otel-collector: # subchart name to override its values.
 clusterName: "changeme" # REQUIRED
