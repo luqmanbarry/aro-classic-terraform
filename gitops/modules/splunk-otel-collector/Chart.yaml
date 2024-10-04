@@ -25,6 +25,5 @@ appVersion: "v0.110.0"
 
 dependencies:
 - name: splunk-otel-collector
-  alias: splunk_otel_collector
   version: "v0.110.0"
   repository: "https://signalfx.github.io/splunk-otel-collector-chart"

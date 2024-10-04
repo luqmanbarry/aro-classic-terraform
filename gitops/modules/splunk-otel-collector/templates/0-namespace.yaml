@@ -9,4 +9,4 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "0"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
-  name: {{ index .Values "splunk-otel-collector" namespaceOverride }}
+  name: {{ index .Values "splunk-otel-collector" "namespaceOverride" }}
