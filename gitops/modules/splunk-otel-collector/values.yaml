@@ -9,8 +9,6 @@ splunk-otel-collector: # subchart name to override its values.
   cloudProvider: "azure" # {aws|azure|gke}
   distribution: "openshift" # {eks, aks, eks/fargate,..}
   environment: dev
-  # source: "kubernetes"
-  # maxConnections: 200
   logsEnabled: true
   metricsEnabled: false
   tracesEnabled: false
@@ -23,11 +21,22 @@ splunk-otel-collector: # subchart name to override its values.
   splunkPlatform:
     endpoint: "changeme" # REQUIRED
     index: "changeme" # REQUIRED
+    source: "kubernetes"
+    maxConnections: 200
+    disableCompression: false
+    timeout: 30s
+    idleConnTimeout: 10s
+
     # token: "changeme" # REQUIRED - https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/templates/secret-splunk.yaml
-    token:
-      secret:
-        create: false
-        name: "splunk-platform-heck-token"
+    # token:
+  secret:
+    create: false
+    name: "splunk-platform-heck-token"
+    retryOnFailure:
+      enabled: true
+      initialInterval: 5s
+      maxInterval: 30s
+      maxElapsedTime: 300s
 
   logsEngine: otel
 
