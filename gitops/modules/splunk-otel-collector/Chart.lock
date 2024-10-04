@@ -1,0 +1,6 @@
+dependencies:
+- name: splunk-otel-collector
+  repository: https://signalfx.github.io/splunk-otel-collector-chart
+  version: 0.110.0
+digest: sha256:d76e549b64647f60d05fc13d0b955fafe3e56f83828070538c4b31db483eb4bb
+generated: "2024-10-04T10:16:48.601086-05:00"
