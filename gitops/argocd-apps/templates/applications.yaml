@@ -61,14 +61,11 @@ spec:
   #   annotations:
   #     argocd.argoproj.io/sync-wave: '0'
 
-  # ignoreDifferences:
-  # - group: oadp.openshift.io
-  #   kind: DataProtectionApplication
-  #   jqPathExpressions:
-  #     - '.spec.backupLocations'
-  #     - '.spec.snapshotLocations'
-  #     - '.spec.configuration.featureFlags'
-  #     - '.spec.configuration.nodeAgent'
+  ignoreDifferences:
+  - group: operators.coreos.com/v1alpha1
+    kind: Subscription
+    jqPathExpressions:
+      - '.spec.status'
 
   revisionHistoryLimit: 10
 {{ end }}
