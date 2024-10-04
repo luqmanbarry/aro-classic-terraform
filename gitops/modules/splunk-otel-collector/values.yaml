@@ -31,12 +31,11 @@ splunk-otel-collector: # subchart name to override its values.
       initialInterval: 5s
       maxInterval: 30s
       maxElapsedTime: 300s
+
+  logsEngine: otel
   secret:
     create: false
     name: "splunk-platform-heck-token"
-    
-
-  logsEngine: otel
 
   logsCollection:
 
