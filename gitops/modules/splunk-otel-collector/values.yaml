@@ -24,9 +24,10 @@ splunk-otel-collector: # subchart name to override its values.
     endpoint: "changeme" # REQUIRED
     index: "changeme" # REQUIRED
     # token: "changeme" # REQUIRED - https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/templates/secret-splunk.yaml
-    secret:
-      create: false
-      name: "splunk-platform-heck-token"
+    token:
+      secret:
+        create: false
+        name: "splunk-platform-heck-token"
 
   logsEngine: otel
 
