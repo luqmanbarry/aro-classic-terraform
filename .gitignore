@@ -36,5 +36,4 @@ override.tf.json
 
 **/tfvars/computed
 
-**/charts
 **/Chart.lock
