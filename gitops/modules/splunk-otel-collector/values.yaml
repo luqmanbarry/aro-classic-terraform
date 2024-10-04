@@ -13,9 +13,6 @@ splunk-otel-collector: # subchart name to override its values.
   metricsEnabled: false
   tracesEnabled: false
 
-  service:
-    enabled: true
-
   # securityContext: {}
 
   splunkPlatform:
@@ -71,6 +68,8 @@ splunk-otel-collector: # subchart name to override its values.
 
   agent:
     enabled: true
+    service:
+      enabled: true
 
   clusterReceiver:
     enabled: true
