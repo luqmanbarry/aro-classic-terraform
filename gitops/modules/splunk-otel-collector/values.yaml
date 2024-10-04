@@ -32,31 +32,31 @@ splunk-otel-collector: # subchart name to override its values.
 
   logsCollection:
 
-  # Container logs collection
-  # containers:
-  #   enabled: true
-  #   containerRuntime: ""
-  #   # Boolean for ingesting the agent's own log
-  #   excludeAgentLogs: false
-  #   # Extra operators for container logs.
-  #   # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/pkg/stanza/docs/operators/README.md
-  #   extraOperators: []
+    # Container logs collection
+    containers:
+      enabled: true
+      containerRuntime: ""
+      # Boolean for ingesting the agent's own log
+      excludeAgentLogs: false
+      # Extra operators for container logs.
+      # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/pkg/stanza/docs/operators/README.md
+      extraOperators: []
 
-  # Configuration for collecting journald logs using otel collector
-  # journald:
-  #   enabled: true
-  #   directory: /run/log/journal
-  #   units:
-  #     - name: kubelet
-  #       priority: info
-  #     - name: docker
-  #       priority: info
-  #     - name: containerd
-  #       priority: info
-  #     - name: cri-o
-  #       priority: info
-  #   # Route journald logs to its own Splunk Index by specifying the index value below, else leave it blank. Please make sure the index exist in Splunk and is configured to receive HEC traffic. Not applicable to Splunk Observability.
-  #   index: ""
+    # Configuration for collecting journald logs using otel collector
+    journald:
+      enabled: true
+      directory: /run/log/journal
+      units:
+        - name: kubelet
+          priority: info
+        - name: docker
+          priority: info
+        - name: containerd
+          priority: info
+        - name: cri-o
+          priority: info
+      # Route journald logs to its own Splunk Index by specifying the index value below, else leave it blank. Please make sure the index exist in Splunk and is configured to receive HEC traffic. Not applicable to Splunk Observability.
+      index: ""
 
   agent:
     enabled: true
