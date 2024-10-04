@@ -16,9 +16,9 @@ modules: # List of modules to be deployed
   - name: external-secrets-operator
     config_path: gitops/modules/external-secrets-operator
     sync_wave: 101
-  - name: openshift-compliance
-    config_path: gitops/modules/compliance-operator
-    sync_wave: 102
+  # - name: openshift-compliance
+  #   config_path: gitops/modules/compliance-operator
+  #   sync_wave: 102
   # - name: container-security
   #   config_path: gitops/modules/container-security
   #   sync_wave: 103
@@ -40,6 +40,6 @@ modules: # List of modules to be deployed
   # - name: image-registries-proxy
   #   config_path: gitops/modules/image-registries-proxy
   #   sync_wave: 109
-  # - name: splunk-otel-collector
-  #   config_path: gitops/modules/splunk-otel-collector
-  #   sync_wave: 110
+  - name: splunk-otel-collector
+    config_path: gitops/modules/splunk-otel-collector
+    sync_wave: 110
