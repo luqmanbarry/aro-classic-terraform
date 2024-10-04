@@ -71,7 +71,7 @@ splunk-otel-collector: # subchart name to override its values.
       enabled: true
 
   clusterReceiver:
-    enabled: true
+    enabled: false
     # Scheduling configurations
     nodeSelector:
       beta.kubernetes.io/os: linux
