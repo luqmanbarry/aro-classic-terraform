@@ -18,8 +18,8 @@ provider "azurerm" {
   environment = var.azure_cloud_environment
   features {
     key_vault {
-      purge_soft_delete_on_destroy    = true
-      recover_soft_deleted_key_vaults = true
+      purge_soft_delete_on_destroy    = false
+      recover_soft_deleted_key_vaults = false
     }
   }
   # Authentication credentials will be exposed as environment variables
