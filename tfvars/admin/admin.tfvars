@@ -2,7 +2,8 @@ redhatopenshift_sp_client_id  = "f1dd0a37-89c6-4e07-bcd1-ffd3d43d8875"
 resource_name_suffix          = "platformops"
 cert_issuer_email             = "dhabbhoufaamou@gmail.com"
 cert_issuer_server            = "https://acme-v02.api.letsencrypt.org/directory"
-tf_resources_namespace        = "tf-resources"
+cluster_sp_k8s_secret_name    = "cluster-sp-secret"
+tf_resources_namespace        = "ocp-tf-resources"
 #================ OCP CLUSTER =========================================================
 dns_ttl                       = 300
 tls_certificates_ttl_seconds  = "15638400s"

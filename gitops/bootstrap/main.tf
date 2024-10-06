@@ -1,3 +1,10 @@
+# Get Cluster Details from KeyVault
+data "azurerm_key_vault_secret" "cluster_details" {
+  name                = var.cluster_details_vault_secret_name
+  key_vault_id        = var.key_vault_id
+}
+
+
 resource "null_resource" "deploy_openshift_gitops" {
 
   provisioner "local-exec" {
@@ -58,5 +65,24 @@ resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
     timestamp = "${timestamp()}"
   }
 }
+
+resource "kubectl_manifest" "cluster_sp_secret" {
+  depends_on = [ null_resource.deploy_openshift_gitops_argocd_configs ]
+  # provider    = kubernetes.managed_cluster
+  yaml_body = <<YAML
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: ${var.cluster_sp_k8s_secret_name}
+      namespace: ${var.tf_resources_namespace}
+    type: Opaque
+    stringData:
+      client_id: ${local.cluster_sp_client_id}
+      client_secret: ${local.cluster_sp_client_secret}
+  YAML
+  force_new       = true
+  force_conflicts = true
+  wait = true
+} 
 
 

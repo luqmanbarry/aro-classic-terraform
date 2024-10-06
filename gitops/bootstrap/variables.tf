@@ -56,8 +56,26 @@ variable "git_branch" {
   default = "main" 
 }
 
+variable "cluster_sp_k8s_secret_name" {
+  type = string
+  description = "The k8s secret name containing the cluster ServicePrincipal client_id & client_secret"
+  default = "cluster-sp-secret"
+}
+
 variable "tf_resources_namespace" {
   type = string
   description = "The default namespace used by the Terraform Helm provider"
-  default = "tf-automation"
+  default = "ocp-tf-resources"
+}
+
+variable "cluster_details_vault_secret_name" {
+  type = string
+  default = "openshift-OCP_ENV-CLUSTER_NAME-cluster-details"
+  description = "The name of the secret that will hold the cluster admin details"
+}
+
+variable "key_vault_id" {
+  type = string
+  description = "The Azure KeyVault ID"
+  default = "looked-up"
 }
