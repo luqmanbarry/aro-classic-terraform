@@ -146,3 +146,15 @@ variable "use_azure_provided_domain" {
   default = true
   description = "Do you want to provide your own domain? true or false"
 }
+
+variable "key_vault_name" {
+  type = string
+  description = "The name of the Azure KV instance hosting OpenShift secrets"
+  default = "derived"
+}
+
+variable "key_vault_resource_group" {
+  type = string
+  description = "The RG of the Azure KV instance hosting OpenShift secrets"
+  default = "derived"
+}

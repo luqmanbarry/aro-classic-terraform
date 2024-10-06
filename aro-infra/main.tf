@@ -109,6 +109,19 @@ resource "null_resource" "export_cluster_sp_client_id" {
   }
 }
 
+data "azurerm_key_vault" "bu_keyvault" {
+  name                = var.key_vault_name
+  resource_group_name = var.key_vault_resource_group
+}
+
+resource "azurerm_key_vault_access_policy" "grant_keyvault_read" {
+  key_vault_id  = data.azurerm_key_vault.bu_keyvault.id
+  tenant_id     = data.azuread_client_config.current.tenant_id
+  object_id     = azuread_service_principal.ocp_cluster_sp.object_id
+
+  secret_permissions = [ "Get", "List", "Set" ]
+}
+
 data "azuread_service_principal" "redhatopenshift" {
   // This is the Azure Red Hat OpenShift RP service principal id, do NOT delete it
   client_id = var.redhatopenshift_sp_client_id
