@@ -81,7 +81,7 @@ resource "kubectl_manifest" "cluster_sp_secret_namespace" {
 }
 
 resource "kubectl_manifest" "cluster_sp_secret" {
-  depends_on = [ null_resource.cluster_sp_secret_namespace ]
+  depends_on = [ kubectl_manifest.cluster_sp_secret_namespace ]
   yaml_body = <<YAML
     apiVersion: v1
     kind: Secret

@@ -1,6 +1,7 @@
 clusterName: "changeme"
 keyVaultName: "changeme"
-authNServiceAccountName: "external-secrets-workload-identity-sa"
+cluster_sp_k8s_secret_name: "cluster-sp-secret"
+tf_resources_namespace: "ocp-tf-resources"
 provider:
   azurekv: # Key Vault ServicePrincipal credentials
     clientID: changeme
