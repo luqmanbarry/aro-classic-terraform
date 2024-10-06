@@ -1,20 +1,6 @@
-
-# Complete var list: https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/values.yaml
-keyVaultName: "stig0010-dev-vault"
-splunkKVSecretName: "splunk-platform-hec-token"
-
-# splunk-otel-collector: # subchart name to override its values.
-clusterName: "aroclassic102" # REQUIRED
-cloudProvider: "azure" # {aws|azure|gke}
-distribution: "openshift" # {eks, aks, eks/fargate,..}
-
-splunkPlatform:
-  endpoint: "http://localhost:8088/services/collector" # REQUIRED
-  index: "openshift-v4" # REQUIRED
-secret:
-  create: false
-  name: "splunk-platform-heck-token"
-  # token: "MY_ACCESS_TOKEN " # REQUIRED
-
-  # Name of the Splunk event type index targeted. Required when ingesting logs to Splunk Platform.
-  
+keyVaultName: stig0011-dev-vault
+clusterName: aroclassic102
+hecSecretName: vector-splunk-logging
+namespace: openshift-logging
+splunk:
+  endpoint: http://your.splunk.hec.url:8088/services/collector

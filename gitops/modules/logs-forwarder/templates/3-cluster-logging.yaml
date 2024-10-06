@@ -1,0 +1,20 @@
+---
+apiVersion: logging.openshift.io/v1
+kind: ClusterLogging
+metadata:
+  name: cluster-logging
+  namespace: openshift-logging
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  managementState: Managed
+  collection:
+    type: vector
+    vector: {}
+    resources:
+      requests:
+        memory: 512Mi
+      limits:
+        memory: 2Gi
