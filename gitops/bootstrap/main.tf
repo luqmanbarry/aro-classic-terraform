@@ -66,9 +66,22 @@ resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
   }
 }
 
-resource "kubectl_manifest" "cluster_sp_secret" {
+resource "kubectl_manifest" "cluster_sp_secret_namespace" {
   depends_on = [ null_resource.deploy_openshift_gitops_argocd_configs ]
-  # provider    = kubernetes.managed_cluster
+  yaml_body = <<YAML
+    apiVersion: v1
+    kind: Namespace
+    metadata:
+      name: ${var.tf_resources_namespace}
+      annotations:
+        openshift.io/node-selector: ""
+      labels:
+        openshift.io/cluster-monitoring: "true"
+  YAML
+}
+
+resource "kubectl_manifest" "cluster_sp_secret" {
+  depends_on = [ null_resource.cluster_sp_secret_namespace ]
   yaml_body = <<YAML
     apiVersion: v1
     kind: Secret

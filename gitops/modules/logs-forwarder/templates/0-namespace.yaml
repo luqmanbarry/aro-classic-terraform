@@ -9,4 +9,7 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "0"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+    openshift.io/node-selector: ""
+  labels:
+    openshift.io/cluster-monitoring: "true"
   name: openshift-logging
