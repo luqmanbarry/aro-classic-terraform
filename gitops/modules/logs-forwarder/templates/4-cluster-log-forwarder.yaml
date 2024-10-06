@@ -2,13 +2,17 @@
 apiVersion: logging.openshift.io/v1
 kind: ClusterLogForwarder
 metadata:
-  name: {{ .Values.hecSecretName }}
+  name: splunk-logs-forwarder
   namespace: {{ .Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   outputs:
     - name: splunk-receiver 
       secret:
-        name: {{ .Values.hecSecretName }}
+        name: {{ .Values.hecKeyVaultSecretName }}
       type: splunk 
       url: {{ .Values.splunk.endpoint }}
   pipelines: 
