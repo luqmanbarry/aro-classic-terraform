@@ -1,6 +1,6 @@
 keyVaultName: changeme
 clusterName: changeme
-hecSecretName: vector-splunk-logging
+hecKeyVaultSecretName: splunk-logging-hec-token
 namespace: openshift-logging
 splunk:
   endpoint: http://your.splunk.hec.url:8088/services/collector

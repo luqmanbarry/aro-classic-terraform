@@ -1,6 +1,6 @@
 keyVaultName: stig0011-dev-vault
 clusterName: aroclassic102
-hecSecretName: vector-splunk-logging
+hecSecretName: splunk-logging-hec-token
 namespace: openshift-logging
 splunk:
   endpoint: http://your.splunk.hec.url:8088/services/collector
