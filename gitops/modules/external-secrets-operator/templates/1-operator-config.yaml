@@ -30,3 +30,5 @@ spec:
   serviceAccount:
     create: true
     name: ''
+  webhook:
+    create: false
