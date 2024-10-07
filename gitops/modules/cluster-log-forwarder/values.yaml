@@ -3,3 +3,4 @@ clusterName: changeme
 hecKeyVaultSecretName: splunk-logging-hec-token
 splunk:
   endpoint: http://your.splunk.hec.url:8088/services/collector
+  indexName: openshift

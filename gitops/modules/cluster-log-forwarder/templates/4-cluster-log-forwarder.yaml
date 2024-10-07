@@ -15,6 +15,8 @@ spec:
         name: {{ .Values.hecKeyVaultSecretName }}
       type: splunk 
       url: {{ .Values.splunk.endpoint }}
+      splunk:
+        indexName: {{ .Values.splunk.indexName }}
   pipelines: 
     - inputRefs:
         - application
