@@ -16,7 +16,5 @@ spec:
       - registry.redhat.io
       - registry.connect.redhat.com
       - image-registry.openshift-image-registry.svc:5000
-      - arosvc.azurecr.io
-      - arosvc.eastus.data.azurecr.io
       # User provider registries - Provide list in values.<env>.yaml files
       {{ toYaml .Values.allowList | nindent 6 }}
