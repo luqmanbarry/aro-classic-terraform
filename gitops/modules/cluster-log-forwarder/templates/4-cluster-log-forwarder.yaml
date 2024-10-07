@@ -2,8 +2,8 @@
 apiVersion: logging.openshift.io/v1
 kind: ClusterLogForwarder
 metadata:
-  name: splunk-log-forwarder
-  namespace: {{ .Values.namespace }}
+  name: instance
+  namespace: openshift-logging
   annotations:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "4"
