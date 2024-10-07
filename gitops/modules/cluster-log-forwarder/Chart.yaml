@@ -1,5 +1,5 @@
 apiVersion: v2
-name: logs-forwarder
+name: cluster-log-forwarder
 description: A Helm chart for deploying the Splunk OTel Collector for OpenShift log forwarding.
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -24,6 +24,6 @@ version: 1.0.0
 appVersion: "v0.110.0"
 
 # dependencies:
-# - name: logs-forwarder
+# - name: cluster-log-forwarder
 #   version: "v0.110.0"
-#   repository: "https://signalfx.github.io/logs-forwarder-chart"
+#   repository: "https://signalfx.github.io/cluster-log-forwarder-chart"
