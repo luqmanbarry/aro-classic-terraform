@@ -12,7 +12,6 @@ spec:
   managementState: Managed
   collection:
     type: vector
-    vector: {}
     resources:
       requests:
         memory: 512Mi
