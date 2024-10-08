@@ -1,0 +1,15 @@
+{{ if isFile "certs/idp-ca-bundle.pem" }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.oauthCertsConfigMap }}
+  namespace: openshift-config
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+data:
+  ca.crt: |
+    {{ .Files.Get "certs/idp-ca-bundle.pem" | indent 4 }}
+{{ end }}

@@ -1,0 +1,38 @@
+---
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  identityProviders:
+  - name: {{ .Values.idp.name }}
+    mappingMethod: claim
+    type: OpenID
+    openID:
+      clientID: ...
+      clientSecret:
+        name: {{ .Values.idp.openIDClientSecretKeyVaultSecretName }}
+      ca: 
+        name: {{ .Values.idp.oauthCertsConfigMap }}
+      extraScopes: 
+      - email
+      - profile
+      extraAuthorizeParameters: 
+        include_granted_scopes: "true"
+      claims:
+        preferredUsername: 
+        - preferred_username
+        - email
+        name: 
+        - nickname
+        - given_name
+        - name
+        email: 
+        - custom_email_claim
+        - email
+        groups: 
+        - groups
+      issuer: {{ .Values.idp.issuerURL }}
