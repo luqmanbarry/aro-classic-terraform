@@ -1,4 +1,5 @@
 clusterName: "changeme"
+registriesCertsConfigMap: registries-config-certs
 # REGISTRIES ARE BLOCKED BY DEFAULT - ADD REGISTRY/IMAGE TO UNBLOCK
 allowList:
   - mcr.microsoft.com
