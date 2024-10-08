@@ -1,4 +1,7 @@
 keyVaultName: stig0011-dev-vault
 idp:
-  name: KERBEROS
-  issuerURL: https://www.kerberos-issuer.openshift.example.com
+  openid:
+    clientID: some-uuid
+    clientSecretKeyVaultSecretName: kerberos-client-secret
+    
+  

@@ -8,15 +8,15 @@ metadata:
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   identityProviders:
-  - name: {{ .Values.idp.name }}
+  - name: {{ .Values.idp.openid.name }}
     mappingMethod: claim
     type: OpenID
     openID:
-      clientID: ...
+      clientID: {{ .Values.idp.openid.clientID }}
       clientSecret:
-        name: {{ .Values.idp.openIDClientSecretKeyVaultSecretName }}
+        name: {{ .Values.idp.openid.clientSecretKeyVaultSecretName }}
       ca: 
-        name: {{ .Values.idp.oauthCertsConfigMap }}
+        name: {{ .Values.idp.oauthCertsConfigMapName }}
       extraScopes: 
       - email
       - profile
@@ -35,4 +35,4 @@ spec:
         - email
         groups: 
         - groups
-      issuer: {{ .Values.idp.issuerURL }}
+      issuer: {{ .Values.idp.openid.issuerURL }}

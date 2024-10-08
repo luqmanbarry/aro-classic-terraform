@@ -1,6 +1,9 @@
 keyVaultName: changeme
 idp:
-  name: KERBEROS
-  openIDClientSecretKeyVaultSecretName: kerberos-client-secret
-  oauthCertsConfigMap: oauth-config-certs
-  issuerURL: https://www.idp-issuer.com
+  openid:
+    name: KERBEROS
+    clientID: changeme
+    clientSecretKeyVaultSecretName: kerberos-client-secret
+    issuerURL: https://www.idp-issuer.com
+  oauthCertsConfigMapName: oauth-config-certs
+  
