@@ -1,1 +1,1 @@
-enable: true
+pullSecretKeyVaultSecretName: private-registries-pull-secrets
