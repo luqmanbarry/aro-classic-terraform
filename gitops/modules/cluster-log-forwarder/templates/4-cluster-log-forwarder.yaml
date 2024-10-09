@@ -10,7 +10,7 @@ metadata:
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   outputs:
-    - name: splunk-receiver 
+    - name: splunk-receiver
       secret:
         name: {{ .Values.hecKeyVaultSecretName }}
       type: splunk 
@@ -22,6 +22,7 @@ spec:
         - application
         - infrastructure
         - audit
-      name: 
+      name: splunk-receiver
       outputRefs:
-        - splunk-receiver 
+        - splunk-receiver
+      parse: json

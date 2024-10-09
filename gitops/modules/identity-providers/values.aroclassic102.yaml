@@ -1,7 +1,13 @@
 keyVaultName: stig0011-dev-vault
 idp:
   openid:
-    clientID: some-uuid
-    clientSecretKeyVaultSecretName: kerberos-client-secret
+    providers:
+      - type: AAD
+        enable: true
+        name: ActiveDirectory
+        clientID: changeme
+        clientSecretKeyVaultSecretName: openshift-aroclassic102-aad-sp-client-secret
+        issuerURL: https://login.microsoftonline.com/TENANT_ID/v2.0
+  
     
   

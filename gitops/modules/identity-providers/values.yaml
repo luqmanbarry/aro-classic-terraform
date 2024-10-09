@@ -1,9 +1,19 @@
 keyVaultName: changeme
 idp:
   openid:
-    name: KERBEROS
-    clientID: changeme
-    clientSecretKeyVaultSecretName: kerberos-client-secret
-    issuerURL: https://www.idp-issuer.com
-  oauthCertsConfigMapName: oauth-config-certs
+    providers:
+      - type: AAD
+        enable: true
+        name: ActiveDirectory
+        clientID: changeme
+        clientSecretKeyVaultSecretName: openshift-aroclassic102-aad-sp-client-secret
+        issuerURL: https://login.microsoftonline.com/TENANT_ID/v2.0
+      - type: KEYCLOAK
+        enable: true
+        name: KeyCloak
+        clientID: changeme
+        clientSecretKeyVaultSecretName: openshift-aroclassic102-aad-sp-client-secret
+        issuerURL: https://keycloak-url/auth/realms/realm-name
+    oauthCertsConfigMapName: oauth-config-certs
+    enable: false
   

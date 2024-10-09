@@ -1,0 +1,8 @@
+rbac:
+  assignments:
+    - ocpRole: "cluster-admin"
+      groupName: "group1"
+    - ocpRole: "admin"
+      groupName: "group2"
+    - ocpRole: "edit"
+      groupName: "group3"

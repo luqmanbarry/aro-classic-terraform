@@ -1,9 +1,10 @@
-{{ if isFile "certs/idp-ca-bundle.pem" }}
+{{ if .Values.idp.openid.enable }}
+{{ if not ( .Files.Glob "certs/idp-ca-bundle.pem" | empty ) }}
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.idp.oauthCertsConfigMapName }}
+  name: {{ .Values.idp.openid.oauthCertsConfigMapName }}
   namespace: openshift-config
   annotations:
     managed-by: argocd.argoproj.io
@@ -12,4 +13,5 @@ metadata:
 data:
   ca.crt: |
     {{ .Files.Get "certs/idp-ca-bundle.pem" | indent 4 }}
+{{ end }}
 {{ end }}

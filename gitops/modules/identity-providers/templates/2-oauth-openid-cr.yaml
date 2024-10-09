@@ -1,3 +1,4 @@
+{{ if .Values.idp.openid.enable }}
 ---
 apiVersion: config.openshift.io/v1
 kind: OAuth
@@ -8,31 +9,32 @@ metadata:
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   identityProviders:
-  - name: {{ .Values.idp.openid.name }}
-    mappingMethod: claim
-    type: OpenID
-    openID:
-      clientID: {{ .Values.idp.openid.clientID }}
-      clientSecret:
-        name: {{ .Values.idp.openid.clientSecretKeyVaultSecretName }}
-      ca: 
-        name: {{ .Values.idp.oauthCertsConfigMapName }}
-      extraScopes: 
-      - email
-      - profile
-      extraAuthorizeParameters: 
-        include_granted_scopes: "true"
-      claims:
-        preferredUsername: 
-        - preferred_username
-        - email
-        name: 
-        - nickname
-        - given_name
-        - name
-        email: 
-        - custom_email_claim
-        - email
-        groups: 
-        - groups
-      issuer: {{ .Values.idp.openid.issuerURL }}
+  {{ range $openIDProvider := .Values.idp.openid.providers }}
+    - name: {{ $openIDProvider.name }}
+      mappingMethod: claim
+      type: OpenID
+      openID:
+        clientID: {{ $openIDProvider.clientID }}
+        clientSecret:
+          name: {{ $openIDProvider.clientSecretKeyVaultSecretName }}
+        extraScopes:
+        - profile
+        - openid
+        extraAuthorizeParameters: 
+          include_granted_scopes: "true"
+        claims:
+          preferredUsername: 
+          - preferred_username
+          - email
+          name: 
+          - nickname
+          - given_name
+          - name
+          email: 
+          - custom_email_claim
+          - email
+          groups: 
+          - groups
+        issuer: {{ $openIDProvider.issuerURL }}
+  {{ end }}
+{{ end }}
