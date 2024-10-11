@@ -64,7 +64,7 @@ resource "azurerm_redhat_openshift_cluster" "current_cluster" {
   resource_group_name = var.cluster_resource_group
 
   cluster_profile {
-    managed_resource_group_name = format("%s-resources", var.cluster_name)
+    managed_resource_group_name = local.managed_resource_group_name
     domain                      =  var.use_azure_provided_domain ? local.default_domain : var.custom_dns_domain_name
     version                     = length(var.ocp_version) > 0 ? var.ocp_version : local.openshift_version
     pull_secret                 = file(local.ocp_pull_secret)

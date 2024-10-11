@@ -23,6 +23,8 @@ locals {
     local.derived_tags, var.default_tags
   )
 
+  managed_resource_group_name = format("%s-resources", var.cluster_name)
+
   cluster_details = {
     cluster_name      = trimspace(var.cluster_name)
     console_url       = trimspace(data.local_file.console_url.content)
