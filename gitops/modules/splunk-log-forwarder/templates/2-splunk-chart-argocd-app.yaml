@@ -1,0 +1,69 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "900-splunk-otel-collector"
+  namespace: openshift-gitops
+  finalizers:
+   - resources-finalizer.argocd.argoproj.io
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "900"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.resourceNamePrefix }}
+spec:
+  project: default
+
+  source:
+    repoURL: {{ .Values.helmChart.repoURL }}
+    targetRevision: {{ .Values.helmChart.targetRevision }}
+    chart: {{ .Values.helmChart.name }}
+    helm:
+      valueFiles:
+      - values.yaml
+      - "values.{{ .Values.clusterName }}.yaml"
+
+  # Destination cluster and namespace to deploy the application
+  destination:
+    # name: change-me
+    name: in-cluster
+    namespace: openshift-gitops
+    
+  # NO NEED TO CHANGE BELOW PARAMS
+
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true
+    syncOptions:
+    - Validate=false
+    - CreateNamespace=false
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    - RespectIgnoreDifferences=true
+    
+    retry:
+      limit: 5
+      backoff:
+        duration: 15s
+        factor: 2
+        maxDuration: 900s
+
+
+  # Apply metadata to namespaces
+  # managedNamespaceMetadata:
+  #   labels:
+  #     argocd.argoproj.io/managed-by: openshift-gitops
+  #   annotations:
+  #     argocd.argoproj.io/sync-wave: '0'
+
+  ignoreDifferences:
+  - group: operators.coreos.com/v1alpha1
+    kind: Subscription
+    jqPathExpressions:
+      - '.spec.status'
+
+  revisionHistoryLimit: 10

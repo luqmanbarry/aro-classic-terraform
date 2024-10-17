@@ -57,7 +57,11 @@ locals {
 # ARO Cluster
 resource "azurerm_redhat_openshift_cluster" "current_cluster" {
 
-  depends_on = [ data.local_file.get_latest_openshift_version ]
+  depends_on = [ 
+    data.local_file.get_latest_openshift_version,
+    azurerm_policy_definition.rg_tagging_policy_definition,
+    azurerm_subscription_policy_assignment.rg_tagging_policy_assignment
+  ]
 
   name                = var.cluster_name
   location            = var.location
