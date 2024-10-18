@@ -2,7 +2,7 @@
 # Complete var list: https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/values.yaml
 resourceNamePrefix: aro-gitops
 keyVaultName: "changeme"
-splunkKVSecretName: "splunk-platform-hec-details"
+hecKeyVaultSecretName: "splunk-platform-hec-details"
 
 helmChart:
   name: splunk-otel-collector
@@ -75,16 +75,14 @@ agent:
   enabled: true
   service:
     enabled: true
-  extraEnvs: []
+  extraEnvs:
+    - name: HTTP_PROXY
+      value: http://localhost:9098
+    - name: HTTPS_PROXY
+      value: http://localhost:9098
+    - name: NO_PROXY
+      value: http://localhost:9098
 
-clusterReceiver:
-  enabled: false
-  # Scheduling configurations
-  nodeSelector:
-    beta.kubernetes.io/os: linux
-  tolerations:
-    - key: node-role.kubernetes.io/master
-      effect: NoSchedule
 
 rbac:
   create: true
@@ -94,12 +92,6 @@ tolerations:
     effect: NoSchedule
   - key: node-role.kubernetes.io/control-plane
     effect: NoSchedule
-
-# Defines priorityClassName to assign a priority class to pods.
-priorityClassName: ""
-
-# Specifies whether to apply for k8s cluster with windows worker node.
-isWindows: false
 
 securityContextConstraints:
   create: true

@@ -2,13 +2,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "900-splunk-otel-collector"
+  name: "splunk-otel-collector"
   namespace: openshift-gitops
   finalizers:
    - resources-finalizer.argocd.argoproj.io
   annotations:
     managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "900"
+    argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   labels:
     app.kubernetes.io/part-of: {{ .Values.resourceNamePrefix }}
@@ -20,9 +20,76 @@ spec:
     targetRevision: {{ .Values.helmChart.targetRevision }}
     chart: {{ .Values.helmChart.name }}
     helm:
-      valueFiles:
-      - values.yaml
-      - "values.{{ .Values.clusterName }}.yaml"
+      valuesObject:
+        # Complete var list: https://github.com/signalfx/splunk-otel-collector-chart/blob/main/helm-charts/splunk-otel-collector/values.yaml
+
+        clusterName: {{ .Values.clusterName }} # REQUIRED
+        namespaceOverride: {{ .Values.namespaceOverride }}
+        cloudProvider: {{ .Values.cloudProvider }} # {aws|azure|gke}
+        distribution: {{ .Values.distribution }} # {eks, aks, eks/fargate,..}
+        environment: {{ .Values.environment }}
+        logsEnabled: {{ .Values.logsEnabled }}
+        metricsEnabled: {{ .Values.metricsEnabled }}
+        tracesEnabled: {{ .Values.tracesEnabled }}
+
+        splunkPlatform:
+          endpoint: {{ .Values.splunkPlatform.endpoint }} # REQUIRED
+          index: {{ .Values.splunkPlatform.index }} # REQUIRED
+          source: {{ .Values.splunkPlatform.source }}
+          maxConnections: {{ .Values.splunkPlatform.maxConnections }}
+          disableCompression: {{ .Values.splunkPlatform.disableCompression }}
+          timeout: {{ .Values.splunkPlatform.timeout }}
+          idleConnTimeout: {{ .Values.splunkPlatform.idleConnTimeout }}
+
+          retryOnFailure:
+            enabled: {{ .Values.splunkPlatform.retryOnFailure.enabled }}
+            initialInterval: {{ .Values.splunkPlatform.retryOnFailure.initialInterval }}
+            maxInterval: {{ .Values.splunkPlatform.retryOnFailure.maxInterval }}
+            maxElapsedTime: {{ .Values.splunkPlatform.retryOnFailure.maxElapsedTime }}
+
+        logsEngine: {{ .Values.logsEngine }}
+        secret:
+          create: false
+          name: {{ .Values.secret.name }}
+
+        logsCollection:
+
+          # Container logs collection
+          containers:
+            enabled: {{ .Values.logsCollection.containers.enabled }}
+            containerRuntime: {{ .Values.logsCollection.containers.containerRuntime }}
+            # Boolean for ingesting the agent's own log
+            excludeAgentLogs: {{ .Values.logsCollection.containers.excludeAgentLogs }}
+
+          # Configuration for collecting journald logs using otel collector
+          journald:
+            enabled: {{ .Values.logsCollection.journald.enabled }}
+            directory: {{ .Values.logsCollection.journald.directory }}
+            units:
+              - name: kubelet
+                priority: info
+              - name: docker
+                priority: info
+              - name: containerd
+                priority: info
+              - name: cri-o
+                priority: info
+            # Route journald logs to its own Splunk Index by specifying the index value below, else leave it blank. Please make sure the index exist in Splunk and is configured to receive HEC traffic. Not applicable to Splunk Observability.
+            index: ""
+
+        agent:
+          enabled: true
+          service:
+            enabled: true
+          extraEnvs: {{ toYaml .Values.agent.extraEnvs | nindent 10 }}
+
+        rbac:
+          create: {{ .Values.rbac.create }}
+
+        tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
+
+        securityContextConstraints:
+          create: {{ .Values.securityContextConstraints.create }}
 
   # Destination cluster and namespace to deploy the application
   destination:

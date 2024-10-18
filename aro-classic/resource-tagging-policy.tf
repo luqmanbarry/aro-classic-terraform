@@ -1,13 +1,13 @@
-resource "null_resource" "run_always" {
-  provisioner "local-exec" {
-    interpreter = [ "/bin/bash", "-c" ]
-    command = "echo 'Always run!'"
-  }
+# resource "null_resource" "run_always" {
+#   provisioner "local-exec" {
+#     interpreter = [ "/bin/bash", "-c" ]
+#     command = "echo 'Always run!'"
+#   }
 
-  triggers = {
-    timestamp = "${timestamp()}"
-  }
-}
+#   triggers = {
+#     timestamp = "${timestamp()}"
+#   }
+# }
 
 resource "azurerm_policy_definition" "rg_tagging_policy_definition" {
 
@@ -390,7 +390,7 @@ resource "azurerm_policy_definition" "rg_tagging_policy_definition" {
       condition     = length(local.resource_tags) <= 10
       error_message = "ARO does not support more than 10 tags. Reduce the num of tags and try again."
     }
-    replace_triggered_by = [ null_resource.run_always ]
+    # replace_triggered_by = [ null_resource.run_always ]
   }
 }
 
@@ -430,7 +430,7 @@ resource "azurerm_subscription_policy_assignment" "rg_tagging_policy_assignment"
       condition     = length(local.resource_tags) <= 10
       error_message = "ARO does not support more than 10 tags. Reduce the num of tags and try again."
     }
-    replace_triggered_by = [ null_resource.run_always ]
+    # replace_triggered_by = [ null_resource.run_always ]
   }
 }
 
