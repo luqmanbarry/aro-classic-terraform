@@ -79,6 +79,9 @@ agent:
       value: http://localhost:9098
     - name: NO_PROXY
       value: http://localhost:9098
+  # Use volume mounts to load CA certs for TLS trust
+  extraVolumes: []
+  extraVolumeMounts: []
 
 
 rbac:

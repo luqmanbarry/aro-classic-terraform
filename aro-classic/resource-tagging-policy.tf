@@ -110,6 +110,36 @@ resource "azurerm_policy_definition" "rg_tagging_policy_definition" {
               "field": "[concat('tags[', parameters('tag9')['tag'][0], ']')]",
               "operation": "addOrReplace",
               "value": "[parameters('tag9')['tag'][1]]"
+            },
+            {
+              "condition": "[not(equals(parameters('tag10')['tag'][0], ''))]",
+              "field": "[concat('tags[', parameters('tag10')['tag'][0], ']')]",
+              "operation": "addOrReplace",
+              "value": "[parameters('tag9')['tag'][1]]"
+            },
+            {
+              "condition": "[not(equals(parameters('tag11')['tag'][0], ''))]",
+              "field": "[concat('tags[', parameters('tag11')['tag'][0], ']')]",
+              "operation": "addOrReplace",
+              "value": "[parameters('tag9')['tag'][1]]"
+            },
+            {
+              "condition": "[not(equals(parameters('tag12')['tag'][0], ''))]",
+              "field": "[concat('tags[', parameters('tag12')['tag'][0], ']')]",
+              "operation": "addOrReplace",
+              "value": "[parameters('tag9')['tag'][1]]"
+            },
+            {
+              "condition": "[not(equals(parameters('tag13')['tag'][0], ''))]",
+              "field": "[concat('tags[', parameters('tag13')['tag'][0], ']')]",
+              "operation": "addOrReplace",
+              "value": "[parameters('tag9')['tag'][1]]"
+            },
+            {
+              "condition": "[not(equals(parameters('tag14')['tag'][0], ''))]",
+              "field": "[concat('tags[', parameters('tag14')['tag'][0], ']')]",
+              "operation": "addOrReplace",
+              "value": "[parameters('tag9')['tag'][1]]"
             }
           ],
           "roleDefinitionIds": [
@@ -374,6 +404,131 @@ resource "azurerm_policy_definition" "rg_tagging_policy_definition" {
           }
         }
       },
+      "tag10": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "tag10"
+        },
+        "defaultValue": {
+          "tag": [
+            "",
+            ""
+          ]
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "tag": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 2,
+              "minItems": 2
+            }
+          }
+        }
+      },
+      "tag11": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "tag11"
+        },
+        "defaultValue": {
+          "tag": [
+            "",
+            ""
+          ]
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "tag": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 2,
+              "minItems": 2
+            }
+          }
+        }
+      },
+      "tag12": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "tag12"
+        },
+        "defaultValue": {
+          "tag": [
+            "",
+            ""
+          ]
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "tag": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 2,
+              "minItems": 2
+            }
+          }
+        }
+      },
+      "tag13": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "tag13"
+        },
+        "defaultValue": {
+          "tag": [
+            "",
+            ""
+          ]
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "tag": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 2,
+              "minItems": 2
+            }
+          }
+        }
+      },
+      "tag14": {
+        "type": "Object",
+        "metadata": {
+          "displayName": "tag14"
+        },
+        "defaultValue": {
+          "tag": [
+            "",
+            ""
+          ]
+        },
+        "schema": {
+          "type": "object",
+          "properties": {
+            "tag": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 2,
+              "minItems": 2
+            }
+          }
+        }
+      },
       "resourceGroupName": {
         "type": "String",
         "metadata": {
@@ -385,10 +540,9 @@ resource "azurerm_policy_definition" "rg_tagging_policy_definition" {
   PARAMS_PARAMS_DEFS
 
   lifecycle {
-    # At the moment (10/2024) ARO does not support more than 10 Tags
     precondition {
-      condition     = length(local.resource_tags) <= 10
-      error_message = "ARO does not support more than 10 tags. Reduce the num of tags and try again."
+      condition     = length(local.resource_tags) <= 15
+      error_message = "The policy does not support more than 10 tags. Reduce the num of tags and try again."
     }
     # replace_triggered_by = [ null_resource.run_always ]
   }
@@ -415,7 +569,7 @@ resource "azurerm_subscription_policy_assignment" "rg_tagging_policy_assignment"
 
     "tag${count.index}" = {
       "value" = {
-        "tag" = [format("%q", keys(local.resource_tags)[count.index]), format("%q", values(local.resource_tags)[count.index])]
+        "tag" = [format("%s", keys(local.resource_tags)[count.index]), format("%s", values(local.resource_tags)[count.index])]
       }
     }
 
@@ -425,10 +579,9 @@ resource "azurerm_subscription_policy_assignment" "rg_tagging_policy_assignment"
   })
 
   lifecycle {
-    # At the moment (10/2024) ARO does not support more than 10 Tags
     precondition {
-      condition     = length(local.resource_tags) <= 10
-      error_message = "ARO does not support more than 10 tags. Reduce the num of tags and try again."
+      condition     = length(local.resource_tags) <= 15
+      error_message = "The policy does not support more than 10 tags. Reduce the num of tags and try again."
     }
     # replace_triggered_by = [ null_resource.run_always ]
   }
@@ -442,10 +595,9 @@ resource "azurerm_subscription_policy_assignment" "rg_tagging_policy_assignment"
 #   location_filters      = [ var.location ]
 
 #   lifecycle {
-#     # At the moment (10/2024) ARO does not support more than 10 Tags
 #     precondition {
-#       condition     = length(local.resource_tags) <= 10
-#       error_message = "ARO does not support more than 10 tags. Reduce the num of tags and try again."
+#       condition     = length(local.resource_tags) <= 15
+#       error_message = "The policy does not support more than 15 tags. Reduce the num of tags and try again."
 #     }
 #     replace_triggered_by = [ null_resource.run_always ]
 #   }
@@ -458,10 +610,9 @@ resource "azurerm_subscription_policy_assignment" "rg_tagging_policy_assignment"
 #   policy_assignment_id  = azurerm_subscription_policy_assignment.rg_tagging_policy_assignment[count.index].id
 
 #   lifecycle {
-#     # At the moment (10/2024) ARO does not support more than 10 Tags
 #     precondition {
-#       condition     = length(local.resource_tags) <= 10
-#       error_message = "ARO does not support more than 10 tags. Reduce the num of tags and try again."
+#       condition     = length(local.resource_tags) <= 15
+#       error_message = "The policy does not support more than 15 tags. Reduce the num of tags and try again."
 #     }
 #     replace_triggered_by = [ null_resource.run_always ]
 #   }
