@@ -14,4 +14,10 @@ splunkPlatform:
 secret:
   create: false
   name: "splunk-platform-hec-details"
+
+agent:
+  enabled: true
+  service:
+    enabled: true
+  extraEnvs: []
   
