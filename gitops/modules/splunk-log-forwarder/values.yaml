@@ -23,6 +23,7 @@ tracesEnabled: false
 
 splunkPlatform:
   endpoint: "changeme" # REQUIRED
+  insecureSkipVerify: false
   index: "changeme" # REQUIRED
   source: "kubernetes"
   maxConnections: 200

@@ -35,6 +35,7 @@ spec:
         splunkPlatform:
           endpoint: {{ .Values.splunkPlatform.endpoint }} # REQUIRED
           index: {{ .Values.splunkPlatform.index }} # REQUIRED
+          insecureSkipVerify: {{ .Values.splunkPlatform.insecureSkipVerify }}
           source: {{ .Values.splunkPlatform.source }}
           maxConnections: {{ .Values.splunkPlatform.maxConnections }}
           disableCompression: {{ .Values.splunkPlatform.disableCompression }}
@@ -81,12 +82,18 @@ spec:
           enabled: true
           service:
             enabled: true
-          extraEnvs: {{ toYaml .Values.agent.extraEnvs | nindent 10 }}
+          extraEnvs: 
+            {{ toYaml .Values.agent.extraEnvs | nindent 12 }}
+          extraVolumes: 
+            {{ toYaml .Values.agent.extraVolumes | nindent 12 }}
+          extraVolumeMounts: 
+            {{ toYaml .Values.agent.extraVolumeMounts | nindent 12 }}
 
         rbac:
           create: {{ .Values.rbac.create }}
 
-        tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
+        tolerations: 
+          {{ toYaml .Values.tolerations | nindent 10 }}
 
         securityContextConstraints:
           create: {{ .Values.securityContextConstraints.create }}

@@ -665,7 +665,7 @@ resource "azurerm_policy_definition" "rg_tagging_policy_definition" {
 
   lifecycle {
     precondition {
-      condition     = length(local.resource_tags) <= 18
+      condition     = length(local.resource_tags) <= 18 # Currently, Azure policy does not support more than 20 parameters
       error_message = "The policy does not support more than 18 tags. Reduce the num of tags and try again."
     }
     replace_triggered_by = [ null_resource.run_always ]
@@ -704,7 +704,7 @@ resource "azurerm_subscription_policy_assignment" "rg_tagging_policy_assignment"
 
   lifecycle {
     precondition {
-      condition     = length(local.resource_tags) <= 18
+      condition     = length(local.resource_tags) <= 18 # Currently, Azure policy does not support more than 20 parameters
       error_message = "The policy does not support more than 18 tags. Reduce the num of tags and try again."
     }
     replace_triggered_by = [ null_resource.run_always ]

@@ -10,6 +10,7 @@ distribution: "openshift" # {eks, aks, eks/fargate,..}
 
 splunkPlatform:
   endpoint: "http://localhost:8088/services/collector" # REQUIRED
+  insecureSkipVerify: false
   index: "openshift" # REQUIRED
 secret:
   create: false
@@ -20,4 +21,6 @@ agent:
   service:
     enabled: true
   extraEnvs: []
+  extraVolumes: []
+  extraVolumeMounts: []
   
