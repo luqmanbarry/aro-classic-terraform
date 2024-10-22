@@ -1,4 +1,15 @@
+keyVaultName: changeme
+pullSecretKeyVaultSecretName: changeme # KV Secret content should be json formatted
+resourceNamePrefix: 'day2-gitops'
+patchSchedule: "*/5 * * * *" # TODO: Change this to once (0 5 * * *) a day after testing
+ocpVersion: v4.15
+
 clusterName: "changeme"
+
+registriesTrustedCerts: # Provide list of registry and key vault secret name
+  - registryHost: hostname.example.com
+    caKeyVaultSecretName: changeme
+
 registriesCertsConfigMap: registries-config-certs
 # REGISTRIES ARE BLOCKED BY DEFAULT - ADD REGISTRY/IMAGE TO UNBLOCK
 allowList:
