@@ -22,7 +22,7 @@ We are primarily going to look at how to setup Velero on ARO, and run Velero Res
 +
 .. Configure StorageClass mapping
 +
-  Prepare the ConfigMap manifest and apply it on the cluster.
+Prepare the ConfigMap manifest and apply it on the cluster.
 +
 [source,yaml]
 ----
