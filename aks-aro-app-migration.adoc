@@ -112,7 +112,8 @@ seccompProfiles:
 - '*'
 supplementalGroups: 
   type: RunAsAny
-users: 
+users:
+# These are examples. Provide your own service accounts info.
 - system:serviceaccount:nexus:nexus
 - system:serviceaccount:sonarqube:sonarqube-sonarqube
 - system:serviceaccount:nexusiq:nexusiq
