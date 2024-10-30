@@ -1,8 +1,16 @@
-clusterName: changeme
+clusterName: aroclassic102
 
 enabled: true
 projects: # List projects/namespaces to backup
-  - namespace: changeme
+  - namespace: warehouse
     paused: false
-    cronSchedule: "0 0 * * *" # Every day at midnight - update accordingly for other TZ
+    cronSchedule: "*/5 * * * *" # Every day at midnight - update accordingly for other TZ
+    ttl: 720h # 30 days
+  - namespace: point-of-sale
+    paused: false
+    cronSchedule: "*/5 * * * *" # Every day at midnight - update accordingly for other TZ
+    ttl: 720h # 30 days
+  - namespace: shipping
+    paused: false
+    cronSchedule: "*/5 * * * *" # Every day at midnight - update accordingly for other TZ
     ttl: 720h # 30 days
