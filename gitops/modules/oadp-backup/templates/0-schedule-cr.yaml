@@ -4,7 +4,7 @@
 apiVersion: velero.io/v1
 kind: Schedule
 metadata:
-  name: "{{ $.Values.clusterName }}-{{ $projectItem.namespace }}"
+  name: "{{ $projectItem.namespace }}"
   namespace: {{ $.Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
