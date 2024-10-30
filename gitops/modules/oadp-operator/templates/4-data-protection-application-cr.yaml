@@ -12,18 +12,19 @@ spec:
   backupImages: true
   configuration:
     velero:
+      resourceTimeout: 24h
+      client-burst: 200
+      client-qps: 200
+      defaultItemOperationTimeout: 2h
+      defaultVolumesToFSBackup: true
+      defaultSnapshotMoveData: true
       defaultPlugins:
         - openshift
         - azure
+        - csi
     nodeAgent:
       enable: true
       uploaderType: kopia
-    defaultItemOperationTimeout: 2h
-    defaultVolumesToFSBackup: true
-    defaultSnapshotMoveData: true
-    resourceTimeout: 24h
-    client-burst: 200
-    client-qps: 200
   backupLocations:
     - name: "default"
       velero:
