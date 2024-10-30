@@ -12,4 +12,4 @@ storage:
   subscriptionId: 47fb2f13-480c-4657-a103-f3779bc3f63f
   servicePrincipalClientID: f45b9c54-7933-4d79-87e3-1809cd19477d
   servicePrincipalKVClientSecretName: oadp-sp-client-secret
-  azureCloudEnvironment: AzurePublicCloud #AzureUSGovernmentCloud, AzureChinaCloud
+  azureCloudName: AzurePublicCloud #AzureUSGovernmentCloud, AzureChinaCloud
