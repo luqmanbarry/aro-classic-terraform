@@ -48,7 +48,6 @@ spec:
           resourceGroup: {{ .Values.storage.resourceGroup }}
           subscriptionId: {{ .Values.storage.storageAccount }}
           incremental: "true"
-        name: default
         provider: azure
         credential:
           key: cloud
