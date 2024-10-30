@@ -1,5 +1,5 @@
 clusterName: changeme
-namespace: openshift-oadp
+namespace: openshift-adp
 
 storageClassMapping:
   oldStorageClassName: managed-premium

@@ -1,5 +1,5 @@
 clusterName: changeme
-namespace: openshift-oadp
+namespace: openshift-adp
 
 enabled: true
 projects: # List projects/namespaces to backup

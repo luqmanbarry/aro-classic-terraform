@@ -1,6 +1,6 @@
 clusterName: changeme
 keyVaultName: changeme
-namespace: openshift-oadp
+namespace: openshift-adp
 subscriptionChannel: stable-1.4
 
 
