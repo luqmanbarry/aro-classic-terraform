@@ -33,9 +33,9 @@ modules: # List of modules to be deployed
   - name: user-workload-monitoring
     config_path: gitops/modules/user-workload-monitoring
     sync_wave: 106
-  - name: image-registries-allow-deny
-    config_path: gitops/modules/image-registries-allow-deny
-    sync_wave: 107
+  # - name: image-registries-allow-deny
+  #   config_path: gitops/modules/image-registries-allow-deny
+  #   sync_wave: 107
   # - name: global-cluster-pull-secret
   #   config_path: gitops/modules/global-cluster-pull-secret
   #   sync_wave: 108
