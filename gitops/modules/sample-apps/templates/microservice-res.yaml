@@ -17,7 +17,7 @@ spec:
   resources:
     requests:
       storage: "{{ $app.pvc_size }}"
-  storageClassName: default
+  storageClassName: {{ $.Values.storageClassName }}
   volumeMode: Filesystem
 ---
 apiVersion: apps/v1
