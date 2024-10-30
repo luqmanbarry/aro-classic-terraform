@@ -34,7 +34,7 @@ spec:
           resourceGroup: {{ .Values.storage.resourceGroup }}
           storageAccount: {{ .Values.storage.storageAccount }}
           subscriptionId: {{ .Values.storage.subscriptionId }}
-          storageAccountKeyEnvVar: {{ .Values.storage.servicePrincipalClientID }}
+          storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
         credential:
           key: cloud
           name: {{ .Values.storage.servicePrincipalKVClientSecretName }}
