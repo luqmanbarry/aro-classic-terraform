@@ -1,0 +1,28 @@
+{{ if .Values.enabled }}
+{{ range $projectItem := .Values.projects  }}
+---
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: "{{ $.Values.clusterName }}-{{ $projectItem.namespace }}"
+  namespace: {{ $.Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  schedule: {{ $projectItem.cronSchedule | quote }}
+  paused: {{ $projectItem.paused }}
+  skipImmediately: true
+  useOwnerReferencesInBackup: true
+  template:
+    datamover: ""
+    storageLocation: "default"
+    defaultVolumesToRestic: true
+    csiSnapshotTimeout: 30m
+    defaultVolumesToFsBackup: true
+    ttl: {{ $projectItem.ttl }}
+    includedNamespaces:
+      - {{ $projectItem.namespace }}
+{{ end }}
+{{ end }}

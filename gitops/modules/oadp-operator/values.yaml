@@ -1,0 +1,16 @@
+clusterName: changeme
+keyVaultName: changeme
+namespace: openshift-oadp
+subscriptionChannel: stable-1.4
+
+
+storage:
+  provider: azure
+  resourceGroup: changeme
+  storageAccount: changeme
+  storageContainer: changeme
+  subscriptionId: changeme
+  servicePrincipalClientID: changeme
+  servicePrincipalKVClientSecretName: changeme
+  servicePrincipalKeyVaultName: changeme
+  bucket: apps-dr-guide

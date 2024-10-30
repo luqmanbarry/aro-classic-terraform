@@ -20,7 +20,7 @@ We are primarily going to look at how to setup Velero on ARO, and run Velero Res
 
 . https://velero.io/docs/v1.8/basic-install/#install-the-cli[Install Velero] on the target (ARO) cluster
 +
-.. Configure StorageClass mapping
+. Configure StorageClass mapping
 +
 Prepare the ConfigMap manifest and apply it on the cluster.
 +
@@ -58,7 +58,7 @@ Save the manifest to a file named `aks-2-aro-storage-class-mapping.yaml` and app
 oc apply -f aks-2-aro-storage-class-mapping.yaml
 ----
 +
-.. Check which backups are available for restore
+. Check which backups are available for restore
 +
 [source,sh]
 ----
@@ -130,7 +130,7 @@ Save the manifest to a file named `aks-migration-scc.yaml` and apply it
 oc apply -f aks-migration-scc.yaml
 ----
 +
-. Ensure AKS disks SKU matches that of ARO (ie: LRS --> ZRS)
+. Verify AKS disks SKU matches that of ARO (ie: LRS --> ZRS)
 +
 This applies to every application within the migration scope.
 +

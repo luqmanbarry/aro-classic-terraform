@@ -1,0 +1,54 @@
+---
+apiVersion: oadp.openshift.io/v1alpha1
+kind: DataProtectionApplication
+metadata:
+  name:  {{ .Values.namespace }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  backupImages: true
+  configuration:
+    velero:
+      defaultPlugins:
+        - openshift
+        - azure
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
+    defaultItemOperationTimeout: 2h
+    defaultVolumesToFSBackup: true
+    defaultSnapshotMoveData: true
+    resourceTimeout: 24h
+    client-burst: 200
+    client-qps: 200
+  backupLocations:
+    - name: "default"
+      velero:
+        provider: azure
+        default: true
+        backupSyncPeriod: 1m
+        config:
+          resourceGroup: {{ .Values.storage.resourceGroup }}
+          storageAccount: {{ .Values.storage.storageAccount }}
+          subscriptionId: {{ .Values.storage.subscriptionId }}
+          storageAccountKeyEnvVar: {{ .Values.storage.servicePrincipalClientID }}
+        credential:
+          key: cloud
+          name: {{ .Values.storage.servicePrincipalKVClientSecretName }}
+        objectStorage:
+          bucket: {{ .Values.storage.storageContainer }}
+          prefix: {{ .Values.clusterName }}
+  snapshotLocations: 
+    - velero:
+        config:
+          resourceGroup: {{ .Values.storage.resourceGroup }}
+          subscriptionId: {{ .Values.storage.storageAccount }}
+          incremental: "true"
+        name: default
+        provider: azure
+        credential:
+          key: cloud
+          name: {{ .Values.storage.servicePrincipalKVClientSecretName }}

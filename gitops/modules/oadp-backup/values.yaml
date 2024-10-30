@@ -1,0 +1,9 @@
+clusterName: changeme
+namespace: openshift-oadp
+
+enabled: true
+projects: # List projects/namespaces to backup
+  - namespace: changeme
+    paused: false
+    cronSchedule: "0 0 * * *" # Every day at midnight - update accordingly for other TZ
+    ttl: 720h # 30 days

@@ -1,0 +1,10 @@
+clusterName: aroclassic102
+
+storageClassMapping:
+  oldStorageClassName: managed-premium
+  newStorageClassName: managed-csi
+
+enable: false
+backups: # List backups to restore from
+  - namespace1
+  - namespace2

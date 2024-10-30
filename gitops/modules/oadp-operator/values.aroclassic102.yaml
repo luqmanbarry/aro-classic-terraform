@@ -1,0 +1,12 @@
+clusterName: changeme
+keyVaultName: changeme
+
+
+storage:
+  resourceGroup: changeme
+  storageAccount: changeme
+  storageContainer: changeme
+  subscriptionId: changeme
+  servicePrincipalClientID: changeme
+  servicePrincipalKVClientSecretName: changeme
+  servicePrincipalKeyVaultName: changeme
