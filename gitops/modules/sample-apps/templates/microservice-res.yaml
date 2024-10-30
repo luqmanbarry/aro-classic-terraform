@@ -6,6 +6,20 @@ metadata:
   name: "{{ $app.namespace }}"
 spec: {}
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ $app.pvc_name }}"
+  namespace: "{{ $app.namespace }}"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "{{ $app.pvc_size }}"
+  storageClassName: default
+  volumeMode: Filesystem
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
