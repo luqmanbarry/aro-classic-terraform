@@ -17,11 +17,9 @@ spec:
       client-qps: 200
       defaultItemOperationTimeout: 2h
       defaultVolumesToFSBackup: true
-      defaultSnapshotMoveData: true
       defaultPlugins:
         - openshift
         - azure
-        - csi
     nodeAgent:
       enable: true
       uploaderType: kopia
@@ -30,7 +28,7 @@ spec:
       velero:
         provider: azure
         default: true
-        backupSyncPeriod: 1m
+        backupSyncPeriod: 5m
         config:
           resourceGroup: {{ .Values.storage.resourceGroup }}
           storageAccount: {{ .Values.storage.storageAccount }}
