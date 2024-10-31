@@ -38,7 +38,7 @@ spec:
           storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
         credential:
           key: cloud
-          name: {{ .Values.storage.servicePrincipalKVClientSecretName }}
+          name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
         objectStorage:
           bucket: {{ .Values.storage.storageContainer }}
           prefix: {{ .Values.clusterName }}
@@ -51,4 +51,4 @@ spec:
         provider: azure
         credential:
           key: cloud
-          name: {{ .Values.storage.servicePrincipalKVClientSecretName }}
+          name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
