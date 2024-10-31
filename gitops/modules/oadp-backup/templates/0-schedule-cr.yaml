@@ -13,7 +13,6 @@ metadata:
 spec:
   schedule: {{ $projectItem.cronSchedule | quote }}
   paused: {{ $projectItem.paused }}
-  skipImmediately: true
   useOwnerReferencesInBackup: true
   template:
     datamover: ""
