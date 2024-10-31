@@ -13,6 +13,4 @@ storage:
   servicePrincipalClientID: f45b9c54-7933-4d79-87e3-1809cd19477d
   # Storage Account Access Key: https://github.com/vmware-tanzu/velero-plugin-for-microsoft-azure?tab=readme-ov-file#option-4-use-storage-account-access-key
   servicePrincipalKVStorageAccountAccessKey: oadp-storage-account-access-key
-  azureCloudName: AzurePublicCloud #AzureUSGovernmentCloud, AzureChinaCloud
-  objectStoragePrefix: aro-dev
-  
+  azureCloudName: AzurePublicCloud #AzureUSGovernmentCloud, AzureChinaCloud  

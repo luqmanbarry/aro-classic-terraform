@@ -39,4 +39,4 @@ spec:
           name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
         objectStorage:
           bucket: {{ .Values.storage.storageContainer }}
-          prefix: {{ .Values.storage.objectStoragePrefix }}
+          prefix: {{ .Values.clusterName }}
