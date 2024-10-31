@@ -42,13 +42,3 @@ spec:
         objectStorage:
           bucket: {{ .Values.storage.storageContainer }}
           prefix: {{ .Values.clusterName }}
-  snapshotLocations: 
-    - velero:
-        config:
-          resourceGroup: {{ .Values.storage.resourceGroup }}
-          subscriptionId: {{ .Values.storage.storageAccount }}
-          incremental: "true"
-        provider: azure
-        credential:
-          key: cloud
-          name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
