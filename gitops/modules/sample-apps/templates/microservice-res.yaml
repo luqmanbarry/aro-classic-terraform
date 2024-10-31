@@ -107,7 +107,7 @@ spec:
 
               for i in {1..20}; 
               do
-                dd if=/dev/urandom of="${RAW_BIN_DIR}/static-pv-${i}.log" bs=1M count=50;
+                dd if=/dev/urandom of="${RAW_BIN_DIR}/static-pv-${i}.log" bs=1M count=10;
               done
               
               output="$(date +'%Y-%m-%d_%H-%M-%S-%3N')"; 
