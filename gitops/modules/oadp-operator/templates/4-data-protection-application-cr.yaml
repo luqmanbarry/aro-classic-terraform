@@ -15,7 +15,7 @@ spec:
       resourceTimeout: 24h
       client-burst: 200
       client-qps: 200
-      defaultItemOperationTimeout: 2h
+      defaultItemOperationTimeout: 4h
       defaultVolumesToFSBackup: true
       defaultPlugins:
         - openshift
