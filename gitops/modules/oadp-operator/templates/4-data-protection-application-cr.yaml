@@ -23,6 +23,7 @@ spec:
       resourceTimeout: 24h
       client-burst: 1000
       client-qps: 500
+      itemOperationSyncFrequency: "10s"
       defaultItemOperationTimeout: 4h
       defaultVolumesToFSBackup: true
       defaultPlugins:
