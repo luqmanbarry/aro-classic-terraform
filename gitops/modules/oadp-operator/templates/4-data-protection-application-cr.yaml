@@ -15,8 +15,8 @@ spec:
       podConfig:
         resourceAllocations:
           limits:
-            cpu: "4"
-            memory: 8Gi
+            cpu: "2"
+            memory: 4Gi
           requests:
             cpu: 250m
             memory: 512Mi
@@ -31,6 +31,14 @@ spec:
     nodeAgent:
       enable: true
       uploaderType: kopia
+      podConfig:
+        resourceAllocations:
+          limits:
+            cpu: "500m"
+            memory: 2Gi
+          requests:
+            cpu: 50m
+            memory: 200Mi
   backupLocations:
     - name: "default"
       velero:
