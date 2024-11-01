@@ -4,7 +4,7 @@ storageClassMapping:
   oldStorageClassName: managed-premium
   newStorageClassName: managed-csi
 
-enable: false
+enable: true
 backups: # List backups to restore from
   - warehouse-20241101160045
   - shipping-20241101160045
