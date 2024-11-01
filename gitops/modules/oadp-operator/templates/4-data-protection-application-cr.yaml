@@ -12,6 +12,14 @@ spec:
   backupImages: true
   configuration:
     velero:
+      podConfig:
+        resourceAllocations:
+          limits:
+            cpu: "2"
+            memory: 2048Mi
+          requests:
+            cpu: 250m
+            memory: 512Mi
       resourceTimeout: 24h
       client-burst: 200
       client-qps: 200
