@@ -21,8 +21,8 @@ spec:
             cpu: 250m
             memory: 512Mi
       resourceTimeout: 24h
-      client-burst: 200
-      client-qps: 200
+      client-burst: 1000
+      client-qps: 500
       defaultItemOperationTimeout: 4h
       defaultVolumesToFSBackup: true
       defaultPlugins:
