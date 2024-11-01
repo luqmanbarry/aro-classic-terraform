@@ -6,5 +6,6 @@ storageClassMapping:
 
 enable: false
 backups: # List backups to restore from
-  - namespace1
-  - namespace2
+  - warehouse-20241101160045
+  - shipping-20241101160045
+  - point-of-sale-20241101160045

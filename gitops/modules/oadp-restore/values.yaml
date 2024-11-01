@@ -7,5 +7,5 @@ storageClassMapping:
 
 enable: false
 backups: # List backups to restore from
-  - namespace1
-  - namespace2
+  - backup-xxxxxx
+  - backup-xyxyxy
