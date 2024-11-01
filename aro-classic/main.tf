@@ -227,10 +227,9 @@ resource "azurerm_key_vault_secret" "vault_save_cluster_details" {
   content_type        = "json"
   tags                = local.resource_tags
 
-  # lifecycle {
-  #   # ignore_changes        = [ tags ]
-  #   create_before_destroy = true
-  # }
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "time_sleep" "wait_for_vault" {

@@ -5,12 +5,12 @@ projects: # List projects/namespaces to backup
   - namespace: warehouse
     paused: false
     cronSchedule: "0 */8 * * *" # Every day at midnight - update accordingly for other TZ
-    ttl: 720h # 30 days
+    backupRetentionPeriod: 720h # 30 days
   - namespace: point-of-sale
     paused: false
     cronSchedule: "0 */8 * * *" # Every day at midnight - update accordingly for other TZ
-    ttl: 720h # 30 days
+    backupRetentionPeriod: 720h # 30 days
   - namespace: shipping
     paused: false
     cronSchedule: "0 */8 * * *" # Every day at midnight - update accordingly for other TZ
-    ttl: 720h # 30 days
+    backupRetentionPeriod: 720h # 30 days

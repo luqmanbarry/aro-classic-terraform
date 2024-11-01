@@ -18,9 +18,9 @@ spec:
     datamover: ""
     storageLocation: "default"
     defaultVolumesToRestic: true
-    csiSnapshotTimeout: 30m
+    csiSnapshotTimeout: 2h
     defaultVolumesToFsBackup: true
-    ttl: {{ $projectItem.ttl }}
+    ttl: {{ $projectItem.backupRetentionPeriod }}
     includedNamespaces:
       - {{ $projectItem.namespace }}
 {{ end }}
