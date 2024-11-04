@@ -23,6 +23,8 @@ Three Helm based GitOps modules are used to achieve this setup:
 
 ## Procedure
 
+Each of the 3 OADP Hem charts is deployed and monitored by an ArgoCD Application that is defined in the [argocd-apps](../../argocd-apps/) helm chart. Distinct ArgoCD applications parameters are defined in the values file. Use the [values.aroclassic102.yaml](../../argocd-apps/values.aroclassic102.yaml) as reference.
+
 ### Backup
 1. Install the [OADP Operator](../oadp-operator/).
   - Register the [oadp-operator](../../argocd-apps/values.aroclassic102.yaml) ArgoCD Application
@@ -35,7 +37,7 @@ Three Helm based GitOps modules are used to achieve this setup:
 2. Verify applications being backed up are healthy and all volumes mounted.
 3. Identity the namespaces you want backed up and provide their names in the [OADP Backup](../oadp-backup/) module's `values.<cluster-name>.yaml` file. 
   - The [OADP Backup](../oadp-backup/) module takes periodic backup of selected namespaces.
-  - You should update the backup schedule to your requirements.
+  - Taking into account the local time zone, you should update the backup `cronSchedule` to your requirements, for example once daily at midnight (`0 0 * * *`). UTC is the default TZ.
 4. Deploy the [OADP Backup](../oadp-backup/) module.
   - Register the [oadp-backup](../../argocd-apps/values.aroclassic102.yaml) ArgoCD Application
     ```yaml
