@@ -8,7 +8,10 @@ Three Helm based GitOps modules are used to achieve this setup:
 - [oadp-restore](../oadp-restore/): Create the `Restore` CRs, one per backup, they are used to restore backups.
 
 ## Pre-requisites
-- OpenShift GitOps instance deployed
+- Azure Red Hat OpenShift cluster.
+  - One cluster if you want to test restore on the same cluster.
+  - Two clusters for testing restore on a completely different cluster.
+- OpenShift GitOps instance deployed.
   - This applies to the backup and restore clusters.
 - Ensure network traffic between the backup cluster and the storage account is allowed; as well as traffic between restore cluster and the storage account.
 - Sample applications up and running on the backup cluster
