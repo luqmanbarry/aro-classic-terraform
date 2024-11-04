@@ -1,6 +1,11 @@
 # OADP/Velero Backup & Restore on Azure Red Hat OpenShift
 
-This demo uses Pod file system backup (FSB) to copy pod resources and volume data to a storage account. Pod FSB implies volumes included in the backup must be mounted by pods, even if they are just temporary test pods 
+This demo uses Pod file system backup (FSB) to copy pod resources and volume data to a storage account. Pod FSB implies volumes included in the backup must be mounted by pods, even if they are just temporary test pods.
+
+Three Helm based GitOps modules are used to achieve this setup:
+- [oadp-operator](../oadp-operator/): Install the OADP Operator, configures the `DataProtectionApplication` custom resource. The Helm chart uses an [ExternalSecret](https://external-secrets.io/latest/provider/azure-key-vault/#creating-external-secret) CR to read the Azure Storage Account Access Key from Azure KeyVault and place it in a Kubernetes secret object for the `BackupStorageLocation` CR configuration. To learn how the ESO was deployed, here's the [external-secret operator](../external-secrets-operator/) module.
+- [oadp-backup](../oadp-backup/): Create the `Schedule` CRs, one per namespace, which are used to trigger periodic namespace backups.
+- [oadp-restore](../oadp-restore/): Create the `Restore` CRs, one per backup, they are used to restore backups.
 
 ## Pre-requisites
 - OpenShift GitOps instance deployed
