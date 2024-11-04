@@ -23,7 +23,7 @@ Three Helm based GitOps modules are used to achieve this setup:
 
 ## Procedure
 
-Each of the 3 OADP Hem charts is deployed and monitored by an ArgoCD Application that is defined in the [argocd-apps](../../argocd-apps/) helm chart. Distinct ArgoCD applications parameters are defined in the values file. Use the [values.aroclassic102.yaml](../../argocd-apps/values.aroclassic102.yaml) as reference.
+Each of the 3 OADP Hem charts is deployed and monitored by an ArgoCD Application that is defined in the [argocd-apps](../../argocd-apps/) helm chart. Distinct ArgoCD applications parameters are provided in the values file. Use the [values.aroclassic102.yaml](../../argocd-apps/values.aroclassic102.yaml) as reference.
 
 ### Backup
 1. Install the [OADP Operator](../oadp-operator/).
