@@ -1,0 +1,10 @@
+clusterName: changeme
+keyVaultName: changeme
+
+gitlab:
+  runners:
+    - name: openshift-cicd
+      defaultImage: registry.redhat.com/openshift/test:latest
+      runnerImage: registry.redhat.com/openshift/test:latest
+      runUntagged: false
+      tags: "openshift-cicd,kubernetes-cicd,"

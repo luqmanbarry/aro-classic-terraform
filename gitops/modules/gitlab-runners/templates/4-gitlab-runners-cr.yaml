@@ -1,0 +1,27 @@
+---
+{{ range $runner := .Values.gitlab.runners }}
+apiVersion: apps.gitlab.com/v1beta2
+kind: Runner
+metadata:
+  name: {{ $runner.name }}
+  namespace: {{ $.Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  buildImage: {{ $runner.defaultImage }}
+  {{ if not ( $runner.runnerImage | empty ) }}
+  runnerImage: {{ $runner.runnerImage }}
+  {{ end }}
+  ca: {{ $.Values.caKVSecretName }}
+  cacheShared: true
+  cachePath: {{ $runner.name }}
+  cacheType: azure # Other values: gcs, s3, azure
+  concurrent: 25
+  gitlabUrl: {{ $.Values.gitlabUrl }}
+  imagePullPolicy: Always
+  runUntagged: {{ $runner.runUntagged }}
+  tags: {{ $runner.tags }}
+  token: {{ $.Values.gitlabRunnerRegistrationTokenKVSecret }}
+{{ end }}

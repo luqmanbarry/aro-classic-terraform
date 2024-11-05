@@ -1,0 +1,28 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: {{ .Values.caKVSecretName }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  refreshInterval: 5m
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: "{{ .Values.keyVaultName }}"
+  data:
+    - secretKey: ca_crt
+      remoteRef:
+        key: "secret/{{ .Values.caKVSecretName }}"
+  target:
+    name: {{ .Values.caKVSecretName }}
+    creationPolicy: "Owner"
+    template:
+      # Possible Values: "Opaque", "kubernetes.io/dockerconfigjson", "kubernetes.io/tls", "kubernetes.io/ssh-auth"
+      type: Opaque
+      mergePolicy: Replace
+      data:
+        ca.crt: {{ .ca_crt }}

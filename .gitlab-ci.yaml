@@ -3,14 +3,13 @@ include:
   - local: '.gitlab/aro-tf-inputs.yaml'
 ---  
 stages:
+  - tools-info
   - infra-setup
   - tfvars-gen
   - git-tfvars-file
   - aro-classic
   - kube-config
-  - argocd-deploy
-  - argocd-apps
-  - stig-compliance-report
+  - gitops-bootstrap
 
 variables:
   FF_TIMESTAMPS: true
@@ -46,12 +45,44 @@ variables:
   TF_VAR_git_token: $GIT_TOKEN
   TF_LOG: $[[ inputs.TF_LOG ]]
   WORKING_DIRECTORY: $CI_PROJECT_NAME 
+tools-info:
+  stage: tools-info
+  tags:
+    - openshift-cicd
+  when: manual
+  script:
+    - echo "Checking required software packages are installed"
+    - |
+        echo "Go Version: 1.20.x or greater"
+        go version
+        echo
+    - |
+        echo "Terraform Version: 1.5.x or greater"
+        terraform version
+        echo
+    - |
+        echo "OpenShift Client: 4.15.x or greater"
+        oc version --client
+        echo
+    - |
+        echo "Azure Client: 2.5.x or greater"
+        az --version
+        echo
+    - |
+        echo "Helm Version: 3.13.x or greater"
+        helm --version
+        echo
+    - |
+        echo "jq version: 1.5 or greater"
+        jq --version
 
 infra-setup:
   stage: infra-setup
   tags:
-    - ec2-build-box
+    - openshift-cicd
   when: manual
+  dependencies:
+    - tools-info
   before_script:
     - TF_MODULE="aro-infra"
     - BACKEND_KEY="$TF_VAR_platform_environment/$TF_VAR_cluster_name/$TF_MODULE.tfstate"
@@ -61,7 +92,7 @@ infra-setup:
     - rm -rf .terraform || true && (rm -rf .terraform.lock.hcl || true) && (rm -rf terraform.tfstate.d || true) && (rm -rf *.tfstate || true) && (rm -rf *.tfstate.backup || true)
     - unset TF_WORKSPACE
   script:
-    - echo "Provision up the ARO infrastructure"
+    - echo "Provision the ARO infrastructure"
     - |
       terraform init \
         -backend-config="environment=$TF_VAR_azure_cloud_environment" \
@@ -76,6 +107,8 @@ infra-setup:
 
 tfvars-gen:
   stage: tfvars-gen
+  tags:
+    - openshift-cicd
   when: manual
   dependencies:
     - infra-setup
@@ -103,6 +136,8 @@ tfvars-gen:
 
 git-tfvars-file:
   stage: git-tfvars-file
+  tags:
+    - openshift-cicd
   when: manual
   dependencies:
     - tfvars-gen
@@ -130,6 +165,8 @@ git-tfvars-file:
 
 aro-classic:
   stage: aro-classic
+  tags:
+    - openshift-cicd
   when: manual
   dependencies:
     - git-tfvars-file
@@ -156,6 +193,8 @@ aro-classic:
 
 kube-config:
   stage: kube-config
+  tags:
+    - openshift-cicd
   when: manual
   dependencies:
     - aro-classic
@@ -181,8 +220,10 @@ kube-config:
   after_script:
     - cd $WORKING_DIRECTORY
 
-argocd-deploy:
-  stage: argocd-deploy
+gitops-bootstrap:
+  stage: gitops-bootstrap
+  tags:
+    - openshift-cicd
   when: manual
   dependencies:
     - kube-config
@@ -196,33 +237,6 @@ argocd-deploy:
     - unset TF_WORKSPACE
   script:
     - echo "Deploy the OpenShift GitOps operator"
-    - |
-      terraform init \
-        -backend-config="environment=$TF_VAR_azure_cloud_environment" \
-        -backend-config="resource_group_name=$TF_VAR_tfstate_resource_group" \
-        -backend-config="storage_account_name=$TF_VAR_tfstate_storage_account_name" \
-        -backend-config="container_name=$TF_VAR_tfstate_storage_container" \
-        -backend-config="key=$BACKEND_KEY"
-    - terraform plan -out "$TF_MODULE.plan" -var-file="$TFVARS_FILE"
-    - terraform apply "$TF_MODULE.plan"
-  after_script:
-    - cd $WORKING_DIRECTORY
-
-argocd-apps:
-  stage: argocd-apps
-  when: manual
-  dependencies:
-    - argocd-deploy
-  before_script:
-    - TF_MODULE="argocd-apps"
-    - BACKEND_KEY="${TF_VAR_platform_environment}/${TF_VAR_cluster_name}/${TF_MODULE}.tfstate"
-    - BACKEND_PATH="${TF_MODULE}"
-    - TFVARS_FILE="${WORKING_DIRECTORY}/tfvars/computed/${TF_VAR_organization}/${TF_VAR_subscription_id}/${TF_VAR_cluster_name}.tfvars"
-    - cd "gitops/$TF_MODULE"
-    - rm -rf .terraform || true && (rm -rf .terraform.lock.hcl || true) && (rm -rf terraform.tfstate.d || true) && (rm -rf *.tfstate || true) && (rm -rf *.tfstate.backup || true)
-    - unset TF_WORKSPACE
-  script:
-    - echo "Deploy ArgoCD application"
     - |
       terraform init \
         -backend-config="environment=$TF_VAR_azure_cloud_environment" \
