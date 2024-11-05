@@ -1,10 +1,10 @@
-clusterName: changeme
-keyVaultName: changeme
+clusterName: aroclassic102
+keyVaultName: stig0011-dev-vault
 
 gitlab:
   runners:
     - name: openshift-cicd
-      defaultImage: registry.redhat.com/openshift/test:latest
-      runnerImage: registry.redhat.com/openshift/test:latest
+      defaultImage: registry.redhat.io/openshift4/ose-tools-rhel8
+      runnerImage: registry.redhat.io/openshift4/ose-tools-rhel8
       runUntagged: false
       tags: "openshift-cicd,kubernetes-cicd,"
