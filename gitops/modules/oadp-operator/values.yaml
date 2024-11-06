@@ -10,7 +10,6 @@ storage:
   storageAccount: stig0011devtfstate
   storageContainer: oadp
   subscriptionId: 47fb2f13-480c-4657-a103-f3779bc3f63f
-  servicePrincipalClientID: f45b9c54-7933-4d79-87e3-1809cd19477d
   # Storage Account Access Key: https://github.com/vmware-tanzu/velero-plugin-for-microsoft-azure?tab=readme-ov-file#option-4-use-storage-account-access-key
   servicePrincipalKVStorageAccountAccessKey: oadp-storage-account-access-key
   azureCloudName: AzurePublicCloud #AzureUSGovernmentCloud, AzureChinaCloud  
