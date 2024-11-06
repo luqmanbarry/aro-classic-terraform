@@ -45,9 +45,9 @@ modules: # List of modules to be deployed
   # - name: cluster-log-forwarder
   #   config_path: gitops/modules/cluster-log-forwarder
   #   sync_wave: 110
-  - name: gitlab-runners
-    config_path: gitops/modules/gitlab-runners
-    sync_wave: 110
+  # - name: gitlab-runners
+  #   config_path: gitops/modules/gitlab-runners
+  #   sync_wave: 110
   - name: splunk-log-forwarder
     config_path: gitops/modules/splunk-log-forwarder
     sync_wave: 110
