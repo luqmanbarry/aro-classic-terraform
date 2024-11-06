@@ -1,4 +1,4 @@
-keyVaultName: stig0011-dev-vault
+keyVaultName: stig0012-dev-vault
 clusterName: aroclassic102
 hecSecretName: splunk-logging-hec-token
 splunk:

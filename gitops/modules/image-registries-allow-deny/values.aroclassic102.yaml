@@ -1,6 +1,6 @@
 clusterName: "aroclassic102"
 
-keyVaultName: "stig0011-key-vault"
+keyVaultName: "stig0012-key-vault"
 patchSchedule: "*/5 * * * *"
 
 registriesTrustedCerts: # Provide list of registry and key vault secret name

@@ -1,4 +1,4 @@
-keyVaultName: stig0011-dev-vault
+keyVaultName: stig0012-dev-vault
 idp:
   openid:
     providers:

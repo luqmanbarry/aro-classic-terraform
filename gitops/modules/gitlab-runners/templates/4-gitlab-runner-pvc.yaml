@@ -1,0 +1,20 @@
+{{ range $runnerItem := .Values.gitlab.runners }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $runnerItem.name }}
+  namespace: {{ $.Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ $.Values.persistentVolumeClaim.size }}
+  storageClassName: {{ $.Values.persistentVolumeClaim.storageClass }}
+  volumeMode: Filesystem
+{{ end }}

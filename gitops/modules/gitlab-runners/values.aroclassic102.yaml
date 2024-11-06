@@ -1,5 +1,5 @@
 clusterName: aroclassic102
-keyVaultName: stig0011-dev-vault
+keyVaultName: stig0012-dev-vault
 
 gitlab:
   runners:
@@ -7,4 +7,4 @@ gitlab:
       defaultImage: registry.redhat.io/openshift4/ose-tools-rhel8
       runnerImage: registry.redhat.io/openshift4/ose-tools-rhel8
       runUntagged: false
-      tags: "openshift-cicd,kubernetes-cicd,"
+      tags: "openshift-cicd,kubernetes-cicd"

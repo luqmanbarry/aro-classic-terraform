@@ -2,12 +2,18 @@ clusterName: changeme
 namespace: gitlab-runners
 keyVaultName: changeme
 caKVSecretName: gitlab-instance-root-ca
+
+persistentVolumeClaim: # This is used to add writable filesystem to the runner pod
+  storageClass: default
+  size: 50Gi
+  mountPath: "/mnt/cicd"
+
 gitlabRunnerRegistrationTokenKVSecret: "gitlab-runner-registration-token"
 gitlabUrl: https://gitlab.example.com
 gitlab:
   runners:
-    - name: openshift-cicd
+    - name: openshift-cicd-runner
       defaultImage: registry.redhat.com/openshift/test:latest # Provide custom built image
       runnerImage: registry.redhat.com/openshift/test:latest # Provide custom built image
       runUntagged: false
-      tags: "openshift-cicd,kubernetes-cicd,"
+      tags: "openshift-cicd,kubernetes-cicd"

@@ -7,7 +7,7 @@ metadata:
   namespace: {{ $.Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   buildImage: {{ $runner.defaultImage }}
@@ -24,4 +24,5 @@ spec:
   runUntagged: {{ $runner.runUntagged }}
   tags: {{ $runner.tags }}
   token: {{ $.Values.gitlabRunnerRegistrationTokenKVSecret }}
+  config: {{ $runner.name }}
 {{ end }}
