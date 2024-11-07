@@ -1,10 +1,17 @@
 # External Secrets Operator
 
-The docs are available [here](https://external-secrets.io/latest/provider/azure-key-vault/).
+This helm chart deploys the External Secrets Operator which is used to fetch sensitive data (secrets, certs) from Azure KeyVault. The docs are available [here](https://external-secrets.io/latest/provider/azure-key-vault/).
 
-## Install
+## Inputs
 
-Installing the operator is similar to how many other OpenShift operators are installed.
+Required inputs are defined in the [values.yaml](./values.yaml) file of the helm chart. 
+
+The recommended pattern is to keep all common (defaults) parameters set in the `values.yaml` and overwrite params that change per cluster in the `values.cluster-name.yaml` file.
+
+## Dependencies
+
+- Up & Running ARO cluster
+- Azure Service Principal with read access to KeyVault
 
 ## Uninstall
 
@@ -23,4 +30,4 @@ Installing the operator is similar to how many other OpenShift operators are ins
 
 This problem occurs when an previous installation of this operator was not property removed from the cluster.
 
-To fix this, follow the **Uninstall** steps and try to install the operator again.
+To fix this, follow the steps described under **Uninstall** and try to install the operator.

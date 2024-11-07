@@ -48,7 +48,7 @@ variables:
 tools-info:
   stage: tools-info
   tags:
-    - openshift-cicd
+    - openshift-cicd-tools
   when: manual
   script:
     - echo "Checking required software packages are installed"
@@ -79,7 +79,7 @@ tools-info:
 infra-setup:
   stage: infra-setup
   tags:
-    - openshift-cicd
+    - openshift-cicd-tools
   when: manual
   dependencies:
     - tools-info
@@ -108,7 +108,7 @@ infra-setup:
 tfvars-gen:
   stage: tfvars-gen
   tags:
-    - openshift-cicd
+    - openshift-cicd-tools
   when: manual
   dependencies:
     - infra-setup
@@ -137,7 +137,7 @@ tfvars-gen:
 git-tfvars-file:
   stage: git-tfvars-file
   tags:
-    - openshift-cicd
+    - openshift-cicd-tools
   when: manual
   dependencies:
     - tfvars-gen
@@ -166,7 +166,7 @@ git-tfvars-file:
 aro-classic:
   stage: aro-classic
   tags:
-    - openshift-cicd
+    - openshift-cicd-tools
   when: manual
   dependencies:
     - git-tfvars-file
@@ -194,7 +194,7 @@ aro-classic:
 kube-config:
   stage: kube-config
   tags:
-    - openshift-cicd
+    - openshift-cicd-tools
   when: manual
   dependencies:
     - aro-classic
@@ -223,7 +223,7 @@ kube-config:
 gitops-bootstrap:
   stage: gitops-bootstrap
   tags:
-    - openshift-cicd
+    - openshift-cicd-tools
   when: manual
   dependencies:
     - kube-config
