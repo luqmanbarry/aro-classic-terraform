@@ -1,0 +1,58 @@
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: openshift-cicd-tools
+  namespace: {{ .Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec: {}
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: openshift-cicd-tools
+  namespace: {{ .Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  successfulBuildsHistoryLimit: 3
+  failedBuildsHistoryLimit: 3
+  runPolicy: Serial
+  source:
+    dockerfile: |-
+      FROM {{ .Values.runnerBaseImage }}
+
+      RUN echo "==> Installing GoLang" && \
+          dnf install go-toolset golang-docs
+
+      RUN echo "==> Installilng Terraform" && \
+          yum install -y yum-utils && \
+          yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo && \
+          yum -y install terraform
+
+      RUN echo "==> Installing Azure CLI" && \
+          rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
+          dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm && \
+          dnf install azure-cli
+
+      RUN echo "==> Checking for oc, helm, jq programs" && \
+          oc version --client && \
+          helm --version && \
+          jq --version
+
+  output:
+    to:
+      kind: ImageStreamTag
+      name: openshift-cicd-tools:latest
+
+  strategy:
+    dockerStrategy:
+      forcePull: true
+
+  triggers:
+  - type: "ConfigChange"
