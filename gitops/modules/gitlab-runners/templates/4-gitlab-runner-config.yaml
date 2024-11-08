@@ -12,7 +12,7 @@ metadata:
 data:
   # property-like keys; each key maps to a simple value
   config.toml: |
-    concurrent = 10
+    concurrent = 1
     log_level = "debug"
     shutdown_timeout = 0
     [[runners]]
