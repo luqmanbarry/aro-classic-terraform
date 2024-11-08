@@ -8,7 +8,7 @@ metadata:
   annotations:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "4"
-    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true,Validate=false"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   accessModes:
     - ReadWriteMany
@@ -23,6 +23,10 @@ kind: Pod
 metadata:
   name: {{ $runnerItem.name }}-mount-test
   namespace: {{ $.Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   containers:
     - name: "{{ $runnerItem.name }}-mount-test"
