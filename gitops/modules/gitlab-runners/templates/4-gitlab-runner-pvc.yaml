@@ -17,32 +17,32 @@ spec:
       storage: {{ $.Values.persistentVolumeClaim.size }}
   storageClassName: {{ $.Values.persistentVolumeClaim.storageClass }}
   volumeMode: Filesystem
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: {{ $runnerItem.name }}-mount-test
-  namespace: {{ $.Values.namespace }}
-  annotations:
-    managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "4"
-    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
-spec:
-  containers:
-    - name: "{{ $runnerItem.name }}-mount-test"
-      image: image-registry.openshift-image-registry.svc:5000/openshift/nginx
-      volumeMounts:
-        - mountPath: "/test"
-          name: {{ $runnerItem.name }}
-      command:
-        - /bin/sh
-        - -c
-        - |-
-          echo "Testing PVC can be mounted."
-          sleep 60
-          exit 0
-  volumes:
-    - name: {{ $runnerItem.name }}
-      persistentVolumeClaim:
-        claimName: {{ $runnerItem.name }}
+# ---
+# apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: {{ $runnerItem.name }}-mount-test
+#   namespace: {{ $.Values.namespace }}
+#   annotations:
+#     managed-by: argocd.argoproj.io
+#     argocd.argoproj.io/sync-wave: "4"
+#     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+# spec:
+#   containers:
+#     - name: "{{ $runnerItem.name }}-mount-test"
+#       image: image-registry.openshift-image-registry.svc:5000/openshift/nginx
+#       volumeMounts:
+#         - mountPath: "/test"
+#           name: {{ $runnerItem.name }}
+#       command:
+#         - /bin/sh
+#         - -c
+#         - |-
+#           echo "Testing PVC can be mounted."
+#           sleep 60
+#           exit 0
+#   volumes:
+#     - name: {{ $runnerItem.name }}
+#       persistentVolumeClaim:
+#         claimName: {{ $runnerItem.name }}
 {{ end }}
