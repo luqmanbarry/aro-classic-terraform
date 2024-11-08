@@ -26,5 +26,5 @@ spec:
       type: Opaque
       mergePolicy: Replace
       data:
-        ca.crt: {{ .ca_crt }}
+        ca.crt: "{{ `{{ .ca_crt }}` }}"
 {{ end }}

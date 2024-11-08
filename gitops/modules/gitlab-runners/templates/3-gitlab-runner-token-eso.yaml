@@ -25,4 +25,4 @@ spec:
       type: Opaque
       mergePolicy: Replace
       data:
-        runner-registration-token: {{ `{{ .runner_registration_token }}` }}
+        runner-registration-token: "{{ `{{ .runner_registration_token }}` }}"
