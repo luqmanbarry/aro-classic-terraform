@@ -45,6 +45,10 @@ spec:
           chmod +x /usr/local/bin/helm && \
           helm version
 
+      RUN echo "Installing JQ" && \
+          yum install -y epel-release && \
+          yum install -y jq
+
       RUN echo "==> Checking for oc, helm, jq programs" && \
           oc version --client && \
           helm --version && \
@@ -60,4 +64,6 @@ spec:
       forcePull: true
 
   triggers:
-  - type: "ConfigChange"
+    - type: "ConfigChange"
+    - type: ImageChange
+      imageChange: {}
