@@ -1,8 +1,9 @@
+{{ if .Values.tlsCerts.enable }}
 ---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: {{ .Values.caKVSecretName }}
+  name: {{ .Values.tlsCerts.caKVSecretName }}
   namespace: {{ .Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
@@ -16,9 +17,9 @@ spec:
   data:
     - secretKey: ca_crt
       remoteRef:
-        key: "secret/{{ .Values.caKVSecretName }}"
+        key: "secret/{{ .Values.tlsCerts.caKVSecretName }}"
   target:
-    name: {{ .Values.caKVSecretName }}
+    name: {{ .Values.tlsCerts.caKVSecretName }}
     creationPolicy: "Owner"
     template:
       # Possible Values: "Opaque", "kubernetes.io/dockerconfigjson", "kubernetes.io/tls", "kubernetes.io/ssh-auth"
@@ -26,3 +27,4 @@ spec:
       mergePolicy: Replace
       data:
         ca.crt: {{ .ca_crt }}
+{{ end }}

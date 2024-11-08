@@ -7,10 +7,16 @@ data "azurerm_key_vault_secret" "acmhub_details" {
   key_vault_id        = var.key_vault_id
 }
 
+resource "time_sleep" "wait_30_seconds" {
+  # depends_on      = [ azurerm_redhat_openshift_cluster.current_cluster ]
+  depends_on      = [ data.azurerm_key_vault_secret.acmhub_details ]
+  create_duration = "30s"
+}
+
 resource "null_resource" "set_acmhub_cluster_kubeconfig" {
   count = var.acmhub_registration_enabled ? 1 : 0
 
-  depends_on = [ data.azurerm_key_vault_secret.acmhub_details ]
+  depends_on = [ data.azurerm_key_vault_secret.acmhub_details, time_sleep.wait_30_seconds ]
 
   ## Ensure kube files exists and are empty
   provisioner "local-exec" {

@@ -1,7 +1,10 @@
 clusterName: changeme
 namespace: gitlab-runners
 keyVaultName: changeme
-caKVSecretName: gitlab-instance-root-ca
+
+tlsCerts:
+  enable: false # Set this flag to true to set gitlab root ca
+  caKVSecretName: gitlab-instance-root-ca
 
 runnerBaseImage: registry.redhat.io/openshift4/ose-tools-rhel9:latest
 
