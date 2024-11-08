@@ -18,8 +18,8 @@ spec:
   storageClassName: {{ $.Values.persistentVolumeClaim.storageClass }}
   volumeMode: Filesystem
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: {{ $runnerItem.name }}-mount-test
   namespace: {{ $.Values.namespace }}
@@ -28,22 +28,25 @@ metadata:
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
-  containers:
-    - name: "{{ $runnerItem.name }}-mount-test"
-      image: image-registry.openshift-image-registry.svc:5000/openshift/nginx
-      volumeMounts:
-        - mountPath: "/test"
-          name: {{ $runnerItem.name }}
-      command:
-        - /bin/sh
-        - -c
-        - |-
-          echo "Testing PVC can be mounted."
-          sleep 30
-          shutdown -h 0
-  volumes:
-    - name: {{ $runnerItem.name }}
-      persistentVolumeClaim:
-        claimName: {{ $runnerItem.name }}
-  restartPolicy: Never
+  template:
+    spec:
+      containers:
+        - name: "{{ $runnerItem.name }}-mount-test"
+          image: image-registry.openshift-image-registry.svc:5000/openshift/nginx
+          volumeMounts:
+            - mountPath: "/test"
+              name: {{ $runnerItem.name }}
+          command:
+            - /bin/sh
+            - -c
+            - |-
+              echo "Testing PVC can be mounted."
+              sleep 30
+              shutdown -h 0
+      volumes:
+      - name: {{ $runnerItem.name }}
+        persistentVolumeClaim:
+          claimName: {{ $runnerItem.name }}
+      restartPolicy: Never
+  backoffLimit: 5
 {{ end }}
