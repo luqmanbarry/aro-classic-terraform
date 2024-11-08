@@ -1,9 +1,9 @@
-{{ range $runnerItem := .Values.gitlab.runners }}
+{{ range $runner := .Values.gitlab.runners }}
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ $runnerItem.name }}
+  name: {{ $runner.name }}
   namespace: {{ $.Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
@@ -16,7 +16,7 @@ data:
     log_level = "debug"
     shutdown_timeout = 0
     [[runners]]
-      name = {{ $runnerItem.name }}
+      name = {{ $runner.name }}
       url = {{ $.Values.gitlabUrl }}
       executor = "kubernetes"
       shell = "bash"
@@ -33,7 +33,7 @@ data:
         [runners.kubernetes.node_selector]
           "kubernetes.io/os" = "linux"
         [[runners.kubernetes.volumes.pvc]]
-          name = {{ $runnerItem.name | quote }}
+          name = {{ $runner.name | quote }}
           mount_path = "{{ $.Values.persistentVolumeClaim.mountPath }}"
         [[runners.kubernetes.pod_security_context]]
           run_as_non_root = true
