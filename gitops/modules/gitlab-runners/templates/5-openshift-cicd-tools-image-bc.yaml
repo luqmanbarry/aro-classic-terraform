@@ -99,7 +99,6 @@ spec:
   ttlSecondsAfterFinished: 100
   template:
     spec:
-      serviceAccount: openshift-gitops-argocd-application-controller
       containers:
         - name: openshift-cicd-tools-bc-trigger
           image: image-registry.openshift-image-registry.svc:5000/openshift/cli
