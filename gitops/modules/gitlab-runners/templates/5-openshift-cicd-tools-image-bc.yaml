@@ -47,8 +47,8 @@ spec:
           helm version
 
       RUN echo "Installing JQ" && \
-          yum install -y epel-release && \
-          yum install -y jq
+          dnf install -y jq && \
+          jq --version
 
       RUN echo "==> Checking for oc, helm, jq programs" && \
           oc version --client && \
