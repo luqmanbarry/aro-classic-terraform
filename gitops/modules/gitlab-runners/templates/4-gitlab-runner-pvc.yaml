@@ -30,6 +30,7 @@ metadata:
 spec:
   completions: 1
   parallelism: 1
+  ttlSecondsAfterFinished: 100
   template:
     spec:
       containers:
@@ -44,11 +45,11 @@ spec:
             - |-
               echo "Testing PVC can be mounted."
               sleep 30
-              shutdown -h 0
+              kill -SIGTERM 1
       volumes:
       - name: {{ $runnerItem.name }}
         persistentVolumeClaim:
           claimName: {{ $runnerItem.name }}
       restartPolicy: Never
-  backoffLimit: 5
+  backoffLimit: 3
 {{ end }}
