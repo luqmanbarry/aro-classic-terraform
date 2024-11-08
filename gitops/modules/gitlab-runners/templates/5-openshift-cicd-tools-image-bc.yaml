@@ -66,5 +66,42 @@ spec:
 
   triggers:
     - type: "ConfigChange"
-    - type: ImageChange
-      imageChange: {}
+    - type: "Generic"
+      generic:
+        secretReference:
+          name: "openshift-cicd-tools"
+        allowEnv: true
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: openshift-cicd-tools-bc-trigger
+  namespace: {{ .Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  completions: 1
+  parallelism: 1
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      containers:
+        - name: openshift-cicd-tools-bc-trigger
+          image: image-registry.openshift-image-registry.svc:5000/openshift/cli
+          env:
+            - name: BUILD_CONFIG_NAME
+              value: openshift-cicd-tools
+
+          command:
+            - /bin/sh
+            - -c
+            - |-
+              echo "Triggering the BuildConfig: '$BUILD_CONFIG_NAME'"
+              sleep 15
+              API_SERVER=$(oc whoami --show-server)
+              curl -X POST -k $API_SERVER/apis/build.openshift.io/v1/namespaces/{{ .Values.namespace }}/buildconfigs/$BUILD_CONFIG_NAME/webhooks/$BUILD_CONFIG_NAME/generic
+      restartPolicy: OnFailure
+  backoffLimit: 3
+---

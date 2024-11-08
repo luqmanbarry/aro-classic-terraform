@@ -49,6 +49,6 @@ spec:
       - name: {{ $runnerItem.name }}
         persistentVolumeClaim:
           claimName: {{ $runnerItem.name }}
-      restartPolicy: Never
+      restartPolicy: OnFailure
   backoffLimit: 3
 {{ end }}
