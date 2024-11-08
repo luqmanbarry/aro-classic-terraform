@@ -72,6 +72,18 @@ spec:
           name: "openshift-cicd-tools"
         allowEnv: true
 ---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: "openshift-cicd-tools"
+  namespace: {{ .Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+stringData:
+  WebHookSecretKey: "openshift-cicd-tools"
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -93,8 +105,7 @@ spec:
           image: image-registry.openshift-image-registry.svc:5000/openshift/cli
           env:
             - name: BUILD_CONFIG_NAME
-              value: openshift-cicd-tools
-
+              value: "openshift-cicd-tools"
           command:
             - /bin/sh
             - -c
@@ -102,7 +113,7 @@ spec:
               echo "Triggering the BuildConfig: '$BUILD_CONFIG_NAME'"
               sleep 15
               API_SERVER=$(oc whoami --show-server)
-              curl -X POST -k $API_SERVER/apis/build.openshift.io/v1/namespaces/{{ .Values.namespace }}/buildconfigs/$BUILD_CONFIG_NAME/webhooks/$BUILD_CONFIG_NAME/generic
+              curl -X POST -k "$API_SERVER/apis/build.openshift.io/v1/namespaces/{{ .Values.namespace }}/buildconfigs/$BUILD_CONFIG_NAME/webhooks/$BUILD_CONFIG_NAME/generic"
       restartPolicy: OnFailure
   backoffLimit: 3
 ---
