@@ -4,7 +4,6 @@ kind: ClusterRoleBinding
 metadata:
   name: cluster-admin-ocp-gitops-sa
   annotations:
-    managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 roleRef:
@@ -22,7 +21,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: 'system:openshift:scc:privileged:gitops'
   annotations:
-    managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 subjects:

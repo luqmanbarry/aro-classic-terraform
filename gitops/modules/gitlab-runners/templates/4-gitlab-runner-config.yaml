@@ -16,6 +16,8 @@ data:
     log_level = "debug"
     shutdown_timeout = 0
     [[runners]]
+      name = {{ $runnerItem.name }}
+      url = {{ $.Values.gitlabUrl }}
       executor = "kubernetes"
       shell = "bash"
       environment = ["FF_USE_ADVANCED_POD_SPEC_CONFIGURATION=true"]
@@ -26,6 +28,8 @@ data:
         privileged = false
         allowPrivilegeEscalation = false
         pull_policy = ["if-not-present"]
+        image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}"
+        namespace = {{ $.Values.namespace }}
         [runners.kubernetes.node_selector]
           "kubernetes.io/os" = "linux"
         [[runners.kubernetes.volumes.pvc]]

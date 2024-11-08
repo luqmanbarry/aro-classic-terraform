@@ -5,7 +5,6 @@ metadata:
   name: openshift-gitops
   namespace: openshift-gitops
   annotations:
-    managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:

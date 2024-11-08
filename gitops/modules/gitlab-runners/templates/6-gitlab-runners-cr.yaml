@@ -9,17 +9,10 @@ metadata:
     argocd.argoproj.io/sync-wave: "6"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
-  buildImage: "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}"
-  runnerImage: "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}"
   {{ if $.Values.tlsCerts.enable }}
   ca: {{ $.Values.tlsCerts.caKVSecretName }}
   {{ end }}
-  cacheShared: true
-  cachePath: {{ $runner.name }}
-  cacheType: azure # Other values: gcs, s3, azure
-  concurrent: 25
   gitlabUrl: {{ $.Values.gitlabUrl }}
-  imagePullPolicy: Always
   runUntagged: {{ $runner.runUntagged }}
   tags: {{ $runner.tags }}
   token: {{ $.Values.gitlabRunnerRegistrationTokenKVSecret }}
