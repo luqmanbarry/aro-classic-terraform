@@ -28,7 +28,7 @@ spec:
       FROM {{ .Values.runnerBaseImage }}
 
       RUN echo "==> Installing GoLang" && \
-          dnf install go-toolset golang-docs
+          dnf install -y go-toolset golang-docs
 
       RUN echo "==> Installilng Terraform" && \
           yum install -y yum-utils && \
@@ -38,7 +38,7 @@ spec:
       RUN echo "==> Installing Azure CLI" && \
           rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
           dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm && \
-          dnf install azure-cli
+          dnf install -y azure-cli
 
       RUN echo "==> Checking for oc, helm, jq programs" && \
           oc version --client && \
