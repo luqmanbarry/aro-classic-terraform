@@ -28,6 +28,8 @@ metadata:
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
+  completions: 1
+  parallelism: 1
   template:
     spec:
       containers:
