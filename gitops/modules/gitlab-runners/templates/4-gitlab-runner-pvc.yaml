@@ -45,4 +45,5 @@ spec:
     - name: {{ $runnerItem.name }}
       persistentVolumeClaim:
         claimName: {{ $runnerItem.name }}
+  restartPolicy: Never
 {{ end }}
