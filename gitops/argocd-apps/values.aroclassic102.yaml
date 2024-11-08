@@ -15,9 +15,9 @@ modules: # List of modules to be deployed
   - name: external-secrets-operator
     config_path: gitops/modules/external-secrets-operator
     sync_wave: 101
-  - name: secrets-store-csi-driver
-    config_path: gitops/modules/secrets-store-csi-driver
-    sync_wave: 101
+  # - name: secrets-store-csi-driver
+  #   config_path: gitops/modules/secrets-store-csi-driver
+  #   sync_wave: 101
   # - name: openshift-compliance
   #   config_path: gitops/modules/compliance-operator
   #   sync_wave: 102
@@ -45,15 +45,15 @@ modules: # List of modules to be deployed
   # - name: cluster-log-forwarder
   #   config_path: gitops/modules/cluster-log-forwarder
   #   sync_wave: 110
-  # - name: gitlab-runners
-  #   config_path: gitops/modules/gitlab-runners
-  #   sync_wave: 110
-  - name: splunk-log-forwarder
-    config_path: gitops/modules/splunk-log-forwarder
+  - name: gitlab-runners
+    config_path: gitops/modules/gitlab-runners
     sync_wave: 110
-  - name: identity-providers
-    config_path: gitops/modules/identity-providers
-    sync_wave: 111
+  # - name: splunk-log-forwarder
+  #   config_path: gitops/modules/splunk-log-forwarder
+  #   sync_wave: 110
+  # - name: identity-providers
+  #   config_path: gitops/modules/identity-providers
+  #   sync_wave: 111
   # - name: groups-rbac
   #   config_path: gitops/modules/groups-rbac
   #   sync_wave: 112
@@ -66,7 +66,7 @@ modules: # List of modules to be deployed
   # - name: oadp-backup
   #   config_path: gitops/modules/oadp-backup
   #   sync_wave: 115
-  - name: oadp-restore
-    config_path: gitops/modules/oadp-restore
-    sync_wave: 999
+  # - name: oadp-restore
+  #   config_path: gitops/modules/oadp-restore
+  #   sync_wave: 999
   

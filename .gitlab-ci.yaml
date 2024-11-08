@@ -44,7 +44,8 @@ variables:
   TF_VAR_tfstate_resource_group: $[[ inputs.tfstate_resource_group ]]
   TF_VAR_git_token: $GIT_TOKEN
   TF_LOG: $[[ inputs.TF_LOG ]]
-  WORKING_DIRECTORY: $CI_PROJECT_NAME 
+  WORKING_DIRECTORY: $CI_PROJECT_NAME
+  HOME: 
 tools-info:
   stage: tools-info
   tags:

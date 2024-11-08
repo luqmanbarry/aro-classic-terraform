@@ -3,8 +3,6 @@ keyVaultName: stig0012-dev-vault
 
 gitlab:
   runners:
-    - name: openshift-cicd
-      defaultImage: registry.redhat.io/openshift4/ose-tools-rhel8
-      runnerImage: registry.redhat.io/openshift4/ose-tools-rhel8
+    - name: openshift-cicd-tools
       runUntagged: false
-      tags: "openshift-cicd,kubernetes-cicd"
+      tags: "openshift,openshift-cicd-tools,kubernetes,kubernetes-cicd-tools"
