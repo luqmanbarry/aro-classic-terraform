@@ -40,6 +40,11 @@ spec:
           dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm && \
           dnf install -y azure-cli
 
+      RUN echo "==> Installing helm" && \
+          curl -L https://mirror.openshift.com/pub/openshift-v4/clients/helm/latest/helm-linux-amd64 -o /usr/local/bin/helm && \
+          chmod +x /usr/local/bin/helm && \
+          helm version
+
       RUN echo "==> Checking for oc, helm, jq programs" && \
           oc version --client && \
           helm --version && \
