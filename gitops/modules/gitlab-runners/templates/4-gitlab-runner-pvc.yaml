@@ -35,7 +35,7 @@ spec:
         - -c
         - |-
           echo "Testing PVC can be mounted."
-          sleep 1
+          sleep 60
           exit 0
   volumes:
     - name: {{ $runnerItem.name }}
