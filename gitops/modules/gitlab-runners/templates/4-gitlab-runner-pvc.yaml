@@ -13,7 +13,7 @@ metadata:
     app.kubernetes.io/part-of: {{ $.Values.namespace }}
 spec:
   accessModes:
-    - ReadWriteMay # The storage class must support this
+    - ReadWriteMany # The storage class must support this
   resources:
     requests:
       storage: {{ $.Values.persistentVolumeClaim.size }}
