@@ -57,7 +57,9 @@ spec:
       RUN echo "==> Installing epel-release dumb-init, tini" && \
           dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
           dnf install -y dumb-init && \
-          dnf install -y tini
+          which dumb-init && \
+          dnf install -y tini && \
+          which tini
 
       RUN echo "==> Checking for oc, helm, jq programs" && \
           oc version --client && \
