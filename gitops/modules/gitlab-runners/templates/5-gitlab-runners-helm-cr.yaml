@@ -23,7 +23,7 @@ spec:
         image:
           registry: "image-registry.openshift-image-registry.svc:5000"
           image: "{{ $.Values.namespace }}/{{ $runner.name }}"
-          tag: latest
+          tag: "latest"
 
         gitlabUrl: {{ $.Values.gitlabUrl }}
         terminationGracePeriodSeconds: 3600
@@ -33,7 +33,7 @@ spec:
         runners:
           secret: {{ $.Values.gitlabRunnerTokenKVSecret }}
           locked: null
-          tags: {{ $runner.tags }}
+          tags: "{{ $runner.tags }}"
           config: |
             concurrent = {{ $runner.concurrent }}
             log_level = "debug"
