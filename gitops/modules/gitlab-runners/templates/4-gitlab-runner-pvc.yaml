@@ -13,7 +13,7 @@ metadata:
     app.kubernetes.io/part-of: {{ $.Values.namespace }}
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMay # The storage class must support this
   resources:
     requests:
       storage: {{ $.Values.persistentVolumeClaim.size }}
@@ -49,7 +49,7 @@ spec:
             - -c
             - |-
               echo "Testing PVC can be mounted."
-              sleep 30
+              sleep 15
       volumes:
       - name: {{ $runnerItem.name }}
         persistentVolumeClaim:

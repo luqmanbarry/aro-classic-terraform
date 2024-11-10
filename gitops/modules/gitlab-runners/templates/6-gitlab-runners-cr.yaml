@@ -10,7 +10,6 @@ metadata:
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   labels:
     app.kubernetes.io/name: {{ $runner.name }}
-    app.kubernetes.io/instance: {{ $runner.name }}
     app.kubernetes.io/part-of: {{ $.Values.namespace }}
 spec:
   {{ if $.Values.tlsCerts.enable }}
@@ -20,5 +19,7 @@ spec:
   runUntagged: {{ $runner.runUntagged }}
   tags: {{ $runner.tags }}
   token: {{ $.Values.gitlabRunnerRegistrationTokenKVSecret }}
-  config: "{{ $runner.name }}"
+  config:
+    configMap:
+      name: "{{ $runner.name }}"
 {{ end }}
