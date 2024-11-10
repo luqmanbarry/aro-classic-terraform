@@ -55,7 +55,6 @@ spec:
           jq --version
 
       RUN echo "==> Installing epel-release dumb-init, tini" && \
-          dnf config-manager --set-enabled crb && \
           dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
           dnf install -y dumb-init && \
           dnf install -y tini
