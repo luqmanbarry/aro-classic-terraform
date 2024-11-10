@@ -1,17 +1,37 @@
 {{ range $runner := .Values.runners }}
 ---
-kind: SecurityContextConstraints
+allowHostDirVolumePlugin: true
+allowHostIPC: true
+allowHostNetwork: true
+allowHostPID: true
+allowHostPorts: true
+allowPrivilegedContainer: true
+allowedCapabilities: 
+- '*'
 apiVersion: security.openshift.io/v1
+defaultAddCapabilities: [] 
+fsGroup: 
+  type: RunAsAny
+groups: 
+- system:cluster-admins
+- system:nodes
+kind: SecurityContextConstraints
 metadata:
   name: "{{ $runner.name }}-scc"
-allowPrivilegedContainer: true
-runAsUser:
+priority: null
+readOnlyRootFilesystem: false
+requiredDropCapabilities: 
+- KILL
+- MKNOD
+- SETUID
+- SETGID
+runAsUser: 
   type: RunAsAny
-seLinuxContext:
+seLinuxContext: 
   type: RunAsAny
-fsGroup:
-  type: RunAsAny
-supplementalGroups:
+seccompProfiles:
+- '*'
+supplementalGroups: 
   type: RunAsAny
 users: 
 - "system:serviceaccount:{{ $.Values.namespace }}:{{ $runner.name }}"
