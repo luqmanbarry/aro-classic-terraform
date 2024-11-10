@@ -47,13 +47,13 @@ spec:
               environment = ["FF_USE_ADVANCED_POD_SPEC_CONFIGURATION=true", "FF_TIMESTAMPS=true", ]
               builds_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}/builds"
               [runners.kubernetes]
+                namespace = "{{ $.Values.namespace }}"
                 logs_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}/logs"
                 scripts_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}"
                 privileged = false
                 allowPrivilegeEscalation = false
                 image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}:latest"
                 pull_policy = ["always"]
-                namespace = "{{ $.Values.namespace }}"
                 [runners.kubernetes.node_selector]
                   "kubernetes.io/os" = "linux"
                 [[runners.kubernetes.volumes.pvc]]
