@@ -8,6 +8,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "6"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+  labels:
+    app.kubernetes.io/instance: {{ $runner.name }}
 spec:
   {{ if $.Values.tlsCerts.enable }}
   ca: {{ $.Values.tlsCerts.caKVSecretName }}
@@ -16,5 +18,5 @@ spec:
   runUntagged: {{ $runner.runUntagged }}
   tags: {{ $runner.tags }}
   token: {{ $.Values.gitlabRunnerRegistrationTokenKVSecret }}
-  config: "custom-config-toml"
+  config: "{{ $runner.name }}"
 {{ end }}

@@ -18,6 +18,7 @@ spec:
   storageClassName: {{ $.Values.persistentVolumeClaim.storageClass }}
   volumeMode: Filesystem
 ---
+# Mount the PVC to create the PV, this is because the StorageClass is set for WaitForFirstConsumer
 apiVersion: batch/v1
 kind: Job
 metadata:
