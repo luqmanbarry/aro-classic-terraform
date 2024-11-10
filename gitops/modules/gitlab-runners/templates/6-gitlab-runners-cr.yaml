@@ -16,7 +16,6 @@ spec:
   ca: {{ $.Values.tlsCerts.caKVSecretName }}
   {{ end }}
   gitlabUrl: {{ $.Values.gitlabUrl }}
-  runUntagged: {{ $runner.runUntagged }}
   tags: {{ $runner.tags }}
   token: {{ $.Values.gitlabRunnerRegistrationTokenKVSecret }}
   config: "{{ $runner.name }}-runner-config"
