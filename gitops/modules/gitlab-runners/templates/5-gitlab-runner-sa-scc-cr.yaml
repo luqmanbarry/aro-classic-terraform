@@ -20,11 +20,7 @@ metadata:
   name: "{{ $runner.name }}-scc"
 priority: null
 readOnlyRootFilesystem: false
-requiredDropCapabilities: 
-- KILL
-- MKNOD
-- SETUID
-- SETGID
+requiredDropCapabilities: []
 runAsUser: 
   type: RunAsAny
 seLinuxContext: 
