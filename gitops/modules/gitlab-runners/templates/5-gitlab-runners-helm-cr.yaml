@@ -34,7 +34,7 @@ spec:
           locked: null
           tags: {{ $runner.tags }}
           config: |
-            concurrent = 1
+            concurrent = {{ $runner.concurrent }}
             log_level = "debug"
             shutdown_timeout = 0
             [[runners]]

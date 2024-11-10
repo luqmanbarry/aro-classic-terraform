@@ -22,4 +22,5 @@ gitlabRunnerRegistrationTokenKVSecret: "gitlab-runner-registration-token"
 gitlabUrl: https://gitlab.consulting.redhat.com
 runners:
   - name: openshift-cicd-tools
+    concurrent: 1 # Set value to greater than 1 if PVC StorageClass supports RWX
     tags: "openshift,openshift-cicd-tools,kubernetes,kubernetes-cicd-tools"
