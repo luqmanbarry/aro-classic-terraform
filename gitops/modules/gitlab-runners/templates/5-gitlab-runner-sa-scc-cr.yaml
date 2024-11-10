@@ -15,6 +15,4 @@ supplementalGroups:
   type: RunAsAny
 users: 
 - "system:serviceaccount:{{ $.Values.namespace }}:{{ $runner.name }}"
-volumes: 
-- '*'
 {{ end }}
