@@ -5,7 +5,7 @@ keyVaultName: changeme
 helmChart:
   name: "gitlab/gitlab-runner"
   repoURL: "https://charts.gitlab.io"
-  targetRevision: "v0.70.3"
+  targetRevision: "0.70.3"
 
 tlsCerts:
   enable: false # Set this flag to true to set gitlab root ca
