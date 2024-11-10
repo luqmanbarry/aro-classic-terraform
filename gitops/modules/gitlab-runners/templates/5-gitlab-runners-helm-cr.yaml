@@ -19,6 +19,9 @@ spec:
     helm:
       valuesObject:
         # Values Source: https://gitlab.com/gitlab-org/charts/gitlab-runner/blob/main/values.yaml
+        image:
+          registry: "image-registry.openshift-image-registry.svc:5000"
+          image: "{{ $.Values.namespace }}/{{ $runner.name }}"
 
         gitlabUrl: {{ $.Values.gitlabUrl }}
         secret: {{ $.Values.gitlabRunnerRegistrationTokenKVSecret }}
@@ -67,7 +70,7 @@ spec:
                       - name: HOME
                         value: "{{ $.Values.persistentVolumeClaim.mountPath }}"
                   '''
-                  
+
         serviceAccount:
           create: true
           name: {{ $runner.name }}
