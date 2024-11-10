@@ -21,9 +21,9 @@ spec:
       valuesObject:
         # Values Source: https://gitlab.com/gitlab-org/charts/gitlab-runner/blob/main/values.yaml
         image:
-          registry: "image-registry.openshift-image-registry.svc:5000"
-          image: "{{ $.Values.namespace }}/{{ $runner.name }}"
-          tag: "latest"
+          registry: registry.gitlab.com
+          image: gitlab-org/gitlab-runner
+          
         imagePullPolicy: Always
 
         gitlabUrl: {{ $.Values.gitlabUrl }}
@@ -52,8 +52,8 @@ spec:
                 scripts_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}"
                 privileged = false
                 allowPrivilegeEscalation = false
+                image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}:latest"
                 pull_policy = ["always"]
-                image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}"
                 namespace = {{ $.Values.namespace }}
                 [runners.kubernetes.node_selector]
                   "kubernetes.io/os" = "linux"
