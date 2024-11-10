@@ -9,6 +9,8 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.namespace }}
 spec:
   accessModes:
     - ReadWriteOnce
@@ -28,6 +30,8 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.namespace }}
 spec:
   completions: 1
   parallelism: 1
@@ -45,7 +49,7 @@ spec:
             - -c
             - |-
               echo "Testing PVC can be mounted."
-              sleep 45
+              sleep 30
       volumes:
       - name: {{ $runnerItem.name }}
         persistentVolumeClaim:

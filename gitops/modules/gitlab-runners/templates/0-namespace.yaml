@@ -8,4 +8,6 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "0"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.namespace }}
   name: {{ .Values.namespace }}

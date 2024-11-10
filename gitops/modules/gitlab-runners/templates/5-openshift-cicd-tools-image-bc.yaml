@@ -8,6 +8,8 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.namespace }}
 spec: {}
 ---
 apiVersion: build.openshift.io/v1
@@ -19,6 +21,8 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.namespace }}
 spec:
   successfulBuildsHistoryLimit: 3
   failedBuildsHistoryLimit: 3
@@ -81,6 +85,8 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.namespace }}
 stringData:
   WebHookSecretKey: openshift-cicd-tools
 ---
@@ -93,6 +99,8 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+  labels:
+    app.kubernetes.io/part-of: {{ .Values.namespace }}
 spec:
   completions: 1
   parallelism: 1

@@ -10,6 +10,7 @@ metadata:
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   labels:
     app.kubernetes.io/instance: {{ $runner.name }}
+    app.kubernetes.io/part-of: {{ .Values.namespace }}
 spec:
   {{ if $.Values.tlsCerts.enable }}
   ca: {{ $.Values.tlsCerts.caKVSecretName }}
