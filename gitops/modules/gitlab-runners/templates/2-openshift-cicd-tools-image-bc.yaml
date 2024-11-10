@@ -55,8 +55,8 @@ spec:
           jq --version
 
       RUN echo "==> Installing epel-release dumb-init, tini" && \
-          curl -k https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/e/epel-release-9-8.el9.noarch.rpm && \
-          rpm -Uvh epel-release*rpm && \
+          subscription-manager repos --enable codeready-builder-for-rhel-9-$(arch)-rpms && \
+          dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
           dnf install -y dumb-init && \
           dnf install -y tini
 
