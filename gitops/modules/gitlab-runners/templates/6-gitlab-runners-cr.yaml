@@ -16,5 +16,5 @@ spec:
   runUntagged: {{ $runner.runUntagged }}
   tags: {{ $runner.tags }}
   token: {{ $.Values.gitlabRunnerRegistrationTokenKVSecret }}
-  config: "{{ $runner.name }}-config"
+  config: "custom-config-toml"
 {{ end }}

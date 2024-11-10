@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "{{ $runner.name }}-config"
+  name: "custom-config-toml"
   namespace: {{ $.Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io

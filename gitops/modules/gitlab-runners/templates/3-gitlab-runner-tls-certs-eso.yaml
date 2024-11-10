@@ -15,7 +15,7 @@ spec:
     kind: ClusterSecretStore
     name: "{{ .Values.keyVaultName }}"
   data:
-    - secretKey: ca_crt
+    - secretKey: tls_crt
       remoteRef:
         key: "secret/{{ .Values.tlsCerts.caKVSecretName }}"
   target:
@@ -26,5 +26,5 @@ spec:
       type: Opaque
       mergePolicy: Replace
       data:
-        ca.crt: "{{ `{{ .ca_crt }}` }}"
+        tls.crt: "{{ `{{ .tls_crt }}` }}"
 {{ end }}
