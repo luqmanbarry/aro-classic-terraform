@@ -3,7 +3,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "child-app-{{ $runner.name }}"
+  name: "999-{{ $runner.name }}"
   namespace: {{ $.Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
