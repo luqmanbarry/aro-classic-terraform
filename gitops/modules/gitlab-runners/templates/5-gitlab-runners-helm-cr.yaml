@@ -24,7 +24,7 @@ spec:
           registry: "image-registry.openshift-image-registry.svc:5000"
           image: "{{ $.Values.namespace }}/{{ $runner.name }}"
           tag: "latest"
-        useTini: true
+        useTini: false
 
         gitlabUrl: {{ $.Values.gitlabUrl }}
         terminationGracePeriodSeconds: 3600

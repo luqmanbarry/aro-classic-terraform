@@ -59,6 +59,10 @@ spec:
           helm version && \
           jq --version
 
+      RUN echo "==> Installing dumb-init" && \
+          dnf install -y dumb-init && \
+          dnf install -y tini
+
   output:
     to:
       kind: ImageStreamTag
