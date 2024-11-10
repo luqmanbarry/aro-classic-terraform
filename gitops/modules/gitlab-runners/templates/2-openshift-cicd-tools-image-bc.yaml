@@ -73,7 +73,6 @@ spec:
       forcePull: true
 
   triggers:
-    - type: "ConfigChange"
     - type: "Generic"
       generic:
         secretReference:
