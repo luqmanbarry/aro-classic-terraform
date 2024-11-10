@@ -47,7 +47,6 @@ spec:
               environment = ["FF_USE_ADVANCED_POD_SPEC_CONFIGURATION=true", "FF_TIMESTAMPS=true", ]
               builds_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}/builds"
               [runners.kubernetes]
-                namespace = "{{ $.Values.namespace }}"
                 logs_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}/logs"
                 scripts_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}"
                 privileged = false
