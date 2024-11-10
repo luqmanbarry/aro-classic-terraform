@@ -3,4 +3,5 @@ keyVaultName: stig0012-dev-vault
 
 runners:
   - name: openshift-cicd-tools
+    concurrent: 1
     tags: "openshift,openshift-cicd-tools,kubernetes,kubernetes-cicd-tools"
