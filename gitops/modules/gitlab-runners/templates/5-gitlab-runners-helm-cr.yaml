@@ -1,0 +1,138 @@
+{{ range $runner := .Values.runners }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "child-app-{{ $runner.name }}"
+  namespace: {{ $.Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  project: default
+
+  source:
+    repoURL: {{ $.Values.helmChart.repoURL }}
+    targetRevision: {{ $.Values.helmChart.targetRevision }}
+    chart: {{ $.Values.helmChart.name }}
+    helm:
+      valuesObject:
+        # Values Source: https://gitlab.com/gitlab-org/charts/gitlab-runner/blob/main/values.yaml
+
+        gitlabUrl: {{ $.Values.gitlabUrl }}
+        secret: {{ $.Values.gitlabRunnerRegistrationTokenKVSecret }}
+        terminationGracePeriodSeconds: 3600
+        {{ if $.Values.tlsCerts.enable }}
+        certsSecretName: {{ $.Values.tlsCerts.caKVSecretName }}
+        {{ end }}
+        runners:
+          locked: null
+          tags: {{ $runner.tags }}
+          config: |
+            concurrent = 1
+            log_level = "debug"
+            shutdown_timeout = 0
+            [[runners]]
+              name = {{ $runner.name }}
+              url = {{ $.Values.gitlabUrl }}
+              executor = "kubernetes"
+              shell = "bash"
+              environment = ["FF_USE_ADVANCED_POD_SPEC_CONFIGURATION=true", "FF_TIMESTAMPS=true", ]
+              builds_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}/builds"
+              [runners.kubernetes]
+                namespace = {{ $.Values.namespace }}
+                logs_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}/logs"
+                scripts_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}"
+                privileged = false
+                allowPrivilegeEscalation = false
+                pull_policy = ["if-not-present"]
+                image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}"
+                namespace = {{ $.Values.namespace }}
+                [runners.kubernetes.node_selector]
+                  "kubernetes.io/os" = "linux"
+                [[runners.kubernetes.volumes.pvc]]
+                  name = {{ $runner.name | quote }}
+                  mount_path = "{{ $.Values.persistentVolumeClaim.mountPath }}"
+                [[runners.kubernetes.pod_security_context]]
+                  run_as_non_root = true
+                  run_as_user = 1000
+                  run_as_group = 1000
+                  fs_group = 1000
+                [[runners.kubernetes.pod_spec]]
+                  patch_type = "strategic"
+                  patch = '''
+                    containers:
+                    - env:
+                      - name: HOME
+                        value: "{{ $.Values.persistentVolumeClaim.mountPath }}"
+                  '''
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          privileged: false
+          capabilities:
+            drop: ["ALL"]
+
+        podSecurityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          fsGroup: 1000
+          supplementalGroups: [0]
+
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: 300m
+            ephemeral-storage: 512Mi
+          requests:
+            memory: 128Mi
+            cpu: 100m
+            ephemeral-storage: 256Mi
+
+
+  # Destination cluster and namespace to deploy the application
+  destination:
+    # name: change-me
+    name: in-cluster
+    namespace: openshift-gitops
+    
+  # NO NEED TO CHANGE BELOW PARAMS
+
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: true
+    syncOptions:
+    - Validate=false
+    - CreateNamespace=false
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    - RespectIgnoreDifferences=true
+    
+    retry:
+      limit: 5
+      backoff:
+        duration: 15s
+        factor: 2
+        maxDuration: 900s
+
+
+  # Apply metadata to namespaces
+  # managedNamespaceMetadata:
+  #   labels:
+  #     argocd.argoproj.io/managed-by: openshift-gitops
+  #   annotations:
+  #     argocd.argoproj.io/sync-wave: '0'
+
+  ignoreDifferences:
+  - group: operators.coreos.com/v1alpha1
+    kind: Subscription
+    jqPathExpressions:
+      - '.spec.status'
+
+  revisionHistoryLimit: 10
+{{ end }}

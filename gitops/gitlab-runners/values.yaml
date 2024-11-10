@@ -2,16 +2,11 @@ clusterName: changeme
 namespace: gitlab-runners
 keyVaultName: changeme
 
-helmChart:
-  name: "gitlab/gitlab-runner"
-  repoURL: "https://charts.gitlab.io"
-  targetRevision: "v0.70.3"
-
 tlsCerts:
   enable: false # Set this flag to true to set gitlab root ca
   caKVSecretName: gitlab-instance-root-ca
 
-runnerBuildImage: registry.redhat.io/openshift4/ose-tools-rhel9:latest
+runnerBaseImage: registry.redhat.io/openshift4/ose-tools-rhel9:latest
 
 persistentVolumeClaim: # This is used to add writable filesystem to the runner pod
   storageClass: managed-csi # 
@@ -20,6 +15,7 @@ persistentVolumeClaim: # This is used to add writable filesystem to the runner p
 
 gitlabRunnerRegistrationTokenKVSecret: "gitlab-runner-registration-token"
 gitlabUrl: https://gitlab.consulting.redhat.com
-runners:
-  - name: openshift-cicd-tools
-    tags: "openshift,openshift-cicd-tools,kubernetes,kubernetes-cicd-tools"
+gitlab:
+  runners:
+    - name: openshift-cicd-tools
+      tags: "openshift,openshift-cicd-tools,kubernetes,kubernetes-cicd-tools"

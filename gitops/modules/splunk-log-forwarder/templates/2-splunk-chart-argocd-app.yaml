@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "splunk-otel-collector"
+  name: "child-app-splunk-otel-collector"
   namespace: openshift-gitops
   finalizers:
    - resources-finalizer.argocd.argoproj.io
