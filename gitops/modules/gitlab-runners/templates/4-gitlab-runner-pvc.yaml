@@ -10,7 +10,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   labels:
-    app.kubernetes.io/part-of: {{ .Values.namespace }}
+    app.kubernetes.io/part-of: {{ $.Values.namespace }}
 spec:
   accessModes:
     - ReadWriteOnce
@@ -31,7 +31,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   labels:
-    app.kubernetes.io/part-of: {{ .Values.namespace }}
+    app.kubernetes.io/part-of: {{ $.Values.namespace }}
 spec:
   completions: 1
   parallelism: 1
