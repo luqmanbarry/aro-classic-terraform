@@ -31,8 +31,8 @@ spec:
         certsSecretName: {{ $.Values.tlsCerts.caKVSecretName }}
         {{ end }}
         runners:
+          name: {{ $runner.name }}
           secret: {{ $.Values.gitlabRunnerTokenKVSecret }}
-          locked: null
           tags: "{{ $runner.tags }}"
           config: |
             concurrent = {{ $runner.concurrent }}
