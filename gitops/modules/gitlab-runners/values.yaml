@@ -9,7 +9,7 @@ tlsCerts:
 runnerBaseImage: registry.redhat.io/openshift4/ose-tools-rhel9:latest
 
 persistentVolumeClaim: # This is used to add writable filesystem to the runner pod
-  storageClass: azurefile-csi
+  storageClass: managed-csi # 
   size: 50Gi
   mountPath: "/mnt/cicd"
 

@@ -13,7 +13,7 @@ metadata:
     app.kubernetes.io/part-of: {{ $.Values.namespace }}
 spec:
   accessModes:
-    - ReadWriteMany # The storage class must support this
+    - ReadWriteOnce # To support parallel job exection, you must use a StroageClass that supports ReadWriteMany (RWX)
   resources:
     requests:
       storage: {{ $.Values.persistentVolumeClaim.size }}
