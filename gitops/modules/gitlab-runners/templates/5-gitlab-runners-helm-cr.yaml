@@ -67,6 +67,11 @@ spec:
                       - name: HOME
                         value: "{{ $.Values.persistentVolumeClaim.mountPath }}"
                   '''
+                  
+        serviceAccount:
+          create: true
+          name: {{ $runner.name }}
+
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
