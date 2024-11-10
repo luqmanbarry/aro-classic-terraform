@@ -54,14 +54,14 @@ spec:
           dnf install -y jq && \
           jq --version
 
+      RUN echo "==> Installing dumb-init" && \
+          dnf install -y dumb-init && \
+          dnf install -y tini
+
       RUN echo "==> Checking for oc, helm, jq programs" && \
           oc version --client && \
           helm version && \
           jq --version
-
-      RUN echo "==> Installing dumb-init" && \
-          dnf install -y dumb-init && \
-          dnf install -y tini
 
   output:
     to:
