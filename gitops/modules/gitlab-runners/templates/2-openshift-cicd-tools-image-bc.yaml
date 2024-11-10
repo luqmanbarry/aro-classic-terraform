@@ -54,7 +54,8 @@ spec:
           dnf install -y jq && \
           jq --version
 
-      RUN echo "==> Installing dumb-init, tini" && \
+      RUN echo "==> Installing epel-release dumb-init, tini" && \
+          curl -k https://dl.fedoraproject.org/pub/epel/9/Everything/x86_64/Packages/e/epel-release-9-8.el9.noarch.rpm && \
           rpm -Uvh epel-release*rpm && \
           dnf install -y dumb-init && \
           dnf install -y tini
