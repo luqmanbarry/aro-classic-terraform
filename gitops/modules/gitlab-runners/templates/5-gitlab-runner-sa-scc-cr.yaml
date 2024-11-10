@@ -17,7 +17,7 @@ groups:
 - system:nodes
 kind: SecurityContextConstraints
 metadata:
-  name: "{{ $runner.name }}-scc"
+  name: "{{ $runner.name }}"
 priority: null
 readOnlyRootFilesystem: false
 requiredDropCapabilities: []

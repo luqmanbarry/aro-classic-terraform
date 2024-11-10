@@ -98,6 +98,9 @@ spec:
           create: true
           name: {{ $runner.name }}
 
+        deploymentAnnotations:
+          openshift.io/required-scc: "{{ $runner.name }}"
+
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
@@ -109,6 +112,7 @@ spec:
         podSecurityContext:
           runAsUser: 1000
           runAsGroup: 1000
+          fsGroup: 1000
 
         resources:
           limits:
