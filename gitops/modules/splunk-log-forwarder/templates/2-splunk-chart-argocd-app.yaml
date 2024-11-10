@@ -102,7 +102,7 @@ spec:
   destination:
     # name: change-me
     name: in-cluster
-    namespace: openshift-gitops
+    namespace: {{ .Values.namespaceOverride }}
     
   # NO NEED TO CHANGE BELOW PARAMS
 

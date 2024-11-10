@@ -27,11 +27,11 @@ spec:
 
         gitlabUrl: {{ $.Values.gitlabUrl }}
         terminationGracePeriodSeconds: 3600
-        secret: {{ $.Values.gitlabRunnerRegistrationTokenKVSecret }}
         {{ if $.Values.tlsCerts.enable }}
         certsSecretName: {{ $.Values.tlsCerts.caKVSecretName }}
         {{ end }}
         runners:
+          secret: {{ $.Values.gitlabRunnerTokenKVSecret }}
           locked: null
           tags: {{ $runner.tags }}
           config: |
