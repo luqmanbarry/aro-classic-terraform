@@ -17,6 +17,7 @@ spec:
     targetRevision: {{ $.Values.helmChart.targetRevision }}
     chart: {{ $.Values.helmChart.name }}
     helm:
+      releaseName: {{ $runner.name }}
       valuesObject:
         # Values Source: https://gitlab.com/gitlab-org/charts/gitlab-runner/blob/main/values.yaml
         image:
@@ -120,7 +121,7 @@ spec:
   destination:
     # name: change-me
     name: in-cluster
-    namespace: openshift-gitops
+    namespace: {{ $.Values.namespace }}
     
   # NO NEED TO CHANGE BELOW PARAMS
 
