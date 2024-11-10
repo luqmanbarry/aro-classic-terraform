@@ -13,6 +13,8 @@ fsGroup:
   type: RunAsAny
 supplementalGroups:
   type: RunAsAny
-users:
-- {{ $runner.name }}
+users: 
+- "system:serviceaccount:{{ $.Values.namespace }}:{{ $runner.name }}"
+volumes: 
+- '*'
 {{ end }}
