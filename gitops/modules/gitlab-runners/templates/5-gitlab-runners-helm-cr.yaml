@@ -40,25 +40,25 @@ spec:
             log_level = "debug"
             shutdown_timeout = 0
             [[runners]]
-              name = {{ $runner.name }}
-              url = {{ $.Values.gitlabUrl }}
+              name = "{{ $runner.name }}"
+              url = "{{ $.Values.gitlabUrl }}"
               executor = "kubernetes"
               shell = "bash"
               environment = ["FF_USE_ADVANCED_POD_SPEC_CONFIGURATION=true", "FF_TIMESTAMPS=true", ]
               builds_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}/builds"
               [runners.kubernetes]
-                namespace = {{ $.Values.namespace }}
+                namespace = "{{ $.Values.namespace }}"
                 logs_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}/logs"
                 scripts_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}"
                 privileged = false
                 allowPrivilegeEscalation = false
                 image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}:latest"
                 pull_policy = ["always"]
-                namespace = {{ $.Values.namespace }}
+                namespace = "{{ $.Values.namespace }}"
                 [runners.kubernetes.node_selector]
                   "kubernetes.io/os" = "linux"
                 [[runners.kubernetes.volumes.pvc]]
-                  name = {{ $runner.name | quote }}
+                  name = "{{ $runner.name }}"
                   mount_path = "{{ $.Values.persistentVolumeClaim.mountPath }}"
                 [[runners.kubernetes.pod_security_context]]
                   run_as_non_root = true
