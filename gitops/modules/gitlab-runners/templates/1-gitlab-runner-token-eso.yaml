@@ -27,4 +27,5 @@ spec:
       type: Opaque
       mergePolicy: Replace
       data:
+        runner-registration-token: ""
         runner-token: "{{ `{{ .runner_registration_token }}` }}"
