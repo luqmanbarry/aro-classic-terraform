@@ -3,7 +3,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "999-{{ $runner.name }}"
+  name: "{{ $runner.name }}"
   namespace: openshift-gitops
   annotations:
     managed-by: argocd.argoproj.io
