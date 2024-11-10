@@ -24,7 +24,7 @@ spec:
           registry: "image-registry.openshift-image-registry.svc:5000"
           image: "{{ $.Values.namespace }}/{{ $runner.name }}"
           tag: "latest"
-        useTini: false
+        imagePullPolicy: Always
 
         gitlabUrl: {{ $.Values.gitlabUrl }}
         terminationGracePeriodSeconds: 3600
@@ -52,7 +52,7 @@ spec:
                 scripts_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}"
                 privileged = false
                 allowPrivilegeEscalation = false
-                pull_policy = ["if-not-present"]
+                pull_policy = ["always"]
                 image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}"
                 namespace = {{ $.Values.namespace }}
                 [runners.kubernetes.node_selector]
