@@ -1,0 +1,246 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    alm-examples: '[]'
+    capabilities: Deep Insights
+    categories: Integration & Delivery, Developer Tools
+    containerImage: registry.gitlab.com/gitlab-org/gl-openshift/gitlab-runner-operator/gitlab-runner-operator@sha256:50337e2a6648f985610d6e2ba605bdd38233eb8ea04a5d22118cb29636da730c
+    createdAt: "2024-10-18T20:58:50Z"
+    description: GitLab Runner operator manages lifecycle of GitLab Runner instances
+    features.operators.openshift.io/cnf: "false"
+    features.operators.openshift.io/cni: "false"
+    features.operators.openshift.io/csi: "false"
+    features.operators.openshift.io/disconnected: "true"
+    features.operators.openshift.io/fips-compliant: "true"
+    features.operators.openshift.io/proxy-aware: "false"
+    features.operators.openshift.io/tls-profiles: "false"
+    features.operators.openshift.io/token-auth-aws: "false"
+    features.operators.openshift.io/token-auth-azure: "false"
+    features.operators.openshift.io/token-auth-gcp: "false"
+    k8s.ovn.org/pod-networks: '{"default":{"ip_addresses":["172.131.0.36/23"],"mac_address":"0a:58:ac:83:00:24","gateway_ips":["172.131.0.1"],"routes":[{"dest":"172.128.0.0/14","nextHop":"172.131.0.1"},{"dest":"172.127.0.0/16","nextHop":"172.131.0.1"},{"dest":"100.64.0.0/16","nextHop":"172.131.0.1"}],"ip_address":"172.131.0.36/23","gateway_ip":"172.131.0.1"}}'
+    k8s.v1.cni.cncf.io/network-status: |-
+      [{
+          "name": "ovn-kubernetes",
+          "interface": "eth0",
+          "ips": [
+              "172.131.0.36"
+          ],
+          "mac": "0a:58:ac:83:00:24",
+          "default": true,
+          "dns": {}
+      }]
+    olm.operatorGroup: gitlab-runners
+    olm.operatorNamespace: gitlab-runners
+    olm.skipRange: '>=1.11.0 <1.30.1'
+    olm.targetNamespaces: gitlab-runners
+    openshift.io/scc: restricted-v2
+    operatorframework.io/properties: '{"properties":[{"type":"olm.gvk","value":{"group":"apps.gitlab.com","kind":"Runner","version":"v1beta2"}},{"type":"olm.package","value":{"packageName":"gitlab-runner-operator","version":"1.30.1"}}]}'
+    operators.openshift.io/infrastructure-features: '["Disconnected"]'
+    operators.openshift.io/valid-subscription: none
+    operators.operatorframework.io/builder: operator-sdk-v1.34.1
+    operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+    repository: https://gitlab.com/gitlab-org/gl-openshift/gitlab-runner-operator
+    seccomp.security.alpha.kubernetes.io/pod: runtime/default
+    support: GitLab, Inc.
+  creationTimestamp: "2024-11-08T14:51:42Z"
+  generateName: gitlab-runner-gitlab-runnercontroller-manager-6c984b77f5-
+  labels:
+    app.kubernetes.io/component: controller-manager
+    app.kubernetes.io/name: gitlab-runner-operator
+    pod-template-hash: 6c984b77f5
+  name: gitlab-runner-gitlab-runnercontroller-manager-6c984b77f5-j744k
+  namespace: gitlab-runners
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: gitlab-runner-gitlab-runnercontroller-manager-6c984b77f5
+    uid: 2259785f-1628-4ff0-b0d1-bc407f5b26c8
+  resourceVersion: "610207"
+  uid: fa786399-5787-4ac0-b9f3-3b37ea049edb
+spec:
+  containers:
+  - args:
+    - --secure-listen-address=0.0.0.0:8443
+    - --upstream=http://127.0.0.1:8080/
+    - --logtostderr=true
+    - --v=10
+    env:
+    - name: OPERATOR_CONDITION_NAME
+      value: gitlab-runner-operator.v1.30.1
+    image: registry.gitlab.com/gitlab-org/gl-openshift/gitlab-runner-operator/openshift4/ose-kube-rbac-proxy@sha256:4564ca3dc5bac80d6faddaf94c817fbbc270698a9399d8a21ee1005d85ceda56
+    imagePullPolicy: IfNotPresent
+    name: kube-rbac-proxy
+    ports:
+    - containerPort: 8443
+      name: https
+      protocol: TCP
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      runAsNonRoot: true
+      runAsUser: 1000770000
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-p2mxq
+      readOnly: true
+  - args:
+    - --metrics-addr=127.0.0.1:8080
+    - --enable-leader-election
+    command:
+    - /manager
+    env:
+    - name: ENABLE_WEBHOOKS
+      value: "false"
+    - name: RELATED_IMAGE_GITLAB_RUNNER
+      value: registry.gitlab.com/gitlab-org/ci-cd/gitlab-runner-ubi-images/gitlab-runner-ocp@sha256:eda917c8a2625cea400b472ac5394b44ebf90002b4a633798350925fc09cb69d
+    - name: RELATED_IMAGE_GITLAB_RUNNER_HELPER
+      value: registry.gitlab.com/gitlab-org/ci-cd/gitlab-runner-ubi-images/gitlab-runner-helper-ocp@sha256:7e74cf7971a5e59f0b1f1b875d8491677d058d38ee31edd7a16832d508748c71
+    - name: RELATED_IMAGE_GITLAB_RUNNER_OPERATOR
+      value: registry.gitlab.com/gitlab-org/gl-openshift/gitlab-runner-operator/gitlab-runner-operator@sha256:50337e2a6648f985610d6e2ba605bdd38233eb8ea04a5d22118cb29636da730c
+    - name: RELATED_IMAGE_KUBE_RBAC_PROXY
+      value: registry.gitlab.com/gitlab-org/gl-openshift/gitlab-runner-operator/openshift4/ose-kube-rbac-proxy@sha256:4564ca3dc5bac80d6faddaf94c817fbbc270698a9399d8a21ee1005d85ceda56
+    - name: OPERATOR_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.annotations['olm.operatorNamespace']
+    - name: WATCH_NAMESPACES
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.annotations['olm.targetNamespaces']
+    - name: OPERATOR_CONDITION_NAME
+      value: gitlab-runner-operator.v1.30.1
+    image: registry.gitlab.com/gitlab-org/gl-openshift/gitlab-runner-operator/gitlab-runner-operator@sha256:50337e2a6648f985610d6e2ba605bdd38233eb8ea04a5d22118cb29636da730c
+    imagePullPolicy: IfNotPresent
+    name: manager
+    resources:
+      limits:
+        cpu: 150m
+        memory: 300Mi
+      requests:
+        cpu: 100m
+        memory: 180Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      runAsNonRoot: true
+      runAsUser: 1000770000
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-p2mxq
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  imagePullSecrets:
+  - name: gitlab-runner-sa-dockercfg-mn6nt
+  nodeName: aroclassic102-4ztzh-worker-eastus1-gtt5l
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext:
+    fsGroup: 1000770000
+    seLinuxOptions:
+      level: s0:c28,c7
+    seccompProfile:
+      type: RuntimeDefault
+  serviceAccount: gitlab-runner-sa
+  serviceAccountName: gitlab-runner-sa
+  terminationGracePeriodSeconds: 10
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoSchedule
+    key: node.kubernetes.io/memory-pressure
+    operator: Exists
+  volumes:
+  - name: kube-api-access-p2mxq
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+      - configMap:
+          items:
+          - key: service-ca.crt
+            path: service-ca.crt
+          name: openshift-service-ca.crt
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-08T14:51:42Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-08T14:51:44Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-08T14:51:44Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2024-11-08T14:51:42Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: cri-o://4449520440a38680d36606650c1d4affa4c83db05ef6ed4d8f28bec2f71e4ff2
+    image: registry.gitlab.com/gitlab-org/gl-openshift/gitlab-runner-operator/openshift4/ose-kube-rbac-proxy@sha256:4564ca3dc5bac80d6faddaf94c817fbbc270698a9399d8a21ee1005d85ceda56
+    imageID: registry.gitlab.com/gitlab-org/gl-openshift/gitlab-runner-operator/openshift4/ose-kube-rbac-proxy@sha256:4564ca3dc5bac80d6faddaf94c817fbbc270698a9399d8a21ee1005d85ceda56
+    lastState: {}
+    name: kube-rbac-proxy
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2024-11-08T14:51:43Z"
+  - containerID: cri-o://5a5b87114b434a5bfd86042828ddcf30fa184cc7af6bc37c4f80b7dea2b8d0dc
+    image: registry.gitlab.com/gitlab-org/gl-openshift/gitlab-runner-operator/gitlab-runner-operator@sha256:50337e2a6648f985610d6e2ba605bdd38233eb8ea04a5d22118cb29636da730c
+    imageID: registry.gitlab.com/gitlab-org/gl-openshift/gitlab-runner-operator/gitlab-runner-operator@sha256:0ba6888835d20d98fd319d11738003ce8a5a28e8d3750f1cd5fb814e629369f7
+    lastState: {}
+    name: manager
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2024-11-08T14:51:43Z"
+  hostIP: 10.91.2.5
+  phase: Running
+  podIP: 172.131.0.36
+  podIPs:
+  - ip: 172.131.0.36
+  qosClass: Burstable
+  startTime: "2024-11-08T14:51:42Z"
