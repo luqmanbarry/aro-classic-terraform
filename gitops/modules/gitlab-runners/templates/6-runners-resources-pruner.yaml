@@ -12,6 +12,6 @@ spec:
   ignoreInvalidImageReferences: true
   keepTagRevisions: 3
   logLevel: Normal
-  schedule: '0 */1 * * *'
+  schedule: '0 8 * * *'
   successfulJobsHistoryLimit: 3
   suspend: false
