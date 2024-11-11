@@ -62,6 +62,15 @@ spec:
                   name = "{{ $runner.name }}"
                   mount_path = "{{ $.Values.persistentVolumeClaim.mountPath }}"
 
+        volumeMounts:
+          - name: "gitlab-runner"
+            mountPath: "/.gitlab-runner"
+
+        volumes:
+          - name: "gitlab-runner"
+            emptyDir:
+              sizeLimit: 100Mi
+
         serviceAccount:
           create: true
           name: {{ $runner.name }}
