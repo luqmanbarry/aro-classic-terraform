@@ -27,7 +27,7 @@ metadata:
 spec:
   successfulBuildsHistoryLimit: 3
   failedBuildsHistoryLimit: 3
-  runPolicy: Serial
+  runPolicy: SerialLatestOnly
   source:
     dockerfile: |-
       FROM {{ .Values.runnerBuildImage }}
