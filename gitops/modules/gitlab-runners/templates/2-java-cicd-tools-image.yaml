@@ -1,9 +1,9 @@
-# Used for the openshift-cicd-tools runner - Duplicate this file to add other runners
+# Used for the java-cicd-tools runner - Duplicate this file to add other runners
 ---
 apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
-  name: openshift-cicd-tools
+  name: java-cicd-tools
   namespace: {{ .Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
@@ -16,7 +16,7 @@ spec: {}
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
-  name: openshift-cicd-tools
+  name: java-cicd-tools
   namespace: {{ .Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
@@ -32,17 +32,8 @@ spec:
     dockerfile: |-
       FROM {{ .Values.runnerBuildImage }}
 
-      RUN echo "==> Installing GoLang" && \
-          dnf update -y && \
-          dnf groupinstall 'Development Tools' -y && \
-          dnf install -y go-toolset golang-docs
-
-      RUN echo "==> Installilng Terraform" && \
-          yum install -y yum-utils && \
-          yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo && \
-          yum -y install terraform
-
       RUN echo "==> Installing Azure CLI" && \
+          dnf update -y && \
           rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
           dnf install -y https://packages.microsoft.com/config/rhel/9.0/packages-microsoft-prod.rpm && \
           dnf install -y azure-cli
@@ -57,22 +48,13 @@ spec:
           dnf install -y jq && \
           jq --version
 
-      RUN echo "==> Installing epel-release dumb-init, tini" && \
-          dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
-          dnf install -y dumb-init && \
-          which dumb-init && \
-          dnf install -y tini && \
-          which tini
+      RUN echo "Installing RedHat Build of OpenJDK. Multiple versions installed. Select your version at build time" && \
+          dnf groupinstall 'Development Tools' -y && \
+          dnf install java-1.8.0-openjdk-devel -y && \
+          dnf install java-17-openjdk -y && \
+          dnf install java-21-openjdk -y && \
+          java -version
 
-      RUN echo "==> Installing python3.12 and packages" && \
-          subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms && \
-          dnf install -y python3.12 python3-requests dnf install python3.12-Cython python3.12-pip && \
-          dnf install -y pipx && \
-          pipx ensurepath --global
-
-      RUN echo "==> Installing php" && \
-          dnf install -y php && \
-          dnf module install php:8.2/minimal
 
       RUN echo "==> Checking for oc, helm, jq programs" && \
           oc version --client && \
@@ -83,7 +65,7 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: openshift-cicd-tools:latest
+      name: java-cicd-tools:latest
 
   strategy:
     dockerStrategy:
@@ -93,13 +75,13 @@ spec:
     - type: "Generic"
       generic:
         secretReference:
-          name: "openshift-cicd-tools"
+          name: "java-cicd-tools"
         allowEnv: true
 ---
 kind: Secret
 apiVersion: v1
 metadata:
-  name: "openshift-cicd-tools"
+  name: "java-cicd-tools"
   namespace: {{ .Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
@@ -108,12 +90,12 @@ metadata:
   labels:
     app.kubernetes.io/part-of: {{ .Values.namespace }}
 stringData:
-  WebHookSecretKey: openshift-cicd-tools
+  WebHookSecretKey: java-cicd-tools
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: openshift-cicd-tools-bc-trigger
+  name: java-cicd-tools-bc-trigger
   namespace: {{ .Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
@@ -128,11 +110,11 @@ spec:
   template:
     spec:
       containers:
-        - name: openshift-cicd-tools-bc-trigger
+        - name: java-cicd-tools-bc-trigger
           image: image-registry.openshift-image-registry.svc:5000/openshift/cli
           env:
             - name: BUILD_CONFIG_NAME
-              value: "openshift-cicd-tools"
+              value: "java-cicd-tools"
           command:
             - /bin/sh
             - -c
