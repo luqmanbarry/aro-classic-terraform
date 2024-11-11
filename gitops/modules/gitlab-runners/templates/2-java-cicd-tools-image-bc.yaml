@@ -59,7 +59,7 @@ spec:
           oc version --client && \
           helm version && \
           jq --version && \
-          pipx --version
+          java -version
 
   output:
     to:

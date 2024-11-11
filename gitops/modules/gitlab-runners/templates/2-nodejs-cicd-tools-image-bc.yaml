@@ -58,7 +58,6 @@ spec:
           oc version --client && \
           helm version && \
           jq --version && \
-          pipx --version
 
   output:
     to:

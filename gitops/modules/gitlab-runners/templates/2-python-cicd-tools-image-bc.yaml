@@ -51,9 +51,9 @@ spec:
       RUN echo "==> Installing python3.12 and packages" && \
           subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms && \
           dnf install -y python3.12 python3-requests dnf install python3.12-Cython python3.12-pip && \
-          dnf install -y pipx && \
+          pip3.12 install --user pipx && \
           pipx ensurepath --global && \
-          pip3.12 install -r ansible kubernetes jsonpatch pyyaml jmespath kubernetes-validate openshift openshift-client
+          pip3.12 install ansible kubernetes jsonpatch pyyaml jmespath kubernetes-validate openshift openshift-client
 
       RUN echo "==> Checking for oc, helm, jq programs" && \
           oc version --client && \
