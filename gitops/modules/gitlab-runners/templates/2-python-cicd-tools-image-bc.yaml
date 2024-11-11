@@ -90,6 +90,36 @@ metadata:
 stringData:
   WebHookSecretKey: python-cicd-tools
 ---
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: python-cicd-tools-bc-trigger
+  namespace: {{ .Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: null
+  name: python-cicd-tools-bc-trigger
+  namespace: {{ .Values.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- kind: ServiceAccount
+  name: python-cicd-tools-bc-trigger
+  namespace: {{ .Values.namespace }}
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -102,11 +132,12 @@ metadata:
   labels:
     app.kubernetes.io/part-of: {{ .Values.namespace }}
 spec:
-  completions: 1
+  completions: 3
   parallelism: 1
-  ttlSecondsAfterFinished: 100
+  ttlSecondsAfterFinished: 86400 # Every 24H, recycle jobs regardless of status
   template:
     spec:
+      serviceAccount: python-cicd-tools-bc-trigger
       containers:
         - name: python-cicd-tools-bc-trigger
           image: image-registry.openshift-image-registry.svc:5000/openshift/cli
@@ -120,6 +151,8 @@ spec:
               echo "Triggering the BuildConfig: '$BUILD_CONFIG_NAME'"
               sleep 15
               API_SERVER=$(oc whoami --show-server)
+              oc delete builds --all --namespace {{ .Values.namespace }}
+              sleep 15
               curl -X POST -k "$API_SERVER/apis/build.openshift.io/v1/namespaces/{{ .Values.namespace }}/buildconfigs/$BUILD_CONFIG_NAME/webhooks/$BUILD_CONFIG_NAME/generic"
       restartPolicy: OnFailure
   backoffLimit: 3
