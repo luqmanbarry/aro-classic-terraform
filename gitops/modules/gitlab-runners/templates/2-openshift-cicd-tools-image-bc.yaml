@@ -34,7 +34,6 @@ spec:
 
       RUN echo "==> Installing GoLang" && \
           dnf update -y && \
-          dnf groupinstall 'Development Tools' -y  || true && \
           dnf install -y go-toolset golang-docs
 
       RUN echo "==> Installilng Terraform" && \

@@ -49,7 +49,6 @@ spec:
           jq --version
 
       RUN echo "Installing NodeJS and NPM" && \
-          dnf groupinstall 'Development Tools' -y  || true && \
           dnf install nodejs npm -y && \
           node -v && \
           npm -v
