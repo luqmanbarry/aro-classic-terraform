@@ -61,6 +61,7 @@ spec:
                 poll_interval = 5
                 poll_timeout = 3600
                 dns_policy = "cluster-first"
+                pod_termination_grace_period_seconds = 30
                 [[runners.kubernetes.volumes.empty_dir]]
                   name = "gitlab-runner"
                   mount_path = "/.gitlab-runner"
@@ -70,6 +71,14 @@ spec:
                 [[runners.kubernetes.volumes.pvc]]
                   name = "{{ $runner.name }}"
                   mount_path = "{{ $.Values.persistentVolumeClaim.mountPath }}"
+                [[runners.kubernetes.pod_spec]]
+                  patch_type = "strategic"
+                  patch = '''
+                    containers:
+                    - env:
+                      - name: HOME
+                        value: "{{ $.Values.persistentVolumeClaim.mountPath }}"
+                  '''
 
         volumeMounts:
           - name: "gitlab-runner"
