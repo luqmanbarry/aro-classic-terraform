@@ -1,6 +1,6 @@
-# GitLab Runners Operator
+# GitLab Runners Helm Chart
 
-This helm chart deploys GitLab runner operator. Additionally, it deploys one or more `BuildConfig` CRs to build the custom images used as image by the gitlab-runner pods.
+This helm chart deploys GitLab runners. Additionally, it deploys one or more `BuildConfig` CRs to build the custom images used as container image by the job executiion pods.
 
 As an example, the openshift-cicd-tools BuildConfig is added. The pattern is to add a `BuildConfig` CR for each additional `Runner` CR.
 
