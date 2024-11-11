@@ -34,11 +34,9 @@ spec:
         runners:
           name: {{ $runner.name }}
           secret: {{ $.Values.gitlabRunnerTokenKVSecret }}
-          tags: "{{ $runner.tags }}"
           config: |
             concurrent = {{ $runner.concurrent }}
             log_level = "debug"
-            shutdown_timeout = 0
             [[runners]]
               name = "{{ $runner.name }}"
               url = "{{ $.Values.gitlabUrl }}"
