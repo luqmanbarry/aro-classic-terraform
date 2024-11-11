@@ -17,4 +17,4 @@ runners:
   - name: nodejs-cicd-tools
     image: image-registry.openshift-image-registry.svc:5000/gitlab-runners/nodejs-cicd-tools
     concurrent: 10
-    tags: "openshift,nodejs-cicd-tools,kubernetes,nodejs"
+    tags: "openshift,nodejs-cicd-tools,kubernetes,nodejs,npm"
