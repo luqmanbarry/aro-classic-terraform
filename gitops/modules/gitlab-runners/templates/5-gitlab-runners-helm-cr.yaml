@@ -50,7 +50,7 @@ spec:
                 scripts_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}"
                 privileged = true
                 allowPrivilegeEscalation = false
-                image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}:latest"
+                image = "{{ $runner.image }}"
                 pull_policy = ["always"]
                 cpu_limit = "1"
                 memory_limit = "2Gi"

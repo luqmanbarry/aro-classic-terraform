@@ -3,5 +3,6 @@ keyVaultName: stig0012-dev-vault
 
 runners:
   - name: openshift-cicd-tools
+    image: image-registry.openshift-image-registry.svc:5000/gitlab-runners/openshift-cicd-tools
     concurrent: 1
     tags: "openshift,openshift-cicd-tools,kubernetes,kubernetes-cicd-tools"
