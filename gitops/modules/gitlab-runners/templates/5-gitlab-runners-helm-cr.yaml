@@ -53,7 +53,9 @@ spec:
                 image = "{{ $runner.image }}"
                 pull_policy = ["always"]
                 cpu_limit = "1"
-                memory_limit = "2Gi"
+                memory_limit = "1Gi"
+                ephemeral_storage_request = "50Mi"
+                ephemeral_storage_limit = "2Gi"
                 service_cpu_limit = "1"
                 service_memory_limit = "2Gi"
                 helper_cpu_limit = "500m"
@@ -68,9 +70,10 @@ spec:
                   medium = "Memory"
                 [[runners.kubernetes.node_selector]]
                   "kubernetes.io/os" = "linux"
-                [[runners.kubernetes.volumes.pvc]]
+                [[runners.kubernetes.volumes.empty_dir]]
                   name = "{{ $runner.name }}"
                   mount_path = "{{ $.Values.persistentVolumeClaim.mountPath }}"
+                  medium = "Memory"
                 [[runners.kubernetes.pod_spec]]
                   patch_type = "strategic"
                   patch = '''
