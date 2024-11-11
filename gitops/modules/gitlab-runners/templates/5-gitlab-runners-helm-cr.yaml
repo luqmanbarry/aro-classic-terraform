@@ -61,14 +61,6 @@ spec:
                 [[runners.kubernetes.volumes.pvc]]
                   name = "{{ $runner.name }}"
                   mount_path = "{{ $.Values.persistentVolumeClaim.mountPath }}"
-                [[runners.kubernetes.pod_spec]]
-                  patch_type = "strategic"
-                  patch = '''
-                    containers:
-                    - env:
-                      - name: HOME
-                        value: "{{ $.Values.persistentVolumeClaim.mountPath }}"
-                  '''
 
         serviceAccount:
           create: true
