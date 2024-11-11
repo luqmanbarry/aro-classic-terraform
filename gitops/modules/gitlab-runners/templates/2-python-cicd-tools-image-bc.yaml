@@ -49,7 +49,7 @@ spec:
           jq --version
 
       RUN echo "==> Installing python3.12 and packages" && \
-          dnf install -y python3.12 python3-requests dnf install python3.12-Cython python3.12-pip && \
+          dnf install -y python3.12 python3-requests python3.12-Cython python3.12-pip && \
           dnf install -y pipx && \
           pipx ensurepath --global && \
           pip3.12 install ansible kubernetes jsonpatch pyyaml jmespath kubernetes-validate openshift openshift-client
