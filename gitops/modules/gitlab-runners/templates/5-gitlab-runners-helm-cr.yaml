@@ -52,6 +52,10 @@ spec:
                 allowPrivilegeEscalation = false
                 image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}:latest"
                 pull_policy = ["always"]
+                [[runners.kubernetes.volumes.empty_dir]]
+                  name = "gitlab-runner"
+                  mount_path = "/.gitlab-runner"
+                  medium = "Memory"
                 [[runners.kubernetes.node_selector]]
                   "kubernetes.io/os" = "linux"
                 [[runners.kubernetes.volumes.pvc]]
