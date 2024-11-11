@@ -57,7 +57,7 @@ spec:
       RUN echo "==> Checking for oc, helm, jq programs" && \
           oc version --client && \
           helm version && \
-          jq --version && \
+          jq --version
 
   output:
     to:
