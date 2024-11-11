@@ -48,7 +48,7 @@ spec:
                 namespace = "{{ $.Values.namespace }}"
                 logs_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}/logs"
                 scripts_base_dir = "{{ $.Values.persistentVolumeClaim.mountPath }}/{{ `${CI_PROJECT_ID}-${CI_JOB_ID}` }}"
-                privileged = false
+                privileged = true
                 allowPrivilegeEscalation = false
                 image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}:latest"
                 pull_policy = ["always"]
