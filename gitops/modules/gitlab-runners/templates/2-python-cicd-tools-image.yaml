@@ -49,7 +49,7 @@ spec:
           jq --version
 
       RUN echo "==> Installing python3.12 and packages" && \
-          dnf groupinstall 'Development Tools' -y && \
+          dnf groupinstall 'Development Tools' -y  || true && \
           subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms && \
           dnf install -y python3.12 python3-requests dnf install python3.12-Cython python3.12-pip && \
           dnf install -y pipx && \

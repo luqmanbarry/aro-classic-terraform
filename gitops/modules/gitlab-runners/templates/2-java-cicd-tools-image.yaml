@@ -49,7 +49,7 @@ spec:
           jq --version
 
       RUN echo "Installing RedHat Build of OpenJDK. Multiple versions installed. Select your version at build time" && \
-          dnf groupinstall 'Development Tools' -y && \
+          dnf groupinstall 'Development Tools' -y || true && \
           dnf install java-1.8.0-openjdk-devel -y && \
           dnf install java-17-openjdk -y && \
           dnf install java-21-openjdk -y && \
