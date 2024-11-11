@@ -52,6 +52,15 @@ spec:
                 allowPrivilegeEscalation = false
                 image = "image-registry.openshift-image-registry.svc:5000/{{ $.Values.namespace }}/{{ $runner.name }}:latest"
                 pull_policy = ["always"]
+                cpu_limit = "1"
+                memory_limit = "2Gi"
+                service_cpu_limit = "1"
+                service_memory_limit = "2Gi"
+                helper_cpu_limit = "500m"
+                helper_memory_limit = "100Mi"
+                poll_interval = 5
+                poll_timeout = 3600
+                dns_policy = "cluster-first"
                 [[runners.kubernetes.volumes.empty_dir]]
                   name = "gitlab-runner"
                   mount_path = "/.gitlab-runner"
@@ -69,7 +78,7 @@ spec:
         volumes:
           - name: "gitlab-runner"
             emptyDir:
-              sizeLimit: 100Mi
+              sizeLimit: 50Mi
 
         serviceAccount:
           create: true
