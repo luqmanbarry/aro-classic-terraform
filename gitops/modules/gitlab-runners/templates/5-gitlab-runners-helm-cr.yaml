@@ -33,7 +33,7 @@ spec:
         {{ end }}
         runners:
           name: {{ $runner.name }}
-          secret: {{ $.Values.gitlabRunnerTokenKVSecret }}
+          secret: {{ $runner.runnerTokenKVSecret }}
           config: |
             concurrent = {{ $runner.concurrent }}
             log_level = "debug"
