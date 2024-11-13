@@ -45,7 +45,7 @@ spec:
       velero:
         provider: azure
         default: true
-        backupSyncPeriod: 5m
+        backupSyncPeriod: 1m
         config:
           resourceGroup: {{ .Values.storage.resourceGroup }}
           storageAccount: {{ .Values.storage.storageAccount }}
