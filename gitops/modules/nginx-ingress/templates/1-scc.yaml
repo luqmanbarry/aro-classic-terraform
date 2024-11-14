@@ -19,7 +19,7 @@ groups:
 - system:nodes
 kind: SecurityContextConstraints
 metadata:
-  name: "{{ $runner.name }}"
+  name: "{{ $controller.name }}"
 priority: null
 readOnlyRootFilesystem: false
 requiredDropCapabilities: []
