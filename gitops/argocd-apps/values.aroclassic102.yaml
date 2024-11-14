@@ -66,9 +66,9 @@ modules: # List of modules to be deployed
   - name: nginx-ingress
     config_path: gitops/modules/nginx-ingress
     sync_wave: 114 
-  - name: oadp-backup
-    config_path: gitops/modules/oadp-backup
-    sync_wave: 115
+  # - name: oadp-backup
+  #   config_path: gitops/modules/oadp-backup
+  #   sync_wave: 115
   # - name: oadp-restore
   #   config_path: gitops/modules/oadp-restore
   #   sync_wave: 999
