@@ -1,0 +1,12 @@
+# Source: https://github.com/nginxinc/nginx-ingress-helm-operator/blob/main/helm-charts/nginx-ingress/values.yaml
+keyVaultName: stig0012-dev-vault
+clusterName: aroclassic102
+sslCertificateKVSecretName: nginx-ingress-tls
+
+controllers:
+  - name: nginx
+    namespace: nginx-ingress
+    ingressClassName: nginx
+    loadBalancerIP: 10.91.2.200 # Pick one from the worker subnet IP Pool
+    setAsDefaultIngress: false
+

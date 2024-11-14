@@ -60,9 +60,12 @@ modules: # List of modules to be deployed
   - name: oadp-operator
     config_path: gitops/modules/oadp-operator
     sync_wave: 113
-  # - name: sample-apps
-  #   config_path: gitops/modules/sample-apps
-  #   sync_wave: 114 
+  - name: sample-apps
+    config_path: gitops/modules/sample-apps
+    sync_wave: 114 
+  - name: nginx-ingress
+    config_path: gitops/modules/nginx-ingress
+    sync_wave: 114 
   # - name: oadp-backup
   #   config_path: gitops/modules/oadp-backup
   #   sync_wave: 115

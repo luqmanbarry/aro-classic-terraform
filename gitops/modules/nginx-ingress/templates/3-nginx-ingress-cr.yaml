@@ -1,0 +1,153 @@
+{{ range $controller := .Values.controllers }}
+---
+# Source: https://github.com/nginxinc/nginx-ingress-helm-operator/blob/main/helm-charts/nginx-ingress/values.yaml
+apiVersion: charts.nginx.org/v1alpha1
+kind: NginxIngress
+metadata:
+  name: {{ $controller.name }}
+  namespace: {{ $controller.namespace }}
+  annotations:
+    operator-sdk/primary-resource: /nginx
+    operator-sdk/primary-resource-type: IngressClass.networking.k8s.io
+spec:
+  controller:
+    logLevel: 2
+    config:
+      entries:
+        enable-underscores-in-headers: true
+        ssl-buffer-size: 16k
+        ssl-session-timeout: 30min
+        generate-request-id: true
+        enable-opentelemetry: true
+        enable-syslog: true
+    ingressClass:
+      create: true
+      name: {{ $controller.ingressClassName }}
+      setAsDefaultIngress: {{ $controller.isDefault }}
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 512Mi
+    enableLatencyMetrics: true
+    terminationGracePeriodSeconds: 30
+    shareProcessNamespace: false
+    name: controller
+    readOnlyRootFilesystem: false
+    disableIPV6: true
+    enableSSLDynamicReload: true
+    enableCustomResources: true
+    globalConfiguration:
+      create: false
+      spec: {}
+    reportIngressStatus:
+      annotations: {}
+      enable: true
+      enableLeaderElection: true
+      ingressLink: ''
+      leaderElectionLockName: nginx-ingress-leader
+    strategy: {}
+    nginxplus: false
+    volumeMounts: []
+    kind: deployment
+    initContainerResources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 200m
+        memory: 512Mi
+    service:
+      externalIPs: []
+      clusterIP: ''
+      customPorts: []
+      loadBalancerIP: {{ $controller.loadBalancerIP }}
+      annotations: {}
+      externalTrafficPolicy: Local
+      httpPort:
+        enable: true
+        port: 80
+        targetPort: 80
+      httpsPort:
+        enable: true
+        port: 443
+        targetPort: 443
+      loadBalancerSourceRanges: []
+      extraLabels: {}
+      type: LoadBalancer
+      create: true
+    readyStatus:
+      enable: true
+      initialDelaySeconds: 0
+      port: 8081
+    replicaCount: 1
+    serviceAccount:
+      annotations: {}
+      imagePullSecretName: ''
+      imagePullSecretsNames: []
+    autoscaling:
+      annotations: {}
+      behavior: {}
+      enabled: false
+      maxReplicas: 3
+      minReplicas: 1
+      targetCPUUtilizationPercentage: 50
+      targetMemoryUtilizationPercentage: 50
+    volumes: []
+    enableSnippets: false
+    nginxDebug: false
+    appprotectdos:
+      debug: false
+      enable: false
+      maxDaemons: 0
+      maxWorkers: 0
+      memory: 0
+    tlsPassthroughPort: 443
+    defaultTLS:
+      secret: {{ $.Values.sslCertificateKVSecretName }}
+    image:
+      pullPolicy: IfNotPresent
+      repository: nginx/nginx-ingress
+      tag: 3.7.1-ubi
+    dnsPolicy: ClusterFirst
+    enableExternalDNS: false
+    enableTLSPassthrough: false
+    tolerations: []
+    watchSecretNamespace: ''
+    enableOIDC: false
+    podDisruptionBudget:
+      annotations: {}
+      enabled: false
+    defaultHTTPListenerPort: 80
+    selectorLabels: {}
+    healthStatusURI: /nginx-health
+    defaultHTTPSListenerPort: 443
+  nginxServiceMesh:
+    enable: false
+    enableEgress: false
+  prometheus:
+    create: true
+    port: 9113
+    scheme: http
+    secret: ''
+    service:
+      create: false
+      labels:
+        service: nginx-ingress-prometheus-service
+    serviceMonitor:
+      create: true
+      endpoints:
+        - port: prometheus
+      labels: {}
+      selectorMatchLabels:
+        service: nginx-ingress-prometheus-service
+  rbac:
+    create: true
+  serviceInsight:
+    create: true
+    port: 9114
+    scheme: http
+    secret: ''
+{{ end }}
