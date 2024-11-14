@@ -18,7 +18,7 @@ groups:
 - system:nodes
 kind: SecurityContextConstraints
 metadata:
-  name: "{{ $runner.namespace }}-{{ $runner.name }}"
+  name: "{{ $.Values.namespace }}-{{ $runner.name }}"
   annotations:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "5"

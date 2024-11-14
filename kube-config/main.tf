@@ -5,14 +5,14 @@ data "azurerm_key_vault_secret" "cluster_details" {
   key_vault_id        = var.key_vault_id
 }
 
-resource "time_sleep" "wait_30_seconds" {
+resource "time_sleep" "wait_for_locals" {
   # depends_on      = [ azurerm_redhat_openshift_cluster.current_cluster ]
   depends_on      = [ data.azurerm_key_vault_secret.cluster_details ]
   create_duration = "30s"
 }
 
 resource "null_resource" "set_managed_cluster_kubeconfig" {
-  depends_on = [ data.azurerm_key_vault_secret.cluster_details, time_sleep.wait_30_seconds ]
+  depends_on = [ data.azurerm_key_vault_secret.cluster_details, time_sleep.wait_for_locals ]
 
   ## Ensure kube files exists and are empty
   provisioner "local-exec" {
