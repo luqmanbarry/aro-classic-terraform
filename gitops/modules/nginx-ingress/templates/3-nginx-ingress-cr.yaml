@@ -17,12 +17,12 @@ spec:
     logLevel: 2
     config:
       entries:
-        enable-underscores-in-headers: true
-        ssl-buffer-size: 16k
-        ssl-session-timeout: 30min
-        generate-request-id: true
-        enable-opentelemetry: true
-        enable-syslog: true
+        enable-underscores-in-headers: "true"
+        ssl-buffer-size: "16k"
+        ssl-session-timeout: "30min"
+        generate-request-id: "true"
+        enable-opentelemetry: "true"
+        enable-syslog: "true"
     ingressClass:
       create: true
       name: {{ $controller.ingressClassName }}
