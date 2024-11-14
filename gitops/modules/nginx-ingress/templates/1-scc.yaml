@@ -1,36 +1,36 @@
 # Create SCC for IC resources
 {{ range $controller := .Values.controllers }}
 ---
-kind: SecurityContextConstraints
+allowHostDirVolumePlugin: true
+allowHostIPC: true
+allowHostNetwork: true
+allowHostPID: true
+allowHostPorts: true
+allowPrivilegedContainer: true
+allowPrivilegeEscalation: true
+allowedCapabilities: 
+- '*'
 apiVersion: security.openshift.io/v1
+defaultAddCapabilities: [] 
+fsGroup: 
+  type: RunAsAny
+groups: 
+- system:cluster-admins
+- system:nodes
+kind: SecurityContextConstraints
 metadata:
-  name: "{{ $controller.namespace }}-{{ $controller.name }}"
-  annotations:
-    managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "1"
-    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
-allowPrivilegedContainer: false
-runAsUser:
-  type: MustRunAs
-  uid: 101
-seLinuxContext:
-  type: MustRunAs
-fsGroup:
-  type: MustRunAs
-supplementalGroups:
-  type: MustRunAs
-allowHostNetwork: false
-allowHostPID: false
-allowHostPorts: false
-allowHostDirVolumePlugin: false
-allowHostIPC: false
+  name: "{{ $runner.name }}"
+priority: null
 readOnlyRootFilesystem: false
-seccompProfiles:    
-- runtime/default
-volumes:
- - secret
-requiredDropCapabilities:
- - ALL
+requiredDropCapabilities: []
+runAsUser: 
+  type: RunAsAny
+seLinuxContext: 
+  type: RunAsAny
+seccompProfiles:
+- '*'
+supplementalGroups: 
+  type: RunAsAny
 users:
  - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.name }}"
  - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.name }}-operator-controller-manager"
