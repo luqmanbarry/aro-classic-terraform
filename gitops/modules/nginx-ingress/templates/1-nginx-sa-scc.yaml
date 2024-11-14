@@ -36,7 +36,7 @@ seccompProfiles:
 supplementalGroups: 
   type: RunAsAny
 users:
+ - "system:serviceaccount:{{ $controller.namespace }}:nginx-ingress"
  - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.name }}"
  - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.name }}-operator-controller-manager"
- - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.name }}-controller-manager"
 {{ end }}

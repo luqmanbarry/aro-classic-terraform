@@ -17,9 +17,11 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: "{{ $controller.name }}-operator-controller-manager"
-  name: "{{ $controller.name }}-controller-manager"
   namespace: {{ $controller.namespace }}
 - kind: ServiceAccount
   name: "{{ $controller.name }}"
+  namespace: {{ $controller.namespace }}
+- kind: ServiceAccount
+  name: "nginx-ingress"
   namespace: {{ $controller.namespace }}
 {{ end }}
