@@ -68,8 +68,8 @@ spec:
       clusterIP: ''
       customPorts: []
       loadBalancerIP: {{ $controller.loadBalancerIP }}
-      annotations:
-        service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+      # annotations:
+      #   service.beta.kubernetes.io/azure-load-balancer-internal: "true"
       externalTrafficPolicy: Local
       httpPort:
         enable: true
