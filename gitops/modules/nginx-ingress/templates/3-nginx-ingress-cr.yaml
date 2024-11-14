@@ -19,7 +19,7 @@ spec:
       name: "{{ $controller.name }}-config"
       entries:
         enable-underscores-in-headers: "true"
-        ssl-buffer-size: "16k"
+        proxy-buffer-size: "16k"
         ssl-session-timeout: "30min"
         generate-request-id: "true"
         enable-opentelemetry: "true"
