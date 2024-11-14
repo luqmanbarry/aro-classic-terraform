@@ -4,13 +4,13 @@ enabled: true
 projects: # List projects/namespaces to backup
   - namespace: warehouse
     paused: false
-    cronSchedule: "0 */2 * * *" # Every day at midnight - update accordingly for other TZ
+    cronSchedule: "0 */1 * * *" # Every day at midnight - update accordingly for other TZ
     backupRetentionPeriod: 720h # 30 days
   - namespace: point-of-sale
     paused: false
-    cronSchedule: "0 */2 * * *" # Every day at midnight - update accordingly for other TZ
+    cronSchedule: "0 */1 * * *" # Every day at midnight - update accordingly for other TZ
     backupRetentionPeriod: 720h # 30 days
   - namespace: shipping
     paused: false
-    cronSchedule: "0 */2 * * *" # Every day at midnight - update accordingly for other TZ
+    cronSchedule: "0 */1 * * *" # Every day at midnight - update accordingly for other TZ
     backupRetentionPeriod: 720h # 30 days
