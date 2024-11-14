@@ -6,6 +6,10 @@ metadata:
   creationTimestamp: null
   name: "{{ $controller.name }}-monitoring-edit"
   namespace: {{ $controller.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

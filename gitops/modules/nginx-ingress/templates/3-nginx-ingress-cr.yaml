@@ -9,6 +9,9 @@ metadata:
   annotations:
     operator-sdk/primary-resource: /nginx
     operator-sdk/primary-resource-type: IngressClass.networking.k8s.io
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   controller:
     logLevel: 2
