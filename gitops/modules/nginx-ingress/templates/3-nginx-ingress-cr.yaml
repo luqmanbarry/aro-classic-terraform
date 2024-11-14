@@ -132,7 +132,7 @@ spec:
     scheme: http
     secret: ''
     service:
-      create: false
+      create: true
       labels:
         service: nginx-ingress-prometheus-service
     serviceMonitor:
