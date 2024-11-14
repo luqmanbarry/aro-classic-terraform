@@ -136,7 +136,7 @@ spec:
       labels:
         service: nginx-ingress-prometheus-service
     serviceMonitor:
-      create: true
+      create: false
       endpoints:
         - port: prometheus
       labels: {}
