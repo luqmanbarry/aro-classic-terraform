@@ -16,6 +16,7 @@ roleRef:
   name: monitoring-edit
 subjects:
 - kind: ServiceAccount
+  name: "{{ $controller.name }}-operator-controller-manager"
   name: "{{ $controller.name }}-controller-manager"
   namespace: {{ $controller.namespace }}
 - kind: ServiceAccount
