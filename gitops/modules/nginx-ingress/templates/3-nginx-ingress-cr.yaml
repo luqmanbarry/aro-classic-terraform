@@ -109,7 +109,7 @@ spec:
       memory: 0
     tlsPassthroughPort: 443
     defaultTLS:
-      secret: {{ $.Values.sslCertificateKVSecretName }}
+      secret: "{{ $controller.namespace }}/{{ $.Values.sslCertificateKVSecretName }}"
     image:
       pullPolicy: Always
       repository: {{ $controller.image }}
