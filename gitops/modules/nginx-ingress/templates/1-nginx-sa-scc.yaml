@@ -19,7 +19,7 @@ groups:
 - system:nodes
 kind: SecurityContextConstraints
 metadata:
-  name: "{{ $controller.name }}"
+  name: "{{ $controller.namespace }}-{{ $controller.name }}"
   annotations:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "1"
