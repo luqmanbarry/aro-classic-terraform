@@ -11,6 +11,7 @@ controllers:
     image: docker.io/nginx/nginx-ingress
     namespace: nginx-ingress
     ingressClassName: nginx
-    loadBalancerIP: '' # Create static IP Address: https://cloud.redhat.com/experts/aro/static-ip-load-balancer/
+    # loadBalancerIP: Empty string means it is dynamic. For static IP Address goto https://cloud.redhat.com/experts/aro/static-ip-load-balancer/
+    loadBalancerIP: '' 
     setAsDefaultIngress: false
 
