@@ -35,6 +35,4 @@ users:
  - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.name }}"
  - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.name }}-operator-controller-manager"
  - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.name }}-controller-manager"
-allowedCapabilities:
-  - NET_BIND_SERVICE
 {{ end }}
