@@ -108,9 +108,11 @@ spec:
       maxWorkers: 0
       memory: 0
     tlsPassthroughPort: 443
-    {{ if $.Values.defaultTLS.enable }}
     defaultTLS:
+    {{ if $.Values.defaultTLS.enable }}
       secret: "{{ $controller.namespace }}/{{ $.Values.defaultTLS.certificateKVSecretName }}"
+    {{ else }}
+      secret: ''
     {{ end }}
     image:
       pullPolicy: Always
