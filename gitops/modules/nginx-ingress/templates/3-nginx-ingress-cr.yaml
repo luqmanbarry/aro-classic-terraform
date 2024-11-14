@@ -111,9 +111,8 @@ spec:
     defaultTLS:
       secret: {{ $.Values.sslCertificateKVSecretName }}
     image:
-      pullPolicy: IfNotPresent
-      repository: nginx/nginx-ingress
-      tag: 3.7.1-ubi
+      pullPolicy: Always
+      repository: {{ $controller.image }}
     dnsPolicy: ClusterFirst
     enableExternalDNS: false
     enableTLSPassthrough: false

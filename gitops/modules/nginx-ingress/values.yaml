@@ -5,6 +5,7 @@ sslCertificateKVSecretName: nginx-ingress-tls # Merge tls.crt, tls.key data into
 
 controllers:
   - name: nginx
+    image: docker.io/nginx/nginx-ingress
     namespace: nginx-ingress
     ingressClassName: nginx
     loadBalancerIP: 127.0.0.1 # Pick one from the worker subnet IP Pool
