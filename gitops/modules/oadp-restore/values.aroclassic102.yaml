@@ -6,6 +6,6 @@ storageClassMapping:
 
 enable: true
 backups: # List backups to restore from
-  - warehouse-20241101160045
-  - shipping-20241101160045
-  - point-of-sale-20241101160045
+  - warehouse-20241114160002
+  - shipping-20241114160002
+  - point-of-sale-20241114160002
