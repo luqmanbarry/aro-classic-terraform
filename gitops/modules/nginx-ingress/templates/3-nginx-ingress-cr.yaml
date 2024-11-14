@@ -84,9 +84,8 @@ spec:
       port: 8081
     replicaCount: 1
     serviceAccount:
+      name: {{ $controller.name }}
       annotations: {}
-      imagePullSecretName: ''
-      imagePullSecretsNames: []
     autoscaling:
       annotations: {}
       behavior: {}
