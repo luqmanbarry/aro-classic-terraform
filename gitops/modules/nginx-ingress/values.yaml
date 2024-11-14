@@ -1,7 +1,9 @@
 # Source: https://github.com/nginxinc/nginx-ingress-helm-operator/blob/main/helm-charts/nginx-ingress/values.yaml
 keyVaultName: changeme
 clusterName: changeme
-sslCertificateKVSecretName: nginx-ingress-tls # Merge tls.crt, tls.key data into a single file and store it in KeyVault
+defaultTLS:
+  enable: false
+  certificateKVSecretName: nginx-ingress-tls # Merge tls.crt, tls.key data into a single file and store it in KeyVault
 
 controllers:
   - name: nginx

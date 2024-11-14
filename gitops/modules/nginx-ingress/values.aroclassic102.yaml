@@ -1,7 +1,10 @@
 # Source: https://github.com/nginxinc/nginx-ingress-helm-operator/blob/main/helm-charts/nginx-ingress/values.yaml
 keyVaultName: stig0012-dev-vault
 clusterName: aroclassic102
-sslCertificateKVSecretName: nginx-ingress-tls
+defaultTLS:
+  enable: false
+  certificateKVSecretName: nginx-ingress-tls # Merge tls.crt, tls.key data into a single file and store it in KeyVault
+
 
 controllers:
   - name: nginx
