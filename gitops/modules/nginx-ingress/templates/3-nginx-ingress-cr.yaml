@@ -16,6 +16,7 @@ spec:
   controller:
     logLevel: 2
     config:
+      name: "{{ $controller.name }}-config"
       entries:
         enable-underscores-in-headers: "true"
         ssl-buffer-size: "16k"
@@ -26,7 +27,7 @@ spec:
     ingressClass:
       create: true
       name: {{ $controller.ingressClassName }}
-      setAsDefaultIngress: {{ $controller.isDefault }}
+      setAsDefaultIngress: {{ $controller.setAsDefaultIngress }}
     resources:
       requests:
         cpu: 100m
