@@ -1,0 +1,20 @@
+{{ range $controller := .Values.controllers }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  creationTimestamp: null
+  name: "{{ $controller.name }}-monitoring-edit"
+  namespace: {{ $controller.namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: monitoring-edit
+subjects:
+- kind: ServiceAccount
+  name: "{{ $controller.name }}-controller-manager"
+  namespace: {{ $controller.namespace }}
+- kind: ServiceAccount
+  name: "{{ $controller.name }}"
+  namespace: {{ $controller.namespace }}
+{{ end }}
