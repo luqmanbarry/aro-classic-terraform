@@ -1,6 +1,6 @@
 apiVersion: v2
-name: cluster-log-forwarder
-description: A Helm chart for deploying the Splunk OTel Collector for OpenShift log forwarding.
+name: nginx-ingresser
+description: A Helm chart for deploying the NGINX Ingress Operator.
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -21,9 +21,4 @@ version: 1.0.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "v0.110.0"
-
-# dependencies:
-# - name: cluster-log-forwarder
-#   version: "v0.110.0"
-#   repository: "https://signalfx.github.io/cluster-log-forwarder-chart"
+appVersion: "2.4.1"

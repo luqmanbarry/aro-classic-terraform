@@ -1,5 +1,5 @@
 locals {
-  default_domain  = format("%s-%s", var.cluster_name, var.organization)
+  default_domain  = format("%s-%s-%s", var.cluster_name, var.platform_environment, var.organization)
   # default_domain  = "poc-101"
   ocp_pull_secret = "${path.module}/.pull-secret/pull-secret.json"
 

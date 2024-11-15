@@ -17,13 +17,7 @@ spec:
     logLevel: 2
     config:
       name: "{{ $controller.name }}-config"
-      entries:
-        enable-underscores-in-headers: "true"
-        proxy-buffer-size: "16k"
-        ssl-session-timeout: "30min"
-        generate-request-id: "true"
-        enable-opentelemetry: "true"
-        enable-syslog: "true"
+      entries: {{ toYaml $.Values.globalConfig.entries | nindent 8 }}
     ingressClass:
       create: true
       name: {{ $controller.ingressClassName }}
@@ -68,8 +62,8 @@ spec:
       clusterIP: ''
       customPorts: []
       loadBalancerIP: {{ $controller.loadBalancerIP }}
-      # annotations:
-      #   service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+      annotations:
+        service.beta.kubernetes.io/azure-load-balancer-internal: "true"
       externalTrafficPolicy: Local
       httpPort:
         enable: true

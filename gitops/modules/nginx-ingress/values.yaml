@@ -5,6 +5,16 @@ defaultTLS:
   enable: false
   certificateKVSecretName: nginx-ingress-tls # Merge tls.crt, tls.key data into a single file and store it in KeyVault
 
+globalConfig:
+  entries:
+    # Source: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/ 
+    enable-underscores-in-headers: "true"
+    proxy-buffer-size: "16k"
+    ssl-session-timeout: "30min"
+    generate-request-id: "true"
+    enable-opentelemetry: "true"
+    enable-syslog: "true"
+
 controllers:
   - name: nginx
     image: docker.io/nginx/nginx-ingress
