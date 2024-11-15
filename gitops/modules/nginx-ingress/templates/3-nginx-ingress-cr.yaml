@@ -112,6 +112,7 @@ spec:
     image:
       pullPolicy: Always
       repository: {{ $controller.image }}
+      tag: {{ $controller.tag }}
     dnsPolicy: ClusterFirst
     enableExternalDNS: false
     enableTLSPassthrough: false

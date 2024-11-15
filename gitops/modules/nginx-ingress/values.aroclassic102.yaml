@@ -8,6 +8,7 @@ defaultTLS:
 controller:
   - name: nginx
     image: docker.io/nginx/nginx-ingress
+    tag: ''
     namespace: nginx-ingress
     ingressClassName: nginx
     # loadBalancerIP: Empty string means it is dynamic. For static IP Address goto https://cloud.redhat.com/experts/aro/static-ip-load-balancer/
