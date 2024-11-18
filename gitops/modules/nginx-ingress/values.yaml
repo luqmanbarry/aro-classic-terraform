@@ -10,6 +10,10 @@ globalConfig:
     # Source: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/ 
     enable-underscores-in-headers: "true"
     proxy-buffer-size: "16k"
+    ssl-buffer-size: "16k"
+    grpc-buffer-size-kb: "16k"
+    client-header-buffer-size: "16k"
+    client-body-buffer-size: "16k"
     ssl-session-timeout: "30min"
     generate-request-id: "true"
     enable-opentelemetry: "true"
