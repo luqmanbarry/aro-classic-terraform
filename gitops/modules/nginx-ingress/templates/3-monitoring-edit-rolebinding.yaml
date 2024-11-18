@@ -3,23 +3,22 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  creationTimestamp: null
-  name: "{{ $controller.name }}-monitoring-edit"
+  name: "{{ $controller.ingressClassName }}-monitoring-edit"
   namespace: {{ $controller.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "3"
-    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true,CreateNamespace=true"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: monitoring-edit
 subjects:
 - kind: ServiceAccount
-  name: "{{ $controller.name }}-operator-controller-manager"
+  name: "{{ $controller.ingressClassName }}-operator-controller-manager"
   namespace: {{ $controller.namespace }}
 - kind: ServiceAccount
-  name: "{{ $controller.name }}"
+  name: "{{ $controller.ingressClassName }}"
   namespace: {{ $controller.namespace }}
 - kind: ServiceAccount
   name: "nginx-ingress"
