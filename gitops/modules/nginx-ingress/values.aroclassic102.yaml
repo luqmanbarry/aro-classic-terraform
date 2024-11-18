@@ -2,7 +2,7 @@
 keyVaultName: stig0012-dev-vault
 clusterName: aroclassic102
 defaultTLS:
-  enable: true
+  enable: false
   certificateKVSecretName: nginx-ingress-tls # Merge tls.crt, tls.key data into a single file and store it in KeyVault
 
 controller:
