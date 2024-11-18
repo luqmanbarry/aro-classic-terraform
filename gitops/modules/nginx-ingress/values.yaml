@@ -20,13 +20,12 @@ globalConfig:
     enable-syslog: "true"
 
 controllers:
-  - name: nginx
+  - ingressClassName: demo-nginx-ingress
     image: docker.io/nginx/nginx-ingress
     tag: ''
-    namespace: nginx-ingress
-    replicaCount: 3
-    ingressClassName: nginx
+    namespace: demo-nginx-ingress
+    replicaCount: 1
     # loadBalancerIP: Empty string means it is dynamic. For static IP Address goto https://cloud.redhat.com/experts/aro/static-ip-load-balancer/
     loadBalancerIP: ''
-    setAsDefaultIngress: true
+    setAsDefaultIngress: false
 

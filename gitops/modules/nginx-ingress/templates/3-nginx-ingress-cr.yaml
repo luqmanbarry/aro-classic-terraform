@@ -4,19 +4,19 @@
 apiVersion: charts.nginx.org/v1alpha1
 kind: NginxIngress
 metadata:
-  name: {{ $controller.name }}
+  name: {{ $controller.ingressClassName }}
   namespace: {{ $controller.namespace }}
   annotations:
     operator-sdk/primary-resource: /nginx
     operator-sdk/primary-resource-type: IngressClass.networking.k8s.io
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "3"
-    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true,CreateNamespace=true"
 spec:
   controller:
     logLevel: 2
     config:
-      name: "{{ $controller.name }}-config"
+      name: "{{ $controller.ingressClassName }}-config"
       entries: {{ toYaml $.Values.globalConfig.entries | nindent 8 }}
     ingressClass:
       create: true
@@ -45,7 +45,7 @@ spec:
       enable: true
       enableLeaderElection: true
       ingressLink: ''
-      leaderElectionLockName: nginx-ingress-leader
+      leaderElectionLockName: "{{ $controller.ingressClassName }}-leader"
     strategy: {}
     nginxplus: false
     volumeMounts: []
@@ -83,7 +83,7 @@ spec:
       port: 8081
     replicaCount: {{ $controller.replicaCount }}
     serviceAccount:
-      name: {{ $controller.name }}
+      name: {{ $controller.ingressClassName }}
       annotations: {}
     autoscaling:
       annotations: {}

@@ -19,7 +19,7 @@ groups:
 - system:nodes
 kind: SecurityContextConstraints
 metadata:
-  name: "{{ $controller.namespace }}-{{ $controller.name }}"
+  name: "{{ $controller.namespace }}-{{ $controller.ingressClassName }}"
   annotations:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-wave: "1"
@@ -37,6 +37,6 @@ supplementalGroups:
   type: RunAsAny
 users:
  - "system:serviceaccount:{{ $controller.namespace }}:nginx-ingress"
- - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.name }}"
- - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.name }}-operator-controller-manager"
+ - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.ingressClassName }}"
+ - "system:serviceaccount:{{ $controller.namespace }}:{{ $controller.ingressClassName }}-operator-controller-manager"
 {{ end }}

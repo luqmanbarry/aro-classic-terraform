@@ -6,13 +6,12 @@ defaultTLS:
   certificateKVSecretName: nginx-ingress-tls # Merge tls.crt, tls.key data into a single file and store it in KeyVault
 
 controller:
-  - name: nginx
+  - ingressClassName: demo-nginx-ingress
     image: docker.io/nginx/nginx-ingress
     tag: ''
-    namespace: nginx-ingress
+    namespace: demo-nginx-ingress
     replicaCount: 2
-    ingressClassName: nginx
     # loadBalancerIP: Empty string means it is dynamic. For static IP Address goto https://cloud.redhat.com/experts/aro/static-ip-load-balancer/
-    loadBalancerIP: '' 
+    loadBalancerIP: ''
     setAsDefaultIngress: false
 
