@@ -81,7 +81,7 @@ spec:
       enable: true
       initialDelaySeconds: 0
       port: 8081
-    replicaCount: 1
+    replicaCount: {{ $controller.replicaCount }}
     serviceAccount:
       name: {{ $controller.name }}
       annotations: {}
