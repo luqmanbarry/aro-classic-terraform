@@ -7,10 +7,6 @@ metadata:
   namespace: openshift-gitops
   finalizers:
    - resources-finalizer.argocd.argoproj.io
-  annotations:
-    managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "{{ $moduleItem.sync_wave }}"
-    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   labels:
     app.kubernetes.io/part-of: "{{ $.Values.resourceNamePrefix }}"
 spec:
@@ -40,6 +36,8 @@ spec:
       selfHeal: true
       allowEmpty: true
     syncOptions:
+    - sync-wave="{{ $moduleItem.sync_wave }}"
+    - SkipDryRunOnMissingResource=true
     - Validate=false
     - CreateNamespace=false
     - PrunePropagationPolicy=foreground
@@ -47,10 +45,10 @@ spec:
     - RespectIgnoreDifferences=true
     
     retry:
-      limit: 5
+      limit: 3
       backoff:
         duration: 15s
-        factor: 2
+        factor: 1
         maxDuration: 900s
 
 
@@ -67,5 +65,5 @@ spec:
     jqPathExpressions:
       - '.spec.status'
 
-  revisionHistoryLimit: 10
+  revisionHistoryLimit: 5
 {{ end }}
