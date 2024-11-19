@@ -12,7 +12,7 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   template:
     spec:
