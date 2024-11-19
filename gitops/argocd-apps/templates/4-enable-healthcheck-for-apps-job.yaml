@@ -14,34 +14,33 @@ spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 3
-  spec:
-    template:
-      spec:
-        serviceAccountName: openshift-gitops-argocd-application-controller
-        serviceAccount: openshift-gitops-argocd-application-controller
-        restartPolicy: OnFailure
-        containers:
-        - name: "enable-health-checks-on-argo-apps"
-          image: registry.redhat.io/openshift4/ose-tools-rhel9
-          securityContext:
-            allowPrivilegeEscalation: false
-            seccompProfile:
-              type: "RuntimeDefault"
-            capabilities:
-              drop: [ALL]
-          env:
-          - name: HEALTH_CHECK_CONFIG_KEY
-            value: "resource.customizations.health.argoproj.io_Application"
-          command:
-          - /bin/sh
-          - -c
-          - |
-              set -e
+  template:
+    spec:
+      serviceAccountName: openshift-gitops-argocd-application-controller
+      serviceAccount: openshift-gitops-argocd-application-controller
+      restartPolicy: OnFailure
+      containers:
+      - name: "enable-health-checks-on-argo-apps"
+        image: registry.redhat.io/openshift4/ose-tools-rhel9
+        securityContext:
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: "RuntimeDefault"
+          capabilities:
+            drop: [ALL]
+        env:
+        - name: HEALTH_CHECK_CONFIG_KEY
+          value: "resource.customizations.health.argoproj.io_Application"
+        command:
+        - /bin/sh
+        - -c
+        - |
+            set -e
 
-              echo "==> Update argocd-cm configmap to enable app health check"
+            echo "==> Update argocd-cm configmap to enable app health check"
 
-              cat <<EOF > /tmp/$HEALTH_CHECK_CONFIG_KEY
-              {{ .Files.Get "configs/app-health-check.lua" | indent 14 }}
-              EOF
+            cat <<EOF > /tmp/$HEALTH_CHECK_CONFIG_KEY
+            {{ .Files.Get "configs/app-health-check.lua" | indent 14 }}
+            EOF
 
-              oc -n openshift-config set data configmap/argocd-cm --from-file=/tmp/$HEALTH_CHECK_CONFIG_KEY
+            oc -n openshift-config set data configmap/argocd-cm --from-file=/tmp/$HEALTH_CHECK_CONFIG_KEY
