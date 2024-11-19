@@ -12,21 +12,21 @@ modules: # List of modules to be deployed
   - name: argocd-config
     config_path: gitops/bootstrap/argocd-config
     sync_wave: 100
-  # - name: external-secrets-operator
-  #   config_path: gitops/modules/external-secrets-operator
-  #   sync_wave: 101
+  - name: external-secrets-operator
+    config_path: gitops/modules/external-secrets-operator
+    sync_wave: 101
   # - name: secrets-store-csi-driver
   #   config_path: gitops/modules/secrets-store-csi-driver
   #   sync_wave: 101
   # - name: openshift-compliance
   #   config_path: gitops/modules/compliance-operator
   #   sync_wave: 102
-  # - name: container-security
-  #   config_path: gitops/modules/container-security
-  #   sync_wave: 103
-  # - name: internal-image-registry
-  #   config_path: gitops/modules/internal-image-registry
-  #   sync_wave: 104
+  - name: container-security
+    config_path: gitops/modules/container-security
+    sync_wave: 103
+  - name: internal-image-registry
+    config_path: gitops/modules/internal-image-registry
+    sync_wave: 104
   # - name: self-provisioner
   #   config_path: gitops/modules/self-provisioner
   #   sync_wave: 105
@@ -60,12 +60,12 @@ modules: # List of modules to be deployed
   # - name: oadp-operator
   #   config_path: gitops/modules/oadp-operator
   #   sync_wave: 113
-  # - name: sample-apps
-  #   config_path: gitops/modules/sample-apps
-  #   sync_wave: 114 
-  # - name: nginx-ingress
-  #   config_path: gitops/modules/nginx-ingress
-  #   sync_wave: 114 
+  - name: sample-apps
+    config_path: gitops/modules/sample-apps
+    sync_wave: 114 
+  - name: nginx-ingress
+    config_path: gitops/modules/nginx-ingress
+    sync_wave: 114 
   # - name: oadp-backup
   #   config_path: gitops/modules/oadp-backup
   #   sync_wave: 115
