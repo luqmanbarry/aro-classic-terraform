@@ -39,9 +39,20 @@ spec:
             echo "==> Update argocd-cm configmap to enable app health check"
 
             cat <<EOF > /tmp/$HEALTH_CHECK_CONFIG_KEY
-            {{ .Files.Get "configs/app-health-check.lua" | indent 14 }}
+            hs = {}
+            hs.status = "Progressing"
+            hs.message = ""
+            if obj.status ~= nil then
+              if obj.status.health ~= nil then
+                hs.status = obj.status.health.status
+                if obj.status.health.message ~= nil then
+                  hs.message = obj.status.health.message
+                end
+              end
+            end
+            return hs
             EOF
 
             cat /tmp/$HEALTH_CHECK_CONFIG_KEY
 
-            oc -n openshift-gitops set data configmap/argocd-cm --from-file=/tmp/$HEALTH_CHECK_CONFIG_KEY
+            oc -n openshift-gitops set data configmap/argocd-cm --from-file=$HEALTH_CHECK_CONFIG_KEY=/tmp/$HEALTH_CHECK_CONFIG_KEY
