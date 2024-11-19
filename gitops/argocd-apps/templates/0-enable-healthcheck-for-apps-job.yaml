@@ -9,7 +9,6 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
     "helm.sh/hook": pre-install
-    "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
