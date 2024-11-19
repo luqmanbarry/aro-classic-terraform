@@ -43,4 +43,6 @@ spec:
             {{ .Files.Get "configs/app-health-check.lua" | indent 14 }}
             EOF
 
+            cat /tmp/$HEALTH_CHECK_CONFIG_KEY
+
             oc -n openshift-gitops set data configmap/argocd-cm --from-file=/tmp/$HEALTH_CHECK_CONFIG_KEY
