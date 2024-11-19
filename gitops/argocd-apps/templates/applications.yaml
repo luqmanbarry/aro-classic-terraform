@@ -7,6 +7,9 @@ metadata:
   namespace: openshift-gitops
   finalizers:
    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "{{ $moduleItem.sync_wave }}"
   labels:
     app.kubernetes.io/part-of: "{{ $.Values.resourceNamePrefix }}"
 spec:
@@ -36,7 +39,6 @@ spec:
       selfHeal: true
       allowEmpty: true
     syncOptions:
-    - sync-wave="{{ $moduleItem.sync_wave }}"
     - SkipDryRunOnMissingResource=true
     - Validate=false
     - CreateNamespace=false
