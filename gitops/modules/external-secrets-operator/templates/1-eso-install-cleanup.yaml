@@ -31,6 +31,12 @@ spec:
         - -c
         - |
             set -e
+            echo "Cleanup install namespace"
+            oc delete clusterserviceversion --all || true
+            oc delete subscription --all || true
+            oc delete operatorgroup --all || true
+            oc delete installplan --all || true
+            
             echo "Deleting all instacnes of ESO operands"
             oc delete ClusterExternalSecret --all --all-namespaces || true
             oc delete ClusterSecretStore --all --all-namespaces || true
