@@ -21,9 +21,12 @@ The recommended pattern is to keep all common (defaults) parameters set in the `
    - ExternalSecrets
    - ClusterSecretStores
    - SecretStores
-   - CustomResourceDefinitions/OperatorConfig
-   - CustomResourceDefinitions/Webhook
-   - ValidationWebhookConfiguration/
+   - customresourcedefinition/clusterexternalsecrets.external-secrets.io
+   - customresourcedefinition/clustersecretstores.external-secrets.io
+   - customresourcedefinition/externalsecrets.external-secrets.io
+   - customresourcedefinition/operatorconfigs.operator.external-secrets.io
+   - customresourcedefinition/secretstores.external-secrets.io
+   - customresourcedefinition/webhooks.generators.external-secrets.io
 
 ## Common Issues
 

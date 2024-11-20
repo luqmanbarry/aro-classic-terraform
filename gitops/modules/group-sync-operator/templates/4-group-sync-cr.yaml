@@ -17,5 +17,6 @@ spec:
           namespace: {{ .Values.namespace }}
           kind: Secret
         prune: false
-        name: {{ .Values.idp.aad.name }}
         groups: {{ toYaml .Values.idp.aad.groups | nindent 12 }}
+      name: {{ .Values.idp.aad.name }}
+      
