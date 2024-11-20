@@ -23,6 +23,7 @@ The recommended pattern is to keep all common (defaults) parameters set in the `
    - SecretStores
    - CustomResourceDefinitions/OperatorConfig
    - CustomResourceDefinitions/Webhook
+   - ValidationWebhookConfiguration/
 
 ## Common Issues
 
