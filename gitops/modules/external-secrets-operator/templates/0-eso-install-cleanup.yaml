@@ -11,7 +11,7 @@ metadata:
     "helm.sh/hook": "pre-install"
 spec:
   concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   template:
     spec:
