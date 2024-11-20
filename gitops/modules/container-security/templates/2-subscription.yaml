@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   name: container-security-operator
-  namespace: openshift-operators
+  namespace: {{ .Values.namespace }}
 spec:
   channel: stable-3.12
   installPlanApproval: Automatic
