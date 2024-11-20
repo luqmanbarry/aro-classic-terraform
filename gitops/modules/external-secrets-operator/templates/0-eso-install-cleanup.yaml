@@ -1,0 +1,49 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "eso-install-cleanup-"
+  namespace: openshift-gitops
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+    "helm.sh/hook": "pre-install"
+spec:
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  template:
+    spec:
+      serviceAccountName: openshift-gitops-argocd-application-controller
+      serviceAccount: openshift-gitops-argocd-application-controller
+      restartPolicy: OnFailure
+      containers:
+      - name: "eso-install-cleanup"
+        image: registry.redhat.io/openshift4/ose-tools-rhel9
+        securityContext:
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: "RuntimeDefault"
+          capabilities:
+            drop: [ALL]
+        command:
+        - /bin/sh
+        - -c
+        - |
+            set -e
+            echo "Deleting all instacnes of ESO operands"
+            oc delete ClusterExternalSecret --all --all-namespaces || true
+            oc delete ClusterSecretStore --all --all-namespaces || true
+            oc delete ExternalSecret --all --all-namespaces || true
+            oc delete OperatorConfig --all --all-namespaces || true
+            oc delete SecretStore --all --all-namespaces || true
+            oc delete ExternalSecret --all --all-namespaces || true
+
+            echo "Deleting all CRDs associated"
+            oc delete CustomResourceDefinitions/ClusterExternalSecret || true
+            oc delete CustomResourceDefinitions/ClusterSecretStore || true
+            oc delete CustomResourceDefinitions/ExternalSecret || true
+            oc delete CustomResourceDefinitions/OperatorConfig || true
+            oc delete CustomResourceDefinitions/SecretStore || true
+            oc delete CustomResourceDefinitions/Webhook || true
