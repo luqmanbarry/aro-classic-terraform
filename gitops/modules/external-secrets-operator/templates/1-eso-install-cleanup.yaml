@@ -46,9 +46,9 @@ spec:
             oc delete ExternalSecret --all --all-namespaces || true
 
             echo "Deleting all CRDs associated"
-            oc delete CustomResourceDefinitions/ClusterExternalSecret || true
-            oc delete CustomResourceDefinitions/ClusterSecretStore || true
-            oc delete CustomResourceDefinitions/ExternalSecret || true
-            oc delete CustomResourceDefinitions/OperatorConfig || true
-            oc delete CustomResourceDefinitions/SecretStore || true
-            oc delete CustomResourceDefinitions/Webhook || true
+            oc delete clusterexternalsecrets.external-secrets.io || true
+            oc delete clustersecretstores.external-secrets.io || true
+            oc delete externalsecrets.external-secrets.io || true
+            oc delete operatorconfigs.operator.external-secrets.io || true
+            oc delete secretstores.external-secrets.io || true
+            oc delete webhooks.generators.external-secrets.io || true

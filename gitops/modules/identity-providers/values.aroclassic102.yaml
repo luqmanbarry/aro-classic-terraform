@@ -4,7 +4,7 @@ idp:
     providers:
       - type: AAD
         enable: true
-        name: ActiveDirectory
+        name: AAD
         clientID: changeme
         clientSecretKeyVaultSecretName: openshift-aroclassic102-aad-sp-client-secret
         issuerURL: https://login.microsoftonline.com/TENANT_ID/v2.0
