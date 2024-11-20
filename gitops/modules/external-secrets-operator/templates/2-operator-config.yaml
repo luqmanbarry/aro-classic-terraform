@@ -3,10 +3,10 @@ apiVersion: operator.external-secrets.io/v1alpha1
 kind: OperatorConfig
 metadata:
   name: cluster
-  namespace: openshift-operators
+  namespace: {{ .Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   crds:

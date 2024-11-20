@@ -1,3 +1,4 @@
+namespace: external-secrets-operator
 clusterName: "changeme"
 keyVaultName: "changeme"
 environmentType: PublicCloud # PublicCloud, USGovernmentCloud, ChinaCloud, GermanCloud
