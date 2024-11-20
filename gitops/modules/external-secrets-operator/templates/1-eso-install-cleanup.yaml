@@ -9,9 +9,10 @@ metadata:
     argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
-  concurrencyPolicy: Forbid
-  successfulJobsHistoryLimit: 3
-  failedJobsHistoryLimit: 3
+  backoffLimit: 3
+  parallelism: 1
+  completions: 3
+  
   template:
     spec:
       serviceAccountName: openshift-gitops-argocd-application-controller
@@ -52,3 +53,4 @@ spec:
             oc delete customresourcedefinition/operatorconfigs.operator.external-secrets.io || true
             oc delete customresourcedefinition/secretstores.external-secrets.io || true
             oc delete customresourcedefinition/webhooks.generators.external-secrets.io || true
+      restartPolicy: Never
