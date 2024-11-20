@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "eso-install-cleanup-"
+  generateName: "eso-install-cleanup-"
   namespace: openshift-gitops
   annotations:
     managed-by: argocd.argoproj.io
