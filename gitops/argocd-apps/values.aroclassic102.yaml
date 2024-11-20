@@ -24,15 +24,15 @@ modules: # List of modules to be deployed
   - name: container-security
     config_path: gitops/modules/container-security
     sync_wave: 103
-  # - name: internal-image-registry
-  #   config_path: gitops/modules/internal-image-registry
-  #   sync_wave: 104
-  # - name: self-provisioner
-  #   config_path: gitops/modules/self-provisioner
-  #   sync_wave: 105
-  # - name: user-workload-monitoring
-  #   config_path: gitops/modules/user-workload-monitoring
-  #   sync_wave: 106
+  - name: internal-image-registry
+    config_path: gitops/modules/internal-image-registry
+    sync_wave: 104
+  - name: self-provisioner
+    config_path: gitops/modules/self-provisioner
+    sync_wave: 105
+  - name: user-workload-monitoring
+    config_path: gitops/modules/user-workload-monitoring
+    sync_wave: 106
   # - name: image-registries-allow-deny
   #   config_path: gitops/modules/image-registries-allow-deny
   #   sync_wave: 107
@@ -45,9 +45,9 @@ modules: # List of modules to be deployed
   # - name: cluster-log-forwarder
   #   config_path: gitops/modules/cluster-log-forwarder
   #   sync_wave: 110
-  # - name: gitlab-runners
-  #   config_path: gitops/modules/gitlab-runners
-  #   sync_wave: 110
+  - name: gitlab-runners
+    config_path: gitops/modules/gitlab-runners
+    sync_wave: 110
   # - name: splunk-log-forwarder
   #   config_path: gitops/modules/splunk-log-forwarder
   #   sync_wave: 110
@@ -60,12 +60,12 @@ modules: # List of modules to be deployed
   # - name: groups-rbac
   #   config_path: gitops/modules/groups-rbac
   #   sync_wave: 112
-  # - name: oadp-operator
-  #   config_path: gitops/modules/oadp-operator
-  #   sync_wave: 113
-  # - name: sample-apps
-  #   config_path: gitops/modules/sample-apps
-  #   sync_wave: 114 
+  - name: oadp-operator
+    config_path: gitops/modules/oadp-operator
+    sync_wave: 113
+  - name: sample-apps
+    config_path: gitops/modules/sample-apps
+    sync_wave: 114 
   - name: nginx-ingress
     config_path: gitops/modules/nginx-ingress
     sync_wave: 114 
