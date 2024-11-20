@@ -3,12 +3,11 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   generateName: "eso-install-cleanup-"
-  namespace: openshift-gitops
+  namespace: {{ .Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
-    "helm.sh/hook": "pre-install"
 spec:
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
