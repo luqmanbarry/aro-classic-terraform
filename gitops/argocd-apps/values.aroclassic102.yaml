@@ -54,9 +54,9 @@ modules: # List of modules to be deployed
   # - name: identity-providers
   #   config_path: gitops/modules/identity-providers
   #   sync_wave: 111
-  # - name: group-sync-operator
-  #   config_path: gitops/modules/group-sync-operator
-  #   sync_wave: 111
+  - name: group-sync-operator
+    config_path: gitops/modules/group-sync-operator
+    sync_wave: 111
   # - name: groups-rbac
   #   config_path: gitops/modules/groups-rbac
   #   sync_wave: 112
