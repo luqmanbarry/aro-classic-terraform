@@ -6,13 +6,14 @@ metadata:
   namespace: openshift-gitops
   annotations:
     managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+    "helm.sh/hook": "pre-install"
+    "helm.sh/hook-delete-policy": "hook-succeeded"
 spec:
   backoffLimit: 3
   parallelism: 1
   completions: 3
-  
+
   template:
     spec:
       serviceAccountName: openshift-gitops-argocd-application-controller
