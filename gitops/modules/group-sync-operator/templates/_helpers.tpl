@@ -1,6 +1,10 @@
 {{/*
 Expand the name of the chart.
 */}}
+{{- define "group-sync-operator.aadGroupSyncFilter" -}}
+{{- range .Values.idp.aad.groups }}{{ (printf "startswith(displayName,'%s')  or startswith(givenName,'%s') or " . .)}} {{- end }}
+{{- end }}
+
 {{- define "group-sync-operator.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
