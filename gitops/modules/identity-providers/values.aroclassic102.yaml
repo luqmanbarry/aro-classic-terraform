@@ -1,6 +1,7 @@
 keyVaultName: stig0012-dev-vault
 idp:
   openid:
+    enable: true
     providers:
       - type: AAD
         enable: true
