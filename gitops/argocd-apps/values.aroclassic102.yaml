@@ -51,12 +51,12 @@ modules: # List of modules to be deployed
   # - name: splunk-log-forwarder
   #   config_path: gitops/modules/splunk-log-forwarder
   #   sync_wave: 110
-  # - name: identity-providers
-  #   config_path: gitops/modules/identity-providers
-  #   sync_wave: 111
-  - name: group-sync-operator
-    config_path: gitops/modules/group-sync-operator
+  - name: identity-providers
+    config_path: gitops/modules/identity-providers
     sync_wave: 111
+  # - name: group-sync-operator
+  #   config_path: gitops/modules/group-sync-operator
+  #   sync_wave: 111
   # - name: groups-rbac
   #   config_path: gitops/modules/groups-rbac
   #   sync_wave: 112

@@ -15,8 +15,7 @@ spec:
         credentialsSecret:
           name: {{ .Values.idp.aad.clientSecretKeyVaultSecretName }}
           namespace: {{ .Values.namespace }}
-          kind: Secret
         prune: false
         groups: {{ toYaml .Values.idp.aad.groups | nindent 12 }}
-      name: {{ .Values.idp.aad.name }}
+      name: azure
       
