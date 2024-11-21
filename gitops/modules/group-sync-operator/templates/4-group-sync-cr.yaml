@@ -17,6 +17,8 @@ spec:
           namespace: {{ .Values.namespace }}
           key: AZURE_CLIENT_SECRET
         prune: false
-        filter: {{ include "group-sync-operator.aadGroupSyncFilter" . | trimSuffix " or " | quote }}
+        # filter: {{ include "group-sync-operator.aadGroupSyncFilter" . | trimSuffix " or " | quote }}
+        baseGroups: {{ toYaml .Values.idp.aad.groups | nindent 12 }}
+        groups: {{ toYaml .Values.idp.aad.groups | nindent 12 }}
       name: {{ .Values.idp.aad.name }}
       
