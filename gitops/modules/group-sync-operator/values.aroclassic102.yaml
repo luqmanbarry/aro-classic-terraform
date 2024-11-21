@@ -1,4 +1,3 @@
-keyVaultName: changeme
 idp:
   aad:
     enable: true

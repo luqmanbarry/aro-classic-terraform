@@ -1,5 +1,5 @@
 namespace: group-sync-operator
-keyVaultName: changeme
+keyVaultName: stig0012-dev-vault
 idp:
   aad:
     enable: true
