@@ -14,7 +14,7 @@ spec:
       mappingMethod: claim
       type: OpenID
       openID:
-        clientID: {{ $openIDProvider.clientID }}
+        clientID: {{ $openIDProvide r.clientID }}
         clientSecret:
           name: {{ $openIDProvider.clientSecretKeyVaultSecretName }}
         extraScopes:
