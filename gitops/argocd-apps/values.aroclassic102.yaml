@@ -12,9 +12,9 @@ modules: # List of modules to be deployed
   - name: argocd-config
     config_path: gitops/bootstrap/argocd-config
     sync_wave: 100
-  # - name: external-secrets-operator
-  #   config_path: gitops/modules/external-secrets-operator
-  #   sync_wave: 101
+  - name: external-secrets-operator
+    config_path: gitops/modules/external-secrets-operator
+    sync_wave: 101
   # - name: secrets-store-csi-driver
   #   config_path: gitops/modules/secrets-store-csi-driver
   #   sync_wave: 101
@@ -54,9 +54,9 @@ modules: # List of modules to be deployed
   # - name: identity-providers
   #   config_path: gitops/modules/identity-providers
   #   sync_wave: 111
-  # - name: group-sync-operator
-  #   config_path: gitops/modules/group-sync-operator
-  #   sync_wave: 111
+  - name: group-sync-operator
+    config_path: gitops/modules/group-sync-operator
+    sync_wave: 111
   # - name: groups-rbac
   #   config_path: gitops/modules/groups-rbac
   #   sync_wave: 112
