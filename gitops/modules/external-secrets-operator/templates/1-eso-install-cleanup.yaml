@@ -10,7 +10,7 @@ metadata:
     "helm.sh/hook": "pre-install"
     "helm.sh/hook-delete-policy": "hook-succeeded"
 spec:
-  backoffLimit: 3
+  backoffLimit: 0
   parallelism: 1
   completions: 3
 
