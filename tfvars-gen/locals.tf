@@ -12,7 +12,7 @@ locals {
   tenant_id                                        = data.azurerm_client_config.current.tenant_id
 
   # DERIVED VARS
-  cluster_resource_group                           = var.cluster_name
+  cluster_resource_group                           = length(var.cluster_resource_group) > 0 ? var.cluster_resource_group : var.cluster_name
   vnet_name                                        = data.azurerm_virtual_network.current_vnet.name
   custom_dns_domain_prefix                         = format("%s.%s.%s.%s", var.cluster_name, var.platform_environment, var.location, var.organization)
   custom_dns_domain_name                           = format("%s.%s", local.custom_dns_domain_prefix, var.base_dns_zone_name)

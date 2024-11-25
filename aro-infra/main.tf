@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "ocp_cluster_rg" {
-  name        = var.cluster_name
+  name        = var.cluster_resource_group
   location    = var.location
 
   tags        = local.resource_tags
