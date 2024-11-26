@@ -11,6 +11,7 @@
   - Create Storage Account
   - Create, Delete ARO
   - Create a DNS Zone and add A, DNS records to it
+- Virtual Network (VNet) 
 - Subnets tagged with `cluster_name`
   - `x.x.x.x/24` CIDR for Multi-AZ
   - `x.x.x.x/25` CIDR for Single-AZ
