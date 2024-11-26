@@ -57,9 +57,9 @@ modules: # List of modules to be deployed
   # - name: group-sync-operator
   #   config_path: gitops/modules/group-sync-operator
   #   sync_wave: 111
-  # - name: groups-rbac
-  #   config_path: gitops/modules/groups-rbac
-  #   sync_wave: 112
+  - name: groups-rbac
+    config_path: gitops/modules/groups-rbac
+    sync_wave: 112
   - name: oadp-operator
     config_path: gitops/modules/oadp-operator
     sync_wave: 113
