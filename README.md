@@ -11,7 +11,6 @@
   - Create Storage Account
   - Create, Delete ARO
   - Create a DNS Zone and add A, DNS records to it
-- VirtualNetwork tagged with `cluster_name`
 - Subnets tagged with `cluster_name`
   - `x.x.x.x/24` CIDR for Multi-AZ
   - `x.x.x.x/25` CIDR for Single-AZ
@@ -19,6 +18,12 @@
 - Optional: Base DNS Domain name (ie: sama-wat.com) - This is required unless you're using the Azure CLI.
 - Optional: Base DNS Zone deployed with resulting name servers registered to the domain registrar. It's name or subdomain name should match the base_dns_zone name.
 - ARO [pull-secret](https://console.redhat.com/openshift/downloads#tool-pull-secret)
+  - Place the pull-secret json string in Azure KeyVault and set the `TF_VAR_ocp_pull_secret_kv_secret` with the name of the KV secret name.
+  
+    For example: 
+    ```sh
+    export TF_VAR_ocp_pull_secret_kv_secret="aro-pull-secret"
+    ```
 - Network security group inbound rules defined; this is to allow traffic from parties that need to connect to the cluster. For example, the CI/CD platform hosts, and any other IP ranges that will try to reach the cluster.
 
 ### Software Packages
