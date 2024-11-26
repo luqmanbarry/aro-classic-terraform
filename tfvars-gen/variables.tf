@@ -362,3 +362,8 @@ variable "use_azure_provided_domain" {
   default = true
   description = "Do you want to provide your own domain? true or false"
 }
+
+variable "ocp_pull_secret_kv_secret" {
+  type        = string
+  description = "The KV Secret name containing the cluster pull secret"
+}

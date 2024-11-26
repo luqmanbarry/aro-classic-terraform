@@ -1,8 +1,8 @@
 locals {
   default_domain  = format("%s-%s-%s", var.cluster_name, var.platform_environment, var.organization)
   # default_domain  = "poc-101"
-  ocp_pull_secret = "${path.module}/.pull-secret/pull-secret.json"
-
+  # ocp_pull_secret = "${path.module}/.pull-secret/pull-secret.json" # Read from local file
+  
   tmp_secrets_dir                = "${path.module}/../.tmp"
   console_url_content_path       = "${path.module}/${local.tmp_secrets_dir}/console_url"
   latest_ocp_version             = "${path.module}/${local.tmp_secrets_dir}/latest_ocp_version"

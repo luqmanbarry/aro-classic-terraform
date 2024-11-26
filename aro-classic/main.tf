@@ -14,10 +14,10 @@ resource "azuread_service_principal_password" "current_cluster" {
   service_principal_id = data.azuread_service_principal.current_cluster.object_id
 }
 
-# Cluster Pull Secret
-data "local_file" "ocp_pull_secret" {
-  filename = local.ocp_pull_secret
-}
+# # Cluster Pull Secret
+# data "local_file" "ocp_pull_secret" {
+#   filename = local.ocp_pull_secret
+# }
 
 resource "random_string" "random_lower_str" {
   length           = 7
@@ -54,13 +54,19 @@ locals {
   openshift_version   = local.openshift_versions[0]
 }
 
+data "azurerm_key_vault_secret" "ocp_pull_secret_kv_secret" {
+  name                = var.ocp_pull_secret_kv_secret
+  key_vault_id        = var.key_vault_id
+}
+
 # ARO Cluster
 resource "azurerm_redhat_openshift_cluster" "current_cluster" {
 
   depends_on = [ 
     data.local_file.get_latest_openshift_version,
     azurerm_policy_definition.rg_tagging_policy_definition,
-    azurerm_subscription_policy_assignment.rg_tagging_policy_assignment
+    azurerm_subscription_policy_assignment.rg_tagging_policy_assignment,
+    data.azurerm_key_vault_secret.ocp_pull_secret_kv_secret
   ]
 
   name                = var.cluster_name
@@ -71,7 +77,8 @@ resource "azurerm_redhat_openshift_cluster" "current_cluster" {
     managed_resource_group_name = local.managed_resource_group_name
     domain                      =  var.use_azure_provided_domain ? local.default_domain : var.custom_dns_domain_name
     version                     = length(var.ocp_version) > 0 ? var.ocp_version : local.openshift_version
-    pull_secret                 = file(local.ocp_pull_secret)
+    # pull_secret                 = file(local.ocp_pull_secret) # Read from local file
+    pull_secret                 = data.azurerm_key_vault_secret.ocp_pull_secret_kv_secret.value
     fips_enabled                = var.fips_enabled
   }
 

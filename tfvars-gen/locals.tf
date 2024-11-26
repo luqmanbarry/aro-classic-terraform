@@ -64,6 +64,7 @@ locals {
       format("platform_environment=%q", var.platform_environment),
       format("azure_cloud_environment=%q", var.azure_cloud_environment),
       format("cluster_name=%q", var.cluster_name),
+      format("ocp_pull_secret_kv_secret=%q", var.ocp_pull_secret_kv_secret),
       format("cluster_details_vault_secret_name=%q", local.cluster_details_vault_secret_name),
       format("acmhub_details_vault_secret_name=%q", local.acmhub_details_vault_secret_name),
       format("cluster_service_principal=%q", var.cluster_name),
