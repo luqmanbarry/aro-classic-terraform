@@ -680,7 +680,7 @@ data "azurerm_subscription" "current" {}
 
 resource "azurerm_subscription_policy_assignment" "rg_tagging_policy_assignment" {
   count                = length(local.resource_tags)
-  name                 = format("%s-tagging-policy-assignment-%s", local.managed_resource_group_name, count.index)
+  name                 = format("%s-%s-tag-pol-assign-%s", var.cluster_name, local.managed_resource_group_name, count.index)
   subscription_id      = format("/subscriptions/%s", data.azurerm_subscription.current.subscription_id)
   policy_definition_id = azurerm_policy_definition.rg_tagging_policy_definition.id
   location             = var.location
