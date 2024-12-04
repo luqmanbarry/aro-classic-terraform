@@ -38,6 +38,7 @@ spec:
             oc delete -n {{ .Values.namespace }} subscription --all || true
             oc delete -n {{ .Values.namespace }} operatorgroup --all || true
             oc delete -n {{ .Values.namespace }} installplan --all || true
+            oc delete -n {{ .Values.namespace }} operatorconfig --all || true
 
             echo "Deleting all instacnes of ESO operands"
             oc delete ClusterExternalSecret --all --all-namespaces || true
