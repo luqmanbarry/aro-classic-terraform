@@ -5,7 +5,7 @@ metadata:
     operators.coreos.com/container-security-operator.openshift-operators: ''
   annotations:
     managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   name: container-security-operator
   namespace: {{ .Values.namespace }}

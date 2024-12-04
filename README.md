@@ -205,16 +205,16 @@ For the cluster to be accessible at the console, api urls, the name servers of t
 
 > [!IMPORTANT]
 > 
-> After the `aro-infra` module, the [pipeline-create](.ci/pipeline-create.sh) script will wait for the user to confirm whether they have added NS records for the cluster dedicated DNS Zone to the registrar (ARO public) or to the self-managed DNS instance.
+> After the `aro-infra` module, if you've enabled custom domain, the [pipeline-create](.ci/pipeline-create.sh) script will wait for the user to confirm whether they have added NS records for the cluster dedicated DNS Zone to the registrar (ARO public) or to the self-managed DNS instance.
 
 
 
 ```sh
-.ci/pipeline-create.sh | tee aro-classic-create.log
+.ci/pipeline-create.sh .ci/user-inputs.sh | tee aro-classic-create.log
 ```
 
 ## Cluster Teardown
 
 ```sh
-.ci/pipeline-destroy.sh | tee aro-classic-destroy.log
+.ci/pipeline-destroy.sh .ci/user-inputs.sh | tee aro-classic-destroy.log
 ```
