@@ -21,7 +21,7 @@ resource "null_resource" "deploy_openshift_gitops" {
   }
 
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }
 
@@ -30,7 +30,7 @@ resource "time_sleep" "wait_for_operator" {
   create_duration = "120s"
 
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }
 
@@ -56,13 +56,13 @@ resource "null_resource" "deploy_openshift_gitops_argocd_configs" {
       GIT_REPOSITORY    = var.git_repository_url
       GIT_BRANCH        = var.git_branch
       GIT_USERNAME      = "git"
-      GIT_TOKEN         = var.git_token
+      GIT_TOKEN         = sensitive(var.git_token)
       SKIP_REPO_SECRET  = false
     }
   }
 
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }
 
@@ -72,7 +72,7 @@ resource "kubectl_manifest" "cluster_sp_secret_namespace" {
     apiVersion: v1
     kind: Namespace
     metadata:
-      name: ${var.tf_resources_namespace}
+      name: "${var.tf_resources_namespace}"
       annotations:
         openshift.io/node-selector: ""
       labels:
@@ -87,11 +87,11 @@ resource "kubectl_manifest" "cluster_sp_secret" {
     kind: Secret
     metadata:
       name: ${var.cluster_sp_k8s_secret_name}
-      namespace: ${var.tf_resources_namespace}
+      namespace: "${var.tf_resources_namespace}"
     type: Opaque
     stringData:
-      client_id: ${local.cluster_sp_client_id}
-      client_secret: ${local.cluster_sp_client_secret}
+      client_id: "${sensitive(local.cluster_sp_client_id)}"
+      client_secret: "${sensitive(local.cluster_sp_client_secret)}"
   YAML
   force_new       = true
   force_conflicts = true

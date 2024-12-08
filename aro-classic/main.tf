@@ -194,7 +194,7 @@ resource "null_resource" "get_cluster_details" {
   }
 
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }
 
@@ -313,6 +313,6 @@ resource "null_resource" "cleanup_sensitive_data" {
   }
 
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }

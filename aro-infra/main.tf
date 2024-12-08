@@ -105,7 +105,7 @@ resource "null_resource" "export_cluster_sp_client_id" {
   }
 
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }
 

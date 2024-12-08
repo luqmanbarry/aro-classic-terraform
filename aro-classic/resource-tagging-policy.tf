@@ -5,7 +5,7 @@ resource "null_resource" "run_always" {
   }
 
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }
 

@@ -107,7 +107,7 @@ resource "null_resource" "managed_apply_klusterlet_crd" {
     }
   }
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }
 
@@ -140,6 +140,6 @@ resource "null_resource" "managed_apply_import_yaml" {
     }
   }
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }

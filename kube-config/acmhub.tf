@@ -47,7 +47,7 @@ resource "null_resource" "set_acmhub_cluster_kubeconfig" {
   }
 
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }
 
@@ -70,6 +70,6 @@ resource "null_resource" "backup_acmhub_cluster_kubeconfig_file" {
   }
 
   triggers = {
-    timestamp = "${timestamp()}"
+    timestamp = timestamp()
   }
 }
