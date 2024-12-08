@@ -17,17 +17,8 @@ resource "null_resource" "set_managed_cluster_kubeconfig" {
   ## Ensure kube files exists and are empty
   provisioner "local-exec" {
     interpreter = [ "/bin/bash", "-c" ]
-    command = "mkdir -p \"$KUBECONFIG_DIR\"; > $KUBECONFIG"
+    command = "mkdir -p \"$KUBECONFIG_DIR\" && > $KUBECONFIG || true"
     environment = {
-      KUBECONFIG      = var.default_kubeconfig_filename
-      KUBECONFIG_DIR  = dirname(var.default_kubeconfig_filename)
-    }
-  }
-  provisioner "local-exec" {
-    interpreter = [ "/bin/bash", "-c" ]
-    command = "mkdir -p \"$KUBECONFIG_DIR\" && echo \"$KUBECONFIG\""
-    environment = {
-      KUBECONFIG      = var.default_kubeconfig_filename
       KUBECONFIG_DIR  = dirname(var.default_kubeconfig_filename)
     }
   }
@@ -35,12 +26,13 @@ resource "null_resource" "set_managed_cluster_kubeconfig" {
   # Login to the kube cluster - New kubeconfig file will be created
   provisioner "local-exec" {
     interpreter = [ "/bin/bash", "-c" ]
-    command = "oc login -u \"$USERNAME\" -p \"$PASSWORD\" \"$API_SERVER\" --insecure-skip-tls-verify"
+    command = "export KUBECONFIG=\"$KUBECONFIG\" && oc login -u \"$USERNAME\" -p \"$PASSWORD\" \"$API_SERVER\" --insecure-skip-tls-verify"
 
     environment = {
-      USERNAME   = local.cluster_details.admin_username
-      PASSWORD   = local.cluster_details.admin_password
-      API_SERVER = local.cluster_details.api_server_url
+      USERNAME    = local.cluster_details.admin_username
+      PASSWORD    = local.cluster_details.admin_password
+      API_SERVER  = local.cluster_details.api_server_url
+      KUBECONFIG  = var.default_kubeconfig_filename
     }
   }
 
@@ -59,10 +51,11 @@ resource "null_resource" "backup_managed_cluster_kubeconfig_file" {
   ## Empty the ~/.kube/config file
   provisioner "local-exec" {
     interpreter = [ "/bin/bash", "-c" ]
-    command = "cp -v \"$SRC\" \"$DEST\" "
+    command = "mkdir -p \"$DEST_DIR\" && cp -v \"$SRC\" \"$DEST\" "
     environment = {
-      SRC  = var.default_kubeconfig_filename
-      DEST = var.managed_cluster_kubeconfig_filename
+      SRC       = var.default_kubeconfig_filename
+      DEST      = var.managed_cluster_kubeconfig_filename
+      DEST_DIR  = dirname(var.managed_cluster_kubeconfig_filename)
     }
   }
 
