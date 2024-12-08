@@ -77,7 +77,7 @@ Listed in their order of precedence, they work together to provision an ARO clus
   ![Day-2 GitOps Architecture](.assets/tf-day2-gitops-architecture.jpg)
 
   - [gitops/modules](./gitops/modules/): Cluster Day2 configuration items are implemented using GitOps patterns. Each configuration item represents a module packaged as a Helm chart.
-  - [gitops/argocd-apps](./gitops/argocd-apps/): The Helm chart that defines the ArgoCD applications manifests used for the deployment of the Day2 configuration modules; one helm chart per Day2 module.
+  - [gitops/argocd-apps](./gitops/argocd-apps/): The Helm chart that defines the ArgoCD applications manifests used for the deployment of the Day2 configuration modules; one ArgoCD `Application` CR per Day2 module.
 
 ## Cluster Build
 
