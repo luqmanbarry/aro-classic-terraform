@@ -1,0 +1,15 @@
+serviceMesh:
+  controlPlaneVersion: "v2.4"
+  controlPlaneNamespaces:
+    - name: "istio-system-dev"
+      cicdServiceAccountName: "jenkins"
+      cicdServiceAccountNamespace: "jenkins"
+      rollMembers: []
+    - name: "istio-system-qa"
+      cicdServiceAccountName: "jenkins"
+      cicdServiceAccountNamespace: "jenkins"
+      rollMembers:
+        - web-app1
+        - web-app2
+        - web-app3
+  

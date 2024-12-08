@@ -2,11 +2,16 @@ locals {
   tags_query = {
     "cluster_name" = var.cluster_name
   }
+
+  kube_home_dir                          = abspath(format("%s/../", path.module))
+  default_kubeconfig_filename            = format("%s/.kube/config", local.kube_home_dir)
+  managed_cluster_kubeconfig_filename    = format("%s/.kube/managed_cluster/config", local.kube_home_dir)
+  acmhub_kubeconfig_filename             = format("%s/.kube/acm_hub/config", local.kube_home_dir)
   
   tmp_secrets_dir                = "${path.module}/../.tmp"
   cluster_sp_client_id_filename  = "${local.tmp_secrets_dir}/cluster_sp_client_id"
 
-  key_vault_id    = data.azurerm_key_vault.bu_keyvault.id
+  key_vault_id                   = data.azurerm_key_vault.bu_keyvault.id
 
   # USER PROVIDED
   tenant_id                                        = data.azurerm_client_config.current.tenant_id
@@ -73,9 +78,10 @@ locals {
       format("cost_center=%q", var.cost_center),
       format("ocp_version=%q", var.ocp_version),
       format("acmhub_registration_enabled=%s", var.acmhub_registration_enabled),
-      format("default_kubeconfig_filename=%q", pathexpand(var.default_kubeconfig_filename)),
-      format("managed_cluster_kubeconfig_filename=%q", pathexpand(var.managed_cluster_kubeconfig_filename)),
-      format("acmhub_kubeconfig_filename=%q", pathexpand(var.acmhub_kubeconfig_filename)),
+      format("kube_home_dir=%q", local.kube_home_dir),
+      format("default_kubeconfig_filename=%q", local.default_kubeconfig_filename),
+      format("managed_cluster_kubeconfig_filename=%q", local.managed_cluster_kubeconfig_filename),
+      format("acmhub_kubeconfig_filename=%q", local.acmhub_kubeconfig_filename),
       format("acmhub_cluster_name=%q", var.acmhub_cluster_name),
       format("main_vm_size=%q", var.main_vm_size),
       format("worker_vm_size=%q", var.worker_vm_size),

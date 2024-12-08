@@ -7,6 +7,11 @@ variable "azure_cloud_environment" {
   }
 }
 
+variable "kube_home_dir" {
+  type = string
+  default = "~/.kube"
+}
+
 variable "default_kubeconfig_filename" {
   type = string
   default = "~/.kube/config"

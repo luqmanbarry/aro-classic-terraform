@@ -45,9 +45,9 @@ modules: # List of modules to be deployed
   # - name: cluster-log-forwarder
   #   config_path: gitops/modules/cluster-log-forwarder
   #   sync_wave: 110
-  - name: gitlab-runners
-    config_path: gitops/modules/gitlab-runners
-    sync_wave: 110
+  # - name: gitlab-runners
+  #   config_path: gitops/modules/gitlab-runners
+  #   sync_wave: 110
   # - name: splunk-log-forwarder
   #   config_path: gitops/modules/splunk-log-forwarder
   #   sync_wave: 110
@@ -68,6 +68,9 @@ modules: # List of modules to be deployed
     sync_wave: 114 
   - name: nginx-ingress
     config_path: gitops/modules/nginx-ingress
+    sync_wave: 114 
+  - name: service-mesh
+    config_path: gitops/modules/service-mesh
     sync_wave: 114 
   # - name: oadp-backup
   #   config_path: gitops/modules/oadp-backup

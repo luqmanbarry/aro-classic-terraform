@@ -1,0 +1,11 @@
+{{ range $namespaceItem := .Values.serviceMesh.controlPlaneNamespaces }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: "{{ $namespaceItem.name }}"
+  # labels:
+  #   openshift.io/cluster-monitoring: 'true'
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
+{{ end }}

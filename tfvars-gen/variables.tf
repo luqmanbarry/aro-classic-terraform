@@ -273,21 +273,6 @@ variable "service_cidr" {
   default = ""
 }
 
-variable "default_kubeconfig_filename" {
-  type = string
-  default = "~/.kube/config"
-}
-
-variable "managed_cluster_kubeconfig_filename" {
-  type = string
-  default = "~/.managed_cluster_kube/config"
-}
-
-variable "acmhub_kubeconfig_filename" {
-  type = string
-  default = "~/.acmhub_kube/config"
-}
-
 variable "acmhub_username" {
   type = string
   default = "changeme"

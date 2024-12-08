@@ -1,0 +1,14 @@
+resourceNamePrefix: "day2-gitops"
+serviceMesh:
+  smcpAPIVersion: "maistra.io/v2" # could be "maistra.io/v1" for ServiceMesh 1.x
+  smmrAPIVersion: "maistra.io/v1" # could be something else if version changes
+  controlPlaneVersion: "changeme"
+  controlPlaneNamespaces:
+    - name: "istio-system"
+      cicdServiceAccountName: "jenkins"
+      cicdServiceAccountNamespace: "jenkins"
+      rollMembers:
+        - namespace1
+        - namespace2
+        - namespace3
+  

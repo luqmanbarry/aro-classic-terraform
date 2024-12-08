@@ -1,0 +1,140 @@
+{{ range $namespaceItem := .Values.serviceMesh.controlPlaneNamespaces }}
+---
+apiVersion: maistra.io/v2
+kind: ServiceMeshControlPlane
+metadata:
+  name: "{{ $namespaceItem.name }}"
+  namespace: "{{ $namespaceItem.name }}"
+spec:
+  security:
+    dataPlane:
+      automtls: true
+      mtls: true
+  tracing:
+    sampling: 500
+    type: Jaeger
+  general:
+    logging:
+      logAsJSON: true
+      componentLevels:
+        default: info
+  profiles:
+    - default
+  proxy:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 128Mi
+    accessLogging:
+      file:
+        name: /dev/stdout
+    networking:
+      trafficControl:
+        inbound: {}
+        outbound:
+          policy: REGISTRY_ONLY
+  gateways:
+    egress:
+      enabled: true
+      runtime:
+        deployment:
+          autoScaling:
+            enabled: true
+            maxReplicas: 2
+            minReplicas: 2
+        pod: {}
+      service: {}
+    enabled: true
+    ingress:
+      enabled: true
+      runtime:
+        deployment:
+          autoScaling:
+            enabled: true
+            maxReplicas: 2
+            minReplicas: 2
+        pod: {}
+      service: {}
+    openshiftRoute:
+      enabled: false
+  policy:
+    type: Istiod
+  addons:
+    grafana:
+      enabled: true
+      install:
+        config:
+          env: {}
+          envSecrets: {}
+        persistence:
+          storageClassName: ""
+          accessMode: ReadWriteOnce
+          capacity:
+            requests:
+              storage: 5Gi
+          enabled: true
+        service:
+          metadata:
+            annotations:
+              service.alpha.openshift.io/serving-cert-secret-name: grafana-tls
+          ingress:
+            contextPath: /grafana
+            tls:
+              termination: reencrypt
+    jaeger:
+      install:
+        ingress:
+          enabled: true
+        storage:
+          type: Elasticsearch
+      name: "{{ $namespaceItem.name }}"
+    kiali:
+      enabled: true
+      name: kiali
+      install:
+        dashboard:
+          viewOnly: false
+        deployment:
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 2Gi
+        service:
+          ingress:
+            enabled: true
+    prometheus:
+      enabled: true
+      install:
+        service:
+          metadata:
+            annotations:
+              service.alpha.openshift.io/serving-cert-secret-name: prometheus-tls
+          ingress:
+            enabled: true
+  runtime:
+    components:
+      pilot:
+        deployment:
+          replicas: 2
+        pod:
+          affinity: {}
+        container:
+          resources:
+          limits: {}
+          requirements: {}
+      grafana:
+        deployment: {}
+        pod: {}
+      kiali:
+        deployment: {}
+        pod: {}
+  version: "{{ $.Values.serviceMesh.controlPlaneVersion }}"
+  telemetry:
+    type: Istiod
+{{ end }}

@@ -1,3 +1,3 @@
 
-keyVaultName: stig0012-dev-vault
+keyVaultName: stig0014-dev-vault
 pullSecretKeyVaultSecretName: private-registries-pull-secrets

@@ -44,7 +44,6 @@ spec:
             oc delete ClusterExternalSecret --all --all-namespaces || true
             oc delete ClusterSecretStore --all --all-namespaces || true
             oc delete ExternalSecret --all --all-namespaces || true
-            oc delete OperatorConfig --all --all-namespaces || true
             oc delete SecretStore --all --all-namespaces || true
             oc delete ExternalSecret --all --all-namespaces || true
 

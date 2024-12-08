@@ -25,10 +25,10 @@ resource "null_resource" "set_managed_cluster_kubeconfig" {
   }
   provisioner "local-exec" {
     interpreter = [ "/bin/bash", "-c" ]
-    command = "mkdir -p \"$KUBECONFIG_DIR\"; > $KUBECONFIG"
+    command = "mkdir -p \"$KUBECONFIG_DIR\" && echo \"$KUBECONFIG\""
     environment = {
-      KUBECONFIG      = var.managed_cluster_kubeconfig_filename
-      KUBECONFIG_DIR  = dirname(var.managed_cluster_kubeconfig_filename)
+      KUBECONFIG      = var.default_kubeconfig_filename
+      KUBECONFIG_DIR  = dirname(var.default_kubeconfig_filename)
     }
   }
 

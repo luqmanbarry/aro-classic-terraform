@@ -14,8 +14,6 @@ spec:
     createClusterSecretStore: true
   createOperator: true
   installCRDs: true # Recommended on OpenShift
-  processClusterExternalSecret: true
-  processClusterStore: true
   prometheus:
     enabled: true
     service:

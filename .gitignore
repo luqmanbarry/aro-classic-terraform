@@ -37,3 +37,5 @@ override.tf.json
 **/tfvars/computed
 
 **/Chart.lock
+
+**/.kube

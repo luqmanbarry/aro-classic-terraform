@@ -1,0 +1,130 @@
+{{ range $namespaceItem := .Values.serviceMesh.controlPlaneNamespaces }}
+---
+apiVersion: "{{ $.Values.serviceMesh.smcpAPIVersion }}"
+kind: ServiceMeshControlPlane
+metadata:
+  name: "{{ $namespaceItem.name }}"
+  namespace: "{{ $namespaceItem.name }}"
+  annotations:
+    argocd.argoproj.io/sync-wave: "7"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  version: "{{ $.Values.serviceMesh.controlPlaneVersion }}"
+  tracing:
+    type: Jaeger
+    sampling: 10000
+  # policy:
+  #   type: Istiod
+  telemetry:
+    type: Istiod
+  addons:
+    jaeger:
+      name: jaeger
+      install:
+        storage:
+          type: Elasticsearch
+        ingress:
+          enabled: true
+    kiali:
+      enabled: true
+      name: kiali
+      install:
+        dashboard:
+          viewOnly: false
+        deployment:
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 2Gi
+        service:
+          ingress:
+            enabled: true
+    grafana:
+      enabled: true
+      install:
+        service:
+          metadata:
+            annotations:
+              service.alpha.openshift.io/serving-cert-secret-name: grafana-tls
+          ingress:
+            enabled: true
+    prometheus:
+      enabled: true
+      install:
+        service:
+          metadata:
+            annotations:
+              service.alpha.openshift.io/serving-cert-secret-name: prometheus-tls
+          ingress:
+            enabled: true
+  proxy:
+    accessLogging:
+      file:
+        encoding: TEXT
+        name: /dev/stdout
+    runtime:
+      container:
+        resources:
+          requests:
+              cpu: 10m
+              memory: 128Mi
+          limits:
+            cpu: 1000m
+            memory: 4Gi
+  runtime:
+    defaults:
+      container:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 2Gi
+    components:
+      tracing.jaeger.elasticsearch: # only supports resources and image name
+        container:
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 2Gi
+      pilot:
+        container:
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 2Gi
+      
+  general:
+    logging:
+      componentLevels:
+        default: info
+
+  proxy:
+    injection:
+      autoInject: false
+    networking:
+      protocol:
+        autoDetect:
+          inbound: false
+          outbound: false
+      dns:
+        refreshRate: 300s
+
+  {{ if $namespaceItem.enableSecurity }}
+  security:
+    # identity:
+    #   type: Kubernetes
+    jwksResolverCA: |-
+      {{ .Files.Get "certs/jwks-ca.crt" | indent 6}}
+  {{ end }}
+{{ end}}
