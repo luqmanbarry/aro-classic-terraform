@@ -20,7 +20,7 @@ spec:
       serviceAccount: openshift-gitops-argocd-application-controller
       restartPolicy: OnFailure
       containers:
-      - name: "eso-install-cleanup"
+      - name: tag-volume-snapshot-class-hook
         image: registry.redhat.io/openshift4/ose-tools-rhel9
         securityContext:
           allowPrivilegeEscalation: false
@@ -33,5 +33,5 @@ spec:
         - -c
         - |
             set -e
-            oc tag --overwrite VolumeSnapshotClass {{ .Values.storage.volumeSnapshotClassName }} "velero.io/csi-volumesnapshot-class"="true"
+            oc label --overwrite VolumeSnapshotClass {{ .Values.storage.volumeSnapshotClassName }} "velero.io/csi-volumesnapshot-class=true"
       restartPolicy: Never
