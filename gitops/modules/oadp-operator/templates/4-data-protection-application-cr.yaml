@@ -57,3 +57,18 @@ spec:
         objectStorage:
           bucket: {{ .Values.storage.storageContainer }}
           prefix: {{ .Values.clusterName }}
+  snapshotLocations:
+    - name: "default"
+      velero:
+        provider: azure
+        default: true
+        config:
+          resourceGroup: {{ .Values.storage.resourceGroup }}
+          storageAccount: {{ .Values.storage.storageAccount }}
+          subscriptionId: {{ .Values.storage.subscriptionId }}
+          storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
+        credential:
+          key: cloud
+          name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
+        volumeSnapshotClassName: {{ .Values.storage.volumeSnapshotClassName }}
+        snapshotLocation: {{ .Values.storage.storageContainer }}

@@ -8,6 +8,7 @@ storage:
   provider: azure
   resourceGroup: stig0014-dev-tfstate
   storageAccount: stig0014devtfstate
+  volumeSnapshotClassName: csi-azuredisk-vsc
   storageContainer: oadp
   subscriptionId: 47fb2f13-480c-4657-a103-f3779bc3f63f
   # Storage Account Access Key: https://github.com/vmware-tanzu/velero-plugin-for-microsoft-azure?tab=readme-ov-file#option-4-use-storage-account-access-key
