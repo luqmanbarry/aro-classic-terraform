@@ -13,8 +13,13 @@ spec:
   backoffLimit: 0
   parallelism: 1
   completions: 3
-
+  selector:
+    matchLabels:
+      app: tag-volume-snapshot-class-hook
   template:
+    metadata:
+      labels:
+        app: tag-volume-snapshot-class-hook
     spec:
       serviceAccountName: openshift-gitops-argocd-application-controller
       serviceAccount: openshift-gitops-argocd-application-controller
@@ -34,4 +39,6 @@ spec:
         - |
             set -e
             oc label --overwrite VolumeSnapshotClass {{ .Values.storage.volumeSnapshotClassName }} "velero.io/csi-volumesnapshot-class=true"
+            oc annotate --overwrite VolumeSnapshotClass {{ .Values.storage.volumeSnapshotClassName }} "snapshot.storage.kubernetes.io/is-default-class=true"
+            
       restartPolicy: Never
