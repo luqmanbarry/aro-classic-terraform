@@ -6,6 +6,7 @@ metadata:
     operators.coreos.com/servicemeshoperator.openshift-operators: ""
   annotations:
     argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   name: servicemeshoperator
   namespace: openshift-operators
 spec:

@@ -5,6 +5,8 @@ kind: ServiceMeshControlPlane
 metadata:
   name: "{{ $namespaceItem.name }}"
   namespace: "{{ $namespaceItem.name }}"
+  annotations:
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   security:
     dataPlane:
