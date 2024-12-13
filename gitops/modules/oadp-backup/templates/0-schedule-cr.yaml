@@ -17,7 +17,7 @@ spec:
   template:
     datamover: ""
     storageLocation: "default"
-    csiSnapshotTimeout: 30
+    csiSnapshotTimeout: 30m
     defaultVolumesToFsBackup: {{ $.Values.defaultVolumesToFsBackup }}
     snapshotMoveData: true
     ttl: {{ $projectItem.backupRetentionPeriod }}
