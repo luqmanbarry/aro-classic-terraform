@@ -13,32 +13,26 @@ spec:
   backoffLimit: 3
   parallelism: 1
   completions: 3
-  selector:
-    matchLabels:
-      app: tag-volume-snapshot-class-hook
   template:
-    metadata:
-      labels:
-        app: tag-volume-snapshot-class-hook
     spec:
       serviceAccountName: openshift-gitops-argocd-application-controller
       serviceAccount: openshift-gitops-argocd-application-controller
       restartPolicy: OnFailure
       containers:
-      - name: tag-volume-snapshot-class-hook
-        image: registry.redhat.io/openshift4/ose-tools-rhel9
-        securityContext:
-          allowPrivilegeEscalation: false
-          seccompProfile:
-            type: "RuntimeDefault"
-          capabilities:
-            drop: [ALL]
-        command:
-        - /bin/sh
-        - -c
-        - |
-            set -e
-            oc label --overwrite VolumeSnapshotClass {{ .Values.storage.volumeSnapshotClassName }} "velero.io/csi-volumesnapshot-class=true"
-            oc annotate --overwrite VolumeSnapshotClass {{ .Values.storage.volumeSnapshotClassName }} "snapshot.storage.kubernetes.io/is-default-class=true"
-            
+        - name: tag-volume-snapshot-class-hook
+          image: registry.redhat.io/openshift4/ose-tools-rhel9
+          securityContext:
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: "RuntimeDefault"
+            capabilities:
+              drop: [ALL]
+          command:
+          - /bin/sh
+          - -c
+          - |
+              set -e
+              oc label --overwrite VolumeSnapshotClass {{ .Values.storage.volumeSnapshotClassName }} "velero.io/csi-volumesnapshot-class=true"
+              oc annotate --overwrite VolumeSnapshotClass {{ .Values.storage.volumeSnapshotClassName }} "snapshot.storage.kubernetes.io/is-default-class=true"
+              
       restartPolicy: Never
