@@ -65,7 +65,7 @@ spec:
         config:
           resourceGroup: {{ .Values.storage.resourceGroup }}
           subscriptionId: {{ .Values.storage.subscriptionId }}
-          storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
+          incremental: "true"
         credential:
           key: cloud
           name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
