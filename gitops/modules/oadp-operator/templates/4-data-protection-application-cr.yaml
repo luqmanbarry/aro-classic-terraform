@@ -64,7 +64,6 @@ spec:
         default: true
         config:
           resourceGroup: {{ .Values.storage.resourceGroup }}
-          storageAccount: {{ .Values.storage.storageAccount }}
           subscriptionId: {{ .Values.storage.subscriptionId }}
           storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
         credential:
