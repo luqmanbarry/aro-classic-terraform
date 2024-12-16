@@ -3,7 +3,7 @@ namespace: openshift-adp
 
 
 enabled: true
-defaultVolumesToFsBackup: false # Whether or not use snapshots ofr FileSystem Backup for Volumes
+defaultVolumesToFsBackup: true # Whether or not use snapshots ofr FileSystem Backup for Volumes
 projects: # List projects/namespaces to backup
   - namespace: changeme
     paused: false

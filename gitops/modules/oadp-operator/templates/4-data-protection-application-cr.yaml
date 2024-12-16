@@ -16,27 +16,6 @@ spec:
   configuration:
     velero:
       podConfig:
-        env:
-        - name: AZURE_CLIENT_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.storage.clientSecretKVSecretName }}
-              key: AZURE_CLIENT_ID
-        - name: AZURE_CLIENT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.storage.clientSecretKVSecretName }}
-              key: AZURE_CLIENT_SECRET
-        - name: AZURE_TENANT_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.storage.clientSecretKVSecretName }}
-              key: AZURE_TENANT_ID
-        - name: AZURE_SUBSCRIPTION_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.storage.clientSecretKVSecretName }}
-              key: AZURE_SUBSCRIPTION_ID
         resourceAllocations:
           limits:
             cpu: "2"
