@@ -9,6 +9,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
+  # Azure Provider: https://github.com/vmware-tanzu/velero-plugin-for-microsoft-azure
+  # AWS Provider: https://github.com/vmware-tanzu/velero-plugin-for-aws
+  # GCP Provider: https://github.com/vmware-tanzu/velero-plugin-for-gcp
   backupImages: true
   configuration:
     velero:
