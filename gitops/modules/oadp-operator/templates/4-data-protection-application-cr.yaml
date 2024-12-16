@@ -56,8 +56,8 @@ spec:
           storageAccountURI: "https://{{ .Values.storage.storageAccount }}.blob.core.windows.net"
           blockSizeInBytes: "10485760" # 10MB
         credential:
-          key: cloud
-          name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
+          key: {{ .Values.veleroSecretKeyFile }}
+          name: {{ .Values.storage.clientSecretKVSecretName }}
         objectStorage:
           bucket: {{ .Values.storage.storageContainer }}
           prefix: {{ .Values.clusterName }}
@@ -71,7 +71,7 @@ spec:
           resourceGroup: {{ .Values.storage.resourceGroup }}
           incremental: "true"
         credential:
-          key: credentials-velero
-          name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
+          key: {{ .Values.veleroSecretKeyFile }}
+          name: {{ .Values.storage.clientSecretKVSecretName }}
         volumeSnapshotClassName: {{ .Values.storage.volumeSnapshotClassName }}
         snapshotLocation: {{ .Values.storage.storageContainer }}

@@ -3,6 +3,8 @@ keyVaultName: changeme
 namespace: openshift-adp
 subscriptionChannel: stable-1.4
 
+veleroSecretKeyFile: credentials-velero
+
 
 storage:
   provider: azure
