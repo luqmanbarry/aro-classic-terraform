@@ -8,6 +8,7 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
     "helm.sh/hook": "pre-install"
+    "helm.sh/hook-delete-policy": "hook-succeeded"
 spec:
   backoffLimit: 0
   parallelism: 1
