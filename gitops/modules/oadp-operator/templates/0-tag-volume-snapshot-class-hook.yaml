@@ -12,7 +12,7 @@ metadata:
 spec:
   backoffLimit: 0
   parallelism: 1
-  completions: 3
+  completions: 1
   template:
     spec:
       serviceAccountName: openshift-gitops-argocd-application-controller
