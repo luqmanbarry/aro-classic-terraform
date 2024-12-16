@@ -49,8 +49,12 @@ spec:
         config:
           resourceGroup: {{ .Values.storage.resourceGroup }}
           storageAccount: {{ .Values.storage.storageAccount }}
-          subscriptionId: {{ .Values.storage.subscriptionId }}
+          blobContainer: {{ .Values.storage.storageContainer }}
           storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
+          storageAccountURI: "https://{{ .Values.storage.storageAccount }}.blob.core.windows.net"
+          blockSizeInBytes: 10485760 # 10MB
+          useAAD: "true"
+          activeDirectoryAuthorityURI: https://login.microsoftonline.us/
         credential:
           key: cloud
           name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
@@ -63,9 +67,11 @@ spec:
         provider: azure
         default: true
         config:
+          apiTimeout: 30m
           resourceGroup: {{ .Values.storage.resourceGroup }}
           subscriptionId: {{ .Values.storage.subscriptionId }}
           incremental: "true"
+          activeDirectoryAuthorityURI: https://login.microsoftonline.us/
         credential:
           key: cloud
           name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
