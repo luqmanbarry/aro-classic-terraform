@@ -60,9 +60,9 @@ modules: # List of modules to be deployed
   - name: groups-rbac
     config_path: gitops/modules/groups-rbac
     sync_wave: 112
-  - name: oadp-operator
-    config_path: gitops/modules/oadp-operator
-    sync_wave: 113
+  # - name: oadp-operator
+  #   config_path: gitops/modules/oadp-operator
+  #   sync_wave: 113
   - name: sample-apps
     config_path: gitops/modules/sample-apps
     sync_wave: 114 
@@ -72,9 +72,9 @@ modules: # List of modules to be deployed
   # - name: service-mesh
   #   config_path: gitops/modules/service-mesh
   #   sync_wave: 114 
-  - name: oadp-backup
-    config_path: gitops/modules/oadp-backup
-    sync_wave: 115
+  # - name: oadp-backup
+  #   config_path: gitops/modules/oadp-backup
+  #   sync_wave: 115
   # - name: oadp-restore
   #   config_path: gitops/modules/oadp-restore
   #   sync_wave: 999
