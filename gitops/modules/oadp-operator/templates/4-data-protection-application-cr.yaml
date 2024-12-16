@@ -54,7 +54,9 @@ spec:
           storageAccount: {{ .Values.storage.storageAccount }}
           storageAccountURI: "https://{{ .Values.storage.storageAccount }}.blob.core.windows.net"
           blockSizeInBytes: "10485760" # 10MB
-          storageAccountKeyEnvVar: MY_BACKUP_STORAGE_ACCOUNT_KEY_ENV_VAR 
+          clientIdKeyEnvVar: AZURE_CLIENT_ID
+          clientSecretKeyEnvVar: AZURE_CLIENT_SECRET
+          resourceGroupKeyEnvVar: AZURE_RESOURCE_GROUP
           useAAD: "true"
         credential:
           key: {{ .Values.veleroSecretKeyFile }}
