@@ -69,7 +69,6 @@ spec:
         config:
           apiTimeout: 30m
           resourceGroup: {{ .Values.storage.resourceGroup }}
-          subscriptionId: {{ .Values.storage.subscriptionId }}
           incremental: "true"
           activeDirectoryAuthorityURI: https://login.microsoftonline.us/
         credential:
