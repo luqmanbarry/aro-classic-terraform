@@ -5,6 +5,7 @@ subscriptionChannel: stable-1.4
 
 veleroSecretKeyFile: cloud
 
+defaultVolumesToFsBackup: false # Whether or not use snapshots ofr FileSystem Backup for Volumes
 
 storage:
   provider: azure

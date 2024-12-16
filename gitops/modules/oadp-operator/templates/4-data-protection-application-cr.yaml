@@ -15,7 +15,29 @@ spec:
   backupImages: true
   configuration:
     velero:
+      logLevel: debug
       podConfig:
+        env:
+        - name: AZURE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.storage.clientSecretKVSecretName }}
+              key: AZURE_CLIENT_ID
+        - name: AZURE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.storage.clientSecretKVSecretName }}
+              key: AZURE_CLIENT_SECRET
+        - name: AZURE_TENANT_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.storage.clientSecretKVSecretName }}
+              key: AZURE_TENANT_ID
+        - name: AZURE_SUBSCRIPTION_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.storage.clientSecretKVSecretName }}
+              key: AZURE_SUBSCRIPTION_ID
         resourceAllocations:
           limits:
             cpu: "2"
@@ -28,7 +50,8 @@ spec:
       client-qps: 500
       itemOperationSyncFrequency: "10s"
       defaultItemOperationTimeout: 4h
-      defaultVolumesToFSBackup: true
+      defaultVolumesToFSBackup: {{ .Values.defaultVolumesToFsBackup }}
+      defaultSnapshotMoveData: true
       defaultPlugins:
         - openshift
         - azure
@@ -55,16 +78,6 @@ spec:
           storageAccountURI: "https://{{ .Values.storage.storageAccount }}.blob.core.windows.net"
           blockSizeInBytes: "10485760" # 10MB
           tenantId: {{ .Values.storage.tenantID }}
-          clientID:
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.storage.clientSecretKVSecretName }}
-                key: AZURE_CLIENT_ID
-          clientSecret:
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.storage.clientSecretKVSecretName }}
-                key: AZURE_CLIENT_SECRET
           useAAD: "true"
         credential:
           key: {{ .Values.veleroSecretKeyFile }}
