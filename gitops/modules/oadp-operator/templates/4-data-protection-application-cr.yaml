@@ -71,7 +71,7 @@ spec:
           resourceGroup: {{ .Values.storage.resourceGroup }}
           incremental: "true"
         credential:
-          key: cloud
+          key: credentials-velero
           name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
         volumeSnapshotClassName: {{ .Values.storage.volumeSnapshotClassName }}
         snapshotLocation: {{ .Values.storage.storageContainer }}
