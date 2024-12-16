@@ -54,7 +54,6 @@ spec:
           storageAccountURI: "https://{{ .Values.storage.storageAccount }}.blob.core.windows.net"
           blockSizeInBytes: "10485760" # 10MB
           useAAD: "true"
-          activeDirectoryAuthorityURI: https://login.microsoftonline.us/
         credential:
           key: cloud
           name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
@@ -70,7 +69,6 @@ spec:
           apiTimeout: 30m
           resourceGroup: {{ .Values.storage.resourceGroup }}
           incremental: "true"
-          activeDirectoryAuthorityURI: https://login.microsoftonline.us/
         credential:
           key: cloud
           name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
