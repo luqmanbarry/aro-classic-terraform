@@ -56,7 +56,6 @@ spec:
           storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
           storageAccountURI: "https://{{ .Values.storage.storageAccount }}.blob.core.windows.net"
           blockSizeInBytes: "10485760" # 10MB
-          useAAD: "true"
         credential:
           key: cloud
           name: {{ .Values.storage.servicePrincipalKVStorageAccountAccessKey }}
