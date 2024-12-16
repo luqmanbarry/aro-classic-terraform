@@ -52,7 +52,6 @@ spec:
         config:
           resourceGroup: {{ .Values.storage.resourceGroup }}
           storageAccount: {{ .Values.storage.storageAccount }}
-          storageAccountKeyEnvVar: AZURE_STORAGE_ACCOUNT_ACCESS_KEY
           storageAccountURI: "https://{{ .Values.storage.storageAccount }}.blob.core.windows.net"
           blockSizeInBytes: "10485760" # 10MB
         credential:
