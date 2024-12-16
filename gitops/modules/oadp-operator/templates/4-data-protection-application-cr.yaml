@@ -15,7 +15,6 @@ spec:
   backupImages: true
   configuration:
     velero:
-      logLevel: debug
       podConfig:
         env:
         - name: AZURE_CLIENT_ID
