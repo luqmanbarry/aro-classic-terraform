@@ -6,13 +6,13 @@ defaultVolumesToFsBackup: true # Whether or not use snapshots ofr FileSystem Bac
 projects: # List projects/namespaces to backup
   - namespace: warehouse
     paused: false
-    cronSchedule: "*/10 * * * *" # Every day at midnight - update accordingly for other TZ
+    cronSchedule: "* */4 * * *" # Every day at midnight - update accordingly for other TZ
     backupRetentionPeriod: 4h # 30 days
   - namespace: point-of-sale
     paused: false
-    cronSchedule: "*/10 * * * *" # Every day at midnight - update accordingly for other TZ
+    cronSchedule: "* */4 * * *" # Every day at midnight - update accordingly for other TZ
     backupRetentionPeriod: 4h # 30 days
   - namespace: shipping
     paused: false
-    cronSchedule: "*/10 * * * *" # Every day at midnight - update accordingly for other TZ
+    cronSchedule: "* */4 * * *" # Every day at midnight - update accordingly for other TZ
     backupRetentionPeriod: 4h # 30 days
