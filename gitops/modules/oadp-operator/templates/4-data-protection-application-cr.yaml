@@ -54,6 +54,7 @@ spec:
           storageAccount: {{ .Values.storage.storageAccount }}
           storageAccountURI: "https://{{ .Values.storage.storageAccount }}.blob.core.windows.net"
           blockSizeInBytes: "10485760" # 10MB
+          useAAD: "true"
         credential:
           key: {{ .Values.veleroSecretKeyFile }}
           name: {{ .Values.storage.clientSecretKVSecretName }}
