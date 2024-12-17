@@ -36,6 +36,7 @@ spec:
         - azure
         - openshift
         - csi
+        - vsm
     nodeAgent:
       enable: true
       uploaderType: kopia
