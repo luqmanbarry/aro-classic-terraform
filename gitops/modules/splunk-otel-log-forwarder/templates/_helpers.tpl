@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "splunk-log-forwarder.name" -}}
+{{- define "splunk-otel-log-forwarder.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "splunk-log-forwarder.fullname" -}}
+{{- define "splunk-otel-log-forwarder.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "splunk-log-forwarder.chart" -}}
+{{- define "splunk-otel-log-forwarder.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "splunk-log-forwarder.labels" -}}
-helm.sh/chart: {{ include "splunk-log-forwarder.chart" . }}
-{{ include "splunk-log-forwarder.selectorLabels" . }}
+{{- define "splunk-otel-log-forwarder.labels" -}}
+helm.sh/chart: {{ include "splunk-otel-log-forwarder.chart" . }}
+{{ include "splunk-otel-log-forwarder.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "splunk-log-forwarder.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "splunk-log-forwarder.name" . }}
+{{- define "splunk-otel-log-forwarder.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "splunk-otel-log-forwarder.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "splunk-log-forwarder.serviceAccountName" -}}
+{{- define "splunk-otel-log-forwarder.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "splunk-log-forwarder.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "splunk-otel-log-forwarder.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

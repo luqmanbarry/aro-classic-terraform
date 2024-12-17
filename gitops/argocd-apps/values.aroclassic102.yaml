@@ -48,8 +48,8 @@ modules: # List of modules to be deployed
   # - name: gitlab-runners
   #   config_path: gitops/modules/gitlab-runners
   #   sync_wave: 110
-  # - name: splunk-log-forwarder
-  #   config_path: gitops/modules/splunk-log-forwarder
+  # - name: splunk-otel-log-forwarder
+  #   config_path: gitops/modules/splunk-otel-log-forwarder
   #   sync_wave: 110
   - name: identity-providers
     config_path: gitops/modules/identity-providers
