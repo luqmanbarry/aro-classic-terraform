@@ -33,7 +33,6 @@ spec:
       defaultPlugins:
         - openshift
         - csi
-        - kubevirt
         - azure
     nodeAgent:
       enable: true
