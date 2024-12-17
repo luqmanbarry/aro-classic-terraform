@@ -23,11 +23,11 @@ spec:
           requests:
             cpu: 250m
             memory: 512Mi
-      resourceTimeout: 24h
+      resourceTimeout: 10m
       client-burst: 1000
       client-qps: 500
       itemOperationSyncFrequency: "10s"
-      defaultItemOperationTimeout: 4h
+      defaultItemOperationTimeout: 1h
       defaultVolumesToFSBackup: {{ .Values.defaultVolumesToFsBackup }}
       defaultSnapshotMoveData: true
       defaultPlugins:
@@ -40,8 +40,8 @@ spec:
       podConfig:
         resourceAllocations:
           limits:
-            cpu: "500m"
-            memory: 2Gi
+            cpu: "1"
+            memory: 4Gi
           requests:
             cpu: 50m
             memory: 200Mi
