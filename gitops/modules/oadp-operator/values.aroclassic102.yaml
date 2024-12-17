@@ -1,4 +1,4 @@
 clusterName: aroclassic102
 keyVaultName: stig0014-dev-vault
 
-defaultVolumesToFsBackup: false # Whether or not use snapshots ofr FileSystem Backup for Volumes
+defaultVolumesToFsBackup: true # Whether or not use snapshots ofr FileSystem Backup for Volumes
