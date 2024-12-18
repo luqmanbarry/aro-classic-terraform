@@ -4,13 +4,13 @@ locals {
   # ocp_pull_secret = "${path.module}/.pull-secret/pull-secret.json" # Read from local file
   
   tmp_secrets_dir                = "${path.module}/../.tmp"
-  console_url_content_path       = "${path.module}/${local.tmp_secrets_dir}/console_url"
-  latest_ocp_version             = "${path.module}/${local.tmp_secrets_dir}/latest_ocp_version"
-  api_server_url_content_path    = "${path.module}/${local.tmp_secrets_dir}/api_server_url"
-  admin_username_content_path    = "${path.module}/${local.tmp_secrets_dir}/admin_username"
-  admin_password_content_path    = "${path.module}/${local.tmp_secrets_dir}/admin_password"
-  ingress_lb_ip_content_path     = "${path.module}/${local.tmp_secrets_dir}/ingress_lb_ip"
-  api_server_lb_ip_content_path  = "${path.module}/${local.tmp_secrets_dir}/api_server_lb_ip"
+  console_url_content_path       = "${local.tmp_secrets_dir}/console_url"
+  latest_ocp_version             = "${local.tmp_secrets_dir}/latest_ocp_version"
+  api_server_url_content_path    = "${local.tmp_secrets_dir}/api_server_url"
+  admin_username_content_path    = "${local.tmp_secrets_dir}/admin_username"
+  admin_password_content_path    = "${local.tmp_secrets_dir}/admin_password"
+  ingress_lb_ip_content_path     = "${local.tmp_secrets_dir}/ingress_lb_ip"
+  api_server_lb_ip_content_path  = "${local.tmp_secrets_dir}/api_server_lb_ip"
 
   derived_tags = {
     "organization"    = var.organization
