@@ -1,69 +1,84 @@
-# OADP/Velero Backup & Restore on Azure Red Hat OpenShift
+= DevOp toolchain + OADP
 
-This demo uses Pod file system backup (FSB) to copy pod resources and volume data to a storage account. Pod FSB implies volumes included in the backup must be mounted by pods, even if they are just temporary test pods.
+The code is designed to support Pod FileSystemBackup, CSI Snapshot with SnapShotMoveData which copies snapshots to the storage account, CSI Snapshot with keeps snapshots within the ARO cluster managed resource group. 
+
+The Pod FSB is activated by default. Set the `defaultVolumesToFSBackup: false` to activate CSI Snapshot.
 
 Three Helm based GitOps modules are used to achieve this setup:
-- [oadp-operator](../oadp-operator/): Install the OADP Operator, configures the `DataProtectionApplication` custom resource. 
-  - The Helm chart uses an [ExternalSecret](https://external-secrets.io/latest/provider/azure-key-vault/#creating-external-secret) CR to read the Azure Storage Account Access Key from Azure KeyVault and place it in a Kubernetes secret object for the `BackupStorageLocation` CR configuration.
-  - To learn how the ESO was deployed, here's the [external-secret operator](../external-secrets-operator/) module.
-- [oadp-backup](../oadp-backup/): Create the `Schedule` CRs, one per namespace, which are used to trigger periodic namespace backups.
-- [oadp-restore](../oadp-restore/): Create the `Restore` CRs, one per backup, they are used to restore backups.
 
-## Prerequisites
-- Azure Red Hat OpenShift cluster.
-  - One cluster if you want to test restore on the same cluster.
-  - Two clusters for testing restore on a completely different cluster.
-- OpenShift GitOps instance deployed.
-  - This applies to the backup and restore clusters.
-- Ensure network traffic between the backup cluster and the storage account is allowed; as well as traffic between restore cluster and the storage account.
-- Sample applications up and running on the backup cluster
-- [Prepare the storage account credentials](https://github.com/vmware-tanzu/velero-plugin-for-microsoft-azure)
-  - Multiple options are available, I chose to use qa Storage Account access key which removes the need to have a Service Principal created.
-- Store the storage account access key to Azure Key Vault
+. oadp-operator: Install the OADP Operator, configures the `DataProtectionApplication` custom resource. 
+.. The Helm chart uses an https://external-secrets.io/latest/provider/azure-key-vault/#creating-external-secret[ExternalSecret] CR to read the Service Principal ClientSecret from Azure KeyVault and place it in a Kubernetes secret object for the `BackupStorageLocation` CR configuration.
+.. To learn how the ESO was deployed, here's the [external-secret operator](../external-secrets-operator/) module.
+. oadp-backup: Create the `Schedule` CRs, one per namespace, which are used to trigger periodic namespace backups.
+. oadp-restore: Create the `Restore` CRs, one per backup, they are used to restore backups.
 
-## Procedure
+== Prerequisites
 
-Each of the 3 OADP Hem charts is deployed and monitored by an ArgoCD Application that is defined in the [argocd-apps](../../argocd-apps/) helm chart. Distinct ArgoCD applications parameters are provided in the values file. Use the [values.aroclassic102.yaml](../../argocd-apps/values.aroclassic102.yaml) as reference.
+* Azure Red Hat OpenShift cluster.
+** One cluster if you want to test restore on the same cluster.
+** Two clusters for testing restore on a completely different cluster.
+* OpenShift GitOps instance deployed.
+** This applies to the backup and restore clusters.
+* Ensure network traffic between the backup cluster and the storage account is allowed; as well as traffic between restore cluster and the storage account.
+* Test applications up and running on the backup cluster
+* https://github.com/vmware-tanzu/velero-plugin-for-microsoft-azure[Prepare the Velero Azure Service Principal]
+** Multiple options are available, I chose to use a Service Principal with a custom role (velero) assigned to it.
+* Store the Service Principal ClientSecret to Azure Key Vault
 
-### Backup
-1. Install the [OADP Operator](../oadp-operator/).
-  - Register the [oadp-operator](../../argocd-apps/values.aroclassic102.yaml) ArgoCD Application
-    ```yaml
-    modules:
-      - name: oadp-operator
-        config_path: gitops/modules/oadp-operator
-        sync_wave: 113
-    ```
-2. Verify applications being backed up are healthy and all volumes mounted.
-3. Identity the namespaces you want backed up and provide their names in the [OADP Backup](../oadp-backup/) module's `values.<cluster-name>.yaml` file. 
-  - The [OADP Backup](../oadp-backup/) module takes periodic backup of selected namespaces.
-  - Taking into account the local time zone, you should update the backup `cronSchedule` to your requirements, for example once daily at midnight (`0 0 * * *`). UTC is the default TZ.
-4. Deploy the [OADP Backup](../oadp-backup/) module.
-  - Register the [oadp-backup](../../argocd-apps/values.aroclassic102.yaml) ArgoCD Application
-    ```yaml
-    modules:
-      - name: oadp-backup
-        config_path: gitops/modules/oadp-backup
-        sync_wave: 113
-    ``` 
-5. Wait for the backup to complete.
+== Procedure
 
-### Restore
+Each of the 3 OADP Hem charts is deployed and monitored by an ArgoCD Application that is defined in the `argocd-apps` helm chart. Distinct ArgoCD applications parameters are provided in the values file. Use the `values.<cluster-name>.yaml` as reference.
+
+=== Backup
+
+. Install the `oadp-operator` helm chart.
++
+.. Register the `oadp-operator` ArgoCD Application
++
+[source,yaml]
+----
+modules:
+  - name: oadp-operator
+    config_path: gitops/modules/oadp-operator
+    sync_wave: 113
+----
++
+. Verify applications being backed up are healthy and all volumes mounted.
+. Identity the namespaces you want backed up and provide their names in the `oadp-backup` module's `values.<cluster-name>.yaml` file. 
+.. The `oadp-backup` module takes periodic backup of selected namespaces.
+.. Taking into account the local time zone, you should update the backup `cronSchedule` to your requirements, for example once daily at midnight (`0 0 * * *`). UTC is the default TZ.
+. Deploy the `oadp-backup` module.
+.. Register the `oadp-backup` ArgoCD Application
++
+[source,yaml]
+----
+modules:
+  - name: oadp-backup
+    config_path: gitops/modules/oadp-backup
+    sync_wave: 113
+----
++
+. Wait for the backup to complete.
+
+=== Restore
 
 The restore can be applied to different scenarios.
-- Restoring backups on the same cluster where they were taken.
-- Restoring backups on a different cluster, same or different region.
+* Restoring backups on the same cluster where they were taken.
+* Restoring backups on a different cluster, same or different region.
 
-1. Install the [OADP Operator](../oadp-operator/).
-  - **Skip** this step if the restore operation is taking place in the backup cluster.
-2. Go the storage account container and find the backups you want to restore
-3. Identity the backups you want restored and provide their names in the [OADP Restore](../oadp-restore/) module's `values.<cluster-name>.yaml` file.
-4. Deploy the [OADP Restore](../oadp-restore/) module.
-  - Register the [oadp-restore](../../argocd-apps/values.aroclassic102.yaml) ArgoCD Application
-    ```yaml
-    modules:
-      - name: oadp-restore
-        config_path: gitops/modules/oadp-restore
-        sync_wave: 113
-    ``` 
-5. Wait for the restore to complete.
+. Install the `oadp-operator`.
+.. **Skip** this step if the restore operation is taking place in the backup cluster.
+. Wait for the backups to be synchronized on the new/existing cluster. For this work on a completely new cluster, the `BackupStorageLocation` CR must point to the same storage account & container.
+. Identify the backups you want restored and provide their names in the `oadp-restore` module's `values.<cluster-name>.yaml` file.
+. Deploy the `oadp-restore` module.
+.. Register the `oadp-restore` ArgoCD Application
++
+[source,yaml]
+----
+modules:
+  - name: oadp-restore
+    config_path: gitops/modules/oadp-restore
+    sync_wave: 113
+----
++
+. Wait for the restore to complete.
