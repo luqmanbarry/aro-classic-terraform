@@ -11,6 +11,7 @@ storage:
   provider: azure
   resourceGroup: stig0014-dev-tfstate
   storageAccount: stig0014devtfstate
+  storageAccountBlobURI: "https://stig0014devtfstate.blob.core.windows.net"
   volumeSnapshotClassName: csi-azuredisk-vsc
   storageContainer: oadp
   subscriptionId: 47fb2f13-480c-4657-a103-f3779bc3f63f

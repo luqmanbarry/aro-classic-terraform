@@ -1,0 +1,14 @@
+---
+apiVersion: upgrade.managed.openshift.io/v1alpha1
+kind: UpgradeConfig
+metadata:
+  name: managed-upgrade-config
+  namespace: openshift-managed-upgrade-operator
+spec:
+  type: {{ .Values.clusterType }}
+  upgradeAt: {{ .Values.upgradeStartTime }}
+  PDBForceDrainTimeout: {{ .Values.nodeDrainTimeout }}
+  capacityReservation: true
+  desired:
+    channel: {{ .Values.desired.channel }}
+    version: {{ .Values.desired.version }}

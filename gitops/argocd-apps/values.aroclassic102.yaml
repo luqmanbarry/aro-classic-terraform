@@ -77,5 +77,8 @@ modules: # List of modules to be deployed
     sync_wave: 115
   # - name: oadp-restore
   #   config_path: gitops/modules/oadp-restore
-  #   sync_wave: 999
+  #   sync_wave: 900
+  # - name: openshift-cluster-upgrade
+  #   config_path: gitops/modules/openshift-cluster-upgrade
+  #   sync_wave: 901
   

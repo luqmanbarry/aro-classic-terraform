@@ -1,8 +1,9 @@
 clusterName: aroclassic102
 
 storageClassMapping:
-  oldStorageClassName: managed-premium
-  newStorageClassName: managed-csi
+  managed-premium: managed-csi
+  managed-premium-retain: managed-csi
+  default: managed-csi
 
 enable: true
 backups: # List backups to restore from

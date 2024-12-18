@@ -8,7 +8,7 @@ metadata:
     managed-by: argocd.argoproj.io
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
     "helm.sh/hook": "pre-install"
-    "helm.sh/hook-delete-policy": "hook-succeeded"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
 spec:
   backoffLimit: 0
   parallelism: 1
@@ -38,7 +38,8 @@ spec:
             oc delete -n {{ .Values.namespace }} subscription --all || true
             oc delete -n {{ .Values.namespace }} operatorgroup --all || true
             oc delete -n {{ .Values.namespace }} installplan --all || true
-            oc delete -n {{ .Values.namespace }} operatorconfig --all || true
+            oc delete -n {{ .Values.namespace }} operatorconfig cluster || true
+            oc patch  operatorconfig.operator.external-secrets.io/cluster -p '{"metadata":{"finalizers":[]}}' --type=merge || true
 
             echo "Deleting all instacnes of ESO operands"
             oc delete ClusterExternalSecret --all --all-namespaces || true
