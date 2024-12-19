@@ -1,4 +1,4 @@
-# OpenShift Cluster Upgrade
+# OpenShift Cluster Upgrade - Helm Chart
 
 ## Pre-requisites:
 - [Upgrade an Azure Red Hat OpenShift cluster](https://learn.microsoft.com/en-us/azure/openshift/howto-upgrade)
@@ -45,3 +45,27 @@
     ```
 
 5. Commit the helm chart to Git, install the chart
+
+# OpenShift Cluster Upgrade - OpenShift Client
+
+To upgrade the cluster using the command line option, use the `oc adm upgrade` command.
+
+1. View the update status and available cluster updates
+
+    ```sh
+    oc adm upgrade
+    # On ARO
+    az aro get-versions --location=eastus
+    ```
+
+2. Update to the latest version
+
+    ```sh
+    oc adm upgrade --to-latest=true
+    ```
+
+3. Upgrade to a specific version
+
+    ```sh
+    oc adm upgrade --to=VERSION [flags] [options]
+    ```

@@ -29,7 +29,9 @@ spec:
       itemOperationSyncFrequency: "10s"
       defaultItemOperationTimeout: 1h
       defaultVolumesToFSBackup: {{ .Values.defaultVolumesToFsBackup }}
+      {{ if not .Values.defaultVolumesToFsBackup }}
       defaultSnapshotMoveData: true
+      {{ end }}
       defaultPlugins:
         - azure
         - openshift

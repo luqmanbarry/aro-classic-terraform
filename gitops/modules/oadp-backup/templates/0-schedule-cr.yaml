@@ -19,6 +19,9 @@ spec:
     storageLocation: "default"
     csiSnapshotTimeout: 10m
     defaultVolumesToFsBackup: {{ $.Values.defaultVolumesToFsBackup }}
+    {{ if not $.Values.defaultVolumesToFsBackup }}
+    snapshotMoveData: true
+    {{ end }}
     snapshotMoveData: true
     ttl: {{ $projectItem.backupRetentionPeriod }}
     includedNamespaces:
