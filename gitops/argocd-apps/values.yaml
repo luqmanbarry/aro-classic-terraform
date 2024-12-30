@@ -7,6 +7,6 @@ git:
 modules:
   - name: openshift-gitops
     config_path: gitops/modules/container-security
-    sync_wave: 0
-
+    helm_hook: "post-install,post-upgrade" # Default value
+    helm_hook_weight: 1
       

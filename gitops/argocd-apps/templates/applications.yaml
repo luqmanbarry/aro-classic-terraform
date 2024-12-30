@@ -3,13 +3,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "{{ $moduleItem.sync_wave }}-{{ $moduleItem.name }}"
+  name: "{{ $moduleItem.helm_hook_weight }}-{{ $moduleItem.name }}"
   namespace: openshift-gitops
-  finalizers:
-   - resources-finalizer.argocd.argoproj.io
   annotations:
     managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "{{ $moduleItem.sync_wave }}"
+    "helm.sh/hook": "{{ $moduleItem.helm_hook }}"
+    "helm.sh/hook-weight": "{{ $moduleItem.helm_hook_weight }}"
   labels:
     app.kubernetes.io/part-of: "{{ $.Values.resourceNamePrefix }}"
 spec:
@@ -58,8 +57,6 @@ spec:
   # managedNamespaceMetadata:
   #   labels:
   #     argocd.argoproj.io/managed-by: openshift-gitops
-  #   annotations:
-  #     argocd.argoproj.io/sync-wave: '0'
 
   ignoreDifferences:
   - group: operators.coreos.com/v1alpha1

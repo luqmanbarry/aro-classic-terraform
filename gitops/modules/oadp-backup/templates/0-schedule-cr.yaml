@@ -26,5 +26,6 @@ spec:
     ttl: {{ $projectItem.backupRetentionPeriod }}
     includedNamespaces:
       - {{ $projectItem.namespace }}
+    includeClusterResources: true
 {{ end }}
 {{ end }}

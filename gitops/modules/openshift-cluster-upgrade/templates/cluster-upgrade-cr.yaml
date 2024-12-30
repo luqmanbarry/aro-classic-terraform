@@ -8,7 +8,7 @@ spec:
   type: {{ .Values.clusterType }}
   upgradeAt: {{ .Values.upgradeStartTime }}
   PDBForceDrainTimeout: {{ .Values.nodeDrainTimeout }}
-  capacityReservation: true
+  capacityReservation: false
   desired:
     channel: {{ .Values.desired.channel }}
     version: {{ .Values.desired.version }}
