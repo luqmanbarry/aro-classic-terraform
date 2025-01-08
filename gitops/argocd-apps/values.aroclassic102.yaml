@@ -42,10 +42,10 @@ modules: # List of modules to be deployed
     config_path: gitops/modules/user-workload-monitoring
     helm_hook: "post-install,post-upgrade" # Default value
     helm_hook_weight: 105
-  - name: image-registries-allow-deny
-    config_path: gitops/modules/image-registries-allow-deny
-    helm_hook: "post-install,post-upgrade" # Default value
-    helm_hook_weight: 106
+  # - name: image-registries-allow-deny
+  #   config_path: gitops/modules/image-registries-allow-deny
+  #   helm_hook: "post-install,post-upgrade" # Default value
+  #   helm_hook_weight: 106
   - name: global-cluster-pull-secret
     config_path: gitops/modules/global-cluster-pull-secret
     helm_hook: "post-install,post-upgrade" # Default value
