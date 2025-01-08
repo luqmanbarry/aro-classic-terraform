@@ -38,7 +38,7 @@ spec:
             oc delete -n {{ .Values.namespace }} operatorgroup --all || true
             oc delete -n {{ .Values.namespace }} installplan --all || true
             oc delete -n {{ .Values.namespace }} operatorconfig cluster || true
-            oc patch  -n {{ .Values.namespace }} operatorconfig.operator.external-secrets.io/cluster -p '{"metadata":{"finalizers":[]}}' --type=merge || true
+            oc patch  -n {{ .Values.namespace }} operatorconfig.operator.external-secrets.io cluster -p '{"metadata":{"finalizers":[]}}' --type=merge || true
 
             echo "Deleting all instacnes of ESO operands"
             oc delete ClusterExternalSecret --all --all-namespaces || true
