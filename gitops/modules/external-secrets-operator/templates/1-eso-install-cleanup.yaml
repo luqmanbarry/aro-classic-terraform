@@ -32,20 +32,20 @@ spec:
         - -c
         - |
             set -e
-            echo "Cleanup install namespace"
+            echo "==> Cleanup install namespace"
             oc delete -n {{ .Values.namespace }} clusterserviceversion --all || true
             oc delete -n {{ .Values.namespace }} subscription --all || true
             oc delete -n {{ .Values.namespace }} operatorgroup --all || true
             oc delete -n {{ .Values.namespace }} installplan --all || true
             oc delete -n {{ .Values.namespace }} operatorconfig cluster || true
             oc patch  -n {{ .Values.namespace }} operatorconfig.operator.external-secrets.io cluster -p '{"metadata":{"finalizers":[]}}' --type=merge || true
-            echo "Deleting all instacnes of ESO operands"
+            echo "==> Deleting all instacnes of ESO operands"
             oc delete ClusterExternalSecret --all --all-namespaces || true
             oc delete ClusterSecretStore --all --all-namespaces || true
             oc delete ExternalSecret --all --all-namespaces || true
             oc delete SecretStore --all --all-namespaces || true
             oc delete ExternalSecret --all --all-namespaces || true
-            echo "Deleting all CRDs associated"
+            echo "==> Deleting all CRDs associated"
             oc delete customresourcedefinition/clusterexternalsecrets.external-secrets.io || true
             oc delete customresourcedefinition/clustersecretstores.external-secrets.io || true
             oc delete customresourcedefinition/externalsecrets.external-secrets.io || true
