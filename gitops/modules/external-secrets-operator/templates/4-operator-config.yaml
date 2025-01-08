@@ -9,11 +9,12 @@ metadata:
     argocd.argoproj.io/sync-wave: "4"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
+  # this must be set to false when using olm
+  installCRDs: false
   crds:
     createClusterExternalSecret: true
     createClusterSecretStore: true
   createOperator: true
-  installCRDs: true # Recommended on OpenShift
   prometheus:
     enabled: true
     service:
