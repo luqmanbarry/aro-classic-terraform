@@ -21,6 +21,13 @@ spec:
       containers:
       - name: "eso-install-cleanup"
         image: registry.redhat.io/openshift4/ose-tools-rhel9
+        resources:
+          limits:
+            cpu: '200m'
+            memory: 512Mi
+          requests:
+            cpu: 25m
+            memory: 50Mi
         securityContext:
           allowPrivilegeEscalation: false
           seccompProfile:
