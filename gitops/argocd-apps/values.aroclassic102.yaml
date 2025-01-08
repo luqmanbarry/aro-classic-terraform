@@ -28,7 +28,7 @@ modules: # List of modules to be deployed
   #   helm_hook_weight: 101
   - name: container-security
     config_path: gitops/modules/container-security
-    helm_hook: "" # Default value
+    helm_hook: "post-install,post-upgrade" # Default value
     helm_hook_weight: 102
   - name: internal-image-registry
     config_path: gitops/modules/internal-image-registry
@@ -58,14 +58,14 @@ modules: # List of modules to be deployed
   #   config_path: gitops/modules/cluster-log-forwarder
   #   helm_hook: "post-install,post-upgrade" # Default value
   #   helm_hook_weight: 109
-  # - name: gitlab-runners
-  #   config_path: gitops/modules/gitlab-runners
-  #   helm_hook: "post-install,post-upgrade" # Default value
-  #   helm_hook_weight: 110
-  # - name: splunk-otel-log-forwarder
-  #   config_path: gitops/modules/splunk-otel-log-forwarder
-  #   helm_hook: "post-install,post-upgrade" # Default value
-  #   helm_hook_weight: 110
+  - name: gitlab-runners
+    config_path: gitops/modules/gitlab-runners
+    helm_hook: "post-install,post-upgrade" # Default value
+    helm_hook_weight: 110
+  - name: splunk-otel-log-forwarder
+    config_path: gitops/modules/splunk-otel-log-forwarder
+    helm_hook: "post-install,post-upgrade" # Default value
+    helm_hook_weight: 110
   - name: identity-providers
     config_path: gitops/modules/identity-providers
     helm_hook: "post-install,post-upgrade" # Default value
