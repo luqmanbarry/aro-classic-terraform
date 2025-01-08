@@ -33,7 +33,7 @@ locals {
     admin_password    = trimspace(data.local_file.admin_password.content)
     ingress_lb_ip     = trimspace(data.local_file.ingress_lb_ip.content)
     api_server_lb_ip  = trimspace(data.local_file.api_server_lb_ip.content)
-    openshift_version = trimspace(local.openshift_version),
+    openshift_version = length(var.ocp_version) > 0 ? var.ocp_version : local.openshift_version,
     cluster_sp_client_id = var.cluster_sp_client_id
     cluster_sp_client_secret = azuread_service_principal_password.current_cluster.value
   }

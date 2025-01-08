@@ -6,7 +6,15 @@ git:
 
 modules:
   - name: openshift-gitops
-    config_path: gitops/modules/container-security
-    helm_hook: "post-install,post-upgrade" # Default value
+    config_path: gitops/bootstrap/openshift-gitops
+    helm_hook: "pre-install,pre-upgrade" # Must deploy first
     helm_hook_weight: 1
+  - name: argocd-config
+    config_path: gitops/bootstrap/argocd-config
+    helm_hook: "pre-install,pre-upgrade" # Must deploy first
+    helm_hook_weight: 2
+  - name: external-secrets-operator
+    config_path: gitops/modules/external-secrets-operator
+    helm_hook: "pre-install,pre-upgrade" # Default value
+    helm_hook_weight: 3
       
