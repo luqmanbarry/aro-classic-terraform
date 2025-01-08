@@ -1,5 +1,5 @@
 # Source: https://github.com/nginxinc/nginx-ingress-helm-operator/blob/main/helm-charts/nginx-ingress/values.yaml
-keyVaultName: stig0014-dev-vault
+keyVaultName: stig0015-dev-vault
 clusterName: aroclassic102
 defaultTLS:
   enable: false

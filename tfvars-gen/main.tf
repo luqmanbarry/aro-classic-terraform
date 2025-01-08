@@ -1,27 +1,27 @@
 # Azure Virtual Network
 data "azurerm_virtual_network" "current_vnet" {
   name                = var.cluster_name
-  resource_group_name = var.cluster_name
+  resource_group_name = local.cluster_resource_group
 }
 
 ## Azure VNet Main Subnet
 data "azurerm_subnet" "main_subnet" {
   name                 = format("%s-main-subnet", var.cluster_name)
   virtual_network_name = data.azurerm_virtual_network.current_vnet.name
-  resource_group_name  = var.cluster_name
+  resource_group_name  = local.cluster_resource_group
 }
 
 ## Azure VNet Worker Subnet
 data "azurerm_subnet" "worker_subnet" {
   name                 = format("%s-worker-subnet", var.cluster_name)
   virtual_network_name = data.azurerm_virtual_network.current_vnet.name
-  resource_group_name  = var.cluster_name
+  resource_group_name  = local.cluster_resource_group
 }
 
 ## Azure Network Security Group
 data "azurerm_network_security_group" "network_security_group" {
   name                = var.cluster_name
-  resource_group_name = var.cluster_name
+  resource_group_name = local.cluster_resource_group
 }
 
 data "azurerm_key_vault" "bu_keyvault" {

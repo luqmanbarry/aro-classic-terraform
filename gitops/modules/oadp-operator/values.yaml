@@ -9,7 +9,7 @@ defaultVolumesToFsBackup: true # Whether or not use snapshots ofr FileSystem Bac
 
 storage:
   provider: azure
-  resourceGroup: stig0014-dev-tfstate
+  resourceGroup: stig0015-dev-tfstate
   storageAccount: stig0014devtfstate
   storageAccountBlobURI: "https://stig0014devtfstate.blob.core.windows.net"
   volumeSnapshotClassName: csi-azuredisk-vsc

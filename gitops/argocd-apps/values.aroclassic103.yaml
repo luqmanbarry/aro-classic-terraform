@@ -16,7 +16,7 @@ modules: # List of modules to be deployed
     helm_hook_weight: 2
   - name: external-secrets-operator
     config_path: gitops/modules/external-secrets-operator
-    helm_hook: "pre-install,pre-upgrade" # Default value
+    helm_hook: "pre-install,pre-upgrade" # Must deploy first
     helm_hook_weight: 3
   # - name: secrets-store-csi-driver
   #   config_path: gitops/modules/secrets-store-csi-driver
