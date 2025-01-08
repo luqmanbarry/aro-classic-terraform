@@ -48,7 +48,7 @@ spec:
     - RespectIgnoreDifferences=true
     
     retry:
-      limit: 3
+      limit: 10
       backoff:
         duration: 15s
         factor: 1
