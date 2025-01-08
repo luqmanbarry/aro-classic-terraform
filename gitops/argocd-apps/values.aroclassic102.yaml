@@ -9,27 +9,27 @@ modules: # List of modules to be deployed
   - name: openshift-gitops
     config_path: gitops/bootstrap/openshift-gitops
     helm_hook: "pre-install,pre-upgrade" # Must deploy first
-    helm_hook_weight: 1
+    helm_hook_weight: 100
   - name: argocd-config
     config_path: gitops/bootstrap/argocd-config
     helm_hook: "pre-install,pre-upgrade" # Must deploy first
-    helm_hook_weight: 2
+    helm_hook_weight: 101
   - name: external-secrets-operator
     config_path: gitops/modules/external-secrets-operator
     helm_hook: "pre-install,pre-upgrade" # Default value
-    helm_hook_weight: 3
+    helm_hook_weight: 102
   # - name: secrets-store-csi-driver
   #   config_path: gitops/modules/secrets-store-csi-driver
   #   helm_hook: "post-install,post-upgrade" # Default value
-  #   helm_hook_weight: 100
+  #   helm_hook_weight: 103
   # - name: openshift-compliance
   #   config_path: gitops/modules/compliance-operator
   #   helm_hook: "post-install,post-upgrade" # Default value
-  #   helm_hook_weight: 101
+  #   helm_hook_weight: 103
   - name: container-security
     config_path: gitops/modules/container-security
     helm_hook: "post-install,post-upgrade" # Default value
-    helm_hook_weight: 102
+    helm_hook_weight: 103
   - name: internal-image-registry
     config_path: gitops/modules/internal-image-registry
     helm_hook: "post-install,post-upgrade" # Default value
