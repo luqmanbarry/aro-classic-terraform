@@ -40,7 +40,7 @@ spec:
         - |
             set -e
             echo "==> Cleanup install namespace"
-            oc delete -n {{ .Values.namespace }} clusterserviceversion --all || true
+            # oc delete -n {{ .Values.namespace }} clusterserviceversion --all || true
             # oc delete -n {{ .Values.namespace }} subscription --all || true
             # oc delete -n {{ .Values.namespace }} operatorgroup --all || true
             # oc delete -n {{ .Values.namespace }} installplan --all || true
