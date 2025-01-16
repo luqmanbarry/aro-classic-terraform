@@ -3,6 +3,12 @@ kind: ConfigMap
 metadata:
   name: cluster-monitoring-config
   namespace: openshift-monitoring
+  annotations:
+    managed-by: argocd.argoproj.io
+    # argocd.argoproj.io/sync-wave: "0"
+    "helm.sh/hook": ""
+    "helm.sh/hook-weight": "0"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 data:
   config.yaml: |-
 

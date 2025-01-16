@@ -8,7 +8,9 @@ metadata:
   namespace: {{ $.Values.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "0"
+    # argocd.argoproj.io/sync-wave: "0"
+    "helm.sh/hook": ""
+    "helm.sh/hook-weight": "0"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   schedule: {{ $projectItem.cronSchedule | quote }}

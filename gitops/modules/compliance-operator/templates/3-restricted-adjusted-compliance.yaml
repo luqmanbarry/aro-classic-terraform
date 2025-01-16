@@ -15,7 +15,9 @@ metadata:
   name: restricted-adjusted-compliance
   annotations:
     managed-by: argocd.argoproj.io
-    argocd.argoproj.io/sync-wave: "3"
+    # argocd.argoproj.io/sync-wave: "3"
+    "helm.sh/hook": ""
+    "helm.sh/hook-weight": "3"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 priority: 999
 readOnlyRootFilesystem: false
