@@ -6,7 +6,7 @@ metadata:
   name: cluster
   annotations:
     # argocd.argoproj.io/sync-wave: "2"
-    "helm.sh/hook": ""
+    # "helm.sh/hook": ""
     "helm.sh/hook-weight": "2"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:

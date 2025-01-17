@@ -5,7 +5,7 @@ kind: Namespace
 metadata:
   name: "{{ $app.namespace }}"
   annotations:
-    "helm.sh/hook": ""
+    # "helm.sh/hook": ""
     "helm.sh/hook-weight": "0"
 spec: {}
 ---
@@ -15,7 +15,7 @@ metadata:
   name: "{{ $app.pvc_name }}"
   namespace: "{{ $app.namespace }}"
   annotations:
-    "helm.sh/hook": ""
+    # "helm.sh/hook": ""
     "helm.sh/hook-weight": "1"
 spec:
   accessModes:
@@ -34,7 +34,7 @@ metadata:
   name: "{{ $app.name }}"
   namespace: "{{ $app.namespace }}"
   annotations:
-    "helm.sh/hook": ""
+    # "helm.sh/hook": ""
     "helm.sh/hook-weight": "2"
 spec:
   replicas: 1
@@ -138,7 +138,7 @@ metadata:
   name: "{{ $app.name }}"
   namespace: "{{ $app.namespace }}"
   annotations:
-    "helm.sh/hook": ""
+    # "helm.sh/hook": ""
     "helm.sh/hook-weight": "3"
 spec:
   ports:
@@ -157,7 +157,7 @@ metadata:
     app: "{{ $app.name }}"
     service: "{{ $app.name }}"
   annotations:
-    "helm.sh/hook": ""
+    # "helm.sh/hook": ""
     "helm.sh/hook-weight": "4"
 spec:
   to:

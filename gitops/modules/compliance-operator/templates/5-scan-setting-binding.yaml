@@ -6,7 +6,7 @@ metadata:
   annotations:
     managed-by: argocd.argoproj.io
     # argocd.argoproj.io/sync-wave: "5"
-    "helm.sh/hook": ""
+    # "helm.sh/hook": ""
     "helm.sh/hook-weight": "5"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 profiles:
