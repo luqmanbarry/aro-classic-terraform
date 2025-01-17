@@ -35,7 +35,7 @@ metadata:
   namespace: "{{ $app.namespace }}"
   annotations:
     # "helm.sh/hook": ""
-    "helm.sh/hook-weight": "2"
+    "helm.sh/hook-weight": "1"
 spec:
   replicas: 1
   selector:
@@ -139,7 +139,7 @@ metadata:
   namespace: "{{ $app.namespace }}"
   annotations:
     # "helm.sh/hook": ""
-    "helm.sh/hook-weight": "3"
+    "helm.sh/hook-weight": "1"
 spec:
   ports:
   - port: 8080
@@ -158,7 +158,7 @@ metadata:
     service: "{{ $app.name }}"
   annotations:
     # "helm.sh/hook": ""
-    "helm.sh/hook-weight": "4"
+    "helm.sh/hook-weight": "2"
 spec:
   to:
     kind: Service
