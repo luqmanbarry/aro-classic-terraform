@@ -18,17 +18,11 @@ spec:
       name: {{ .Values.operators.tempo.azureBlob.storageKVSecretName }}
       type: azure
   template:
-    queryFrontend:
-      jaegerQuery:
-        enabled: true
-        ingress:
-          route:
-            termination: edge
-          type: route
     compactor:
-      replicas: 1
+      replicas: 1 
     distributor:
-      replicas: 1
+      component:
+        replicas: 1
     gateway: # Gateway defines the tempo gateway spec.
       enabled: true
       ingress:
