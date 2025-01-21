@@ -7,10 +7,10 @@ metadata:
   namespace: openshift-gitops
   annotations:
     managed-by: argocd.argoproj.io
-    {{ if not ( $moduleItem.helm_hook | trim | empty ) }}
+    {{ if and (hasKey $moduleItem "helm_hook") ( not ($moduleItem.helm_hook | trim | empty) ) }}
     "helm.sh/hook": {{ $moduleItem.helm_hook | default "" | quote }}
-    "helm.sh/hook-weight": {{ $moduleItem.helm_hook_weight | default 0 | quote }}
     {{ end }}
+    "helm.sh/hook-weight": {{ $moduleItem.helm_hook_weight | default 0 | quote }}
   labels:
     app.kubernetes.io/part-of: "{{ $.Values.resourceNamePrefix }}"
 spec:

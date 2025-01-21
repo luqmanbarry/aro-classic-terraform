@@ -17,4 +17,8 @@ modules:
     config_path: gitops/modules/external-secrets-operator
     helm_hook: "pre-install,pre-upgrade" # Must deploy first
     helm_hook_weight: 102
+  - name: nginx-ingress
+    config_path: gitops/modules/nginx-ingress
+    helm_hook: ""
+    helm_hook_weight: 114
       
