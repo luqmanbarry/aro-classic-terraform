@@ -1,0 +1,70 @@
+# Source: https://github.com/grafana/tempo-operator/blob/main/docs/spec/tempo.grafana.com_tempostacks.yaml
+---
+apiVersion: tempo.grafana.com/v1alpha1
+kind: TempoStack
+metadata:
+  name: {{ .Values.operators.tempo.name }}
+  namespace: {{ .Values.operators.tempo.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    # argocd.argoproj.io/sync-wave: "9"
+    # "helm.sh/hook": ""
+    "helm.sh/hook-weight": "9"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  storageSize: 25Gi 
+  storage:
+    secret: 
+      name: {{ .Values.operators.tempo.azureBlob.storageKVSecretName }}
+      type: azure
+  template:
+    queryFrontend:
+      jaegerQuery:
+        enabled: true
+        ingress:
+          route:
+            termination: edge
+          type: route
+    compactor:
+      replicas: 1
+    distributor:
+      replicas: 1
+    gateway: # Gateway defines the tempo gateway spec.
+      enabled: true
+      ingress:
+        route:                           # Route defines the options for the OpenShift route.
+          termination: "edge"            # Termination defines the termination type. The default is "edge".
+        type: "route" 
+      component:
+        replicas: 2
+    ingester:
+      replicas: 1
+    querier:
+      replicas: 1
+    queryFrontend:
+      component:
+        replicas: 1
+      jaegerQuery:                       # JaegerQuery defines options specific to the Jaeger Query component.
+        enabled: true
+        authentication:                  # Authentication defines the options for the oauth proxy used to protect jaeger UI
+          enabled: true
+        ingress:                         # Ingress defines the options for the Jaeger Query ingress.
+          route:                         # Route defines the options for the OpenShift route.
+            termination: "edge"              # Termination defines the termination type. The default is "edge".
+          type: "route"
+        monitorTab:
+          enabled: true 
+          prometheusEndpoint: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091 
+  resources: 
+    total:
+      limits:
+        memory: 4Gi
+        cpu: 1000m
+  observability:                         # ObservabilitySpec defines how telemetry data gets handled.
+    grafana:                             # Grafana defines the Grafana configuration for operands.
+      createDatasource: true
+  retention:                             # Retention period defined by dataset. User can specify how long data should be stored.
+    global:                              # Global is used to configure global retention.
+      traces: "720h"                     # Retain for 30 days. Default is 48h
+  storageClassName: ""                   # StorageClassName for PVCs used by ingester. Defaults to nil (default storage class in the cluster).
+  storageSize: "25Gi"                    # StorageSize for PVCs used by ingester. Defaults to 10Gi.

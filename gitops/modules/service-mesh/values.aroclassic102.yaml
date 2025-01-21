@@ -1,15 +1,88 @@
-serviceMesh:
-  controlPlaneVersion: "v2.4"
-  controlPlaneNamespaces:
-    - name: "istio-system-dev"
-      cicdServiceAccountName: "jenkins"
-      cicdServiceAccountNamespace: "jenkins"
-      rollMembers: []
-    - name: "istio-system-qa"
-      cicdServiceAccountName: "jenkins"
-      cicdServiceAccountNamespace: "jenkins"
+clusterName: aroclassic102
+keyVaultName: stig0015-dev-vault
+
+# List of tenant namespaces and their SMCP configurations
+tenants:
+  - name: sales
+    smcp:
+      namespace: sales-mesh
+      version: v2.6
+      gateways:
+        enable: true
+        ingress:
+          enabled: true
+        egress:
+          enabled: true
+        openshiftRoute:
+          enabled: false
+      jaeger:
+        enable: true
+      kiali:
+        enabled: true
+      prometheus:
+        enabled: true
+      grafana:
+        enabled: true
+      mutualTLS:
+        enable: true
       rollMembers:
-        - web-app1
-        - web-app2
-        - web-app3
-  
+        - warehouse
+        - point-of-sale
+        - shipping
+      rbac:
+        - roleKind: Role
+          roleName: istio-admin # OSSM defined role
+          subjectKind: Group
+          subjectName: sales-leads
+        - roleKind: Role
+          roleName: istio-admin # OSSM defined role
+          subjectKind: User
+          subjectName: luqmanbarry
+        - roleKind: Role
+          roleName: mesh-user # OSSM defined role (basic permissions)
+          subjectKind: User
+          subjectName: lbarry
+        - roleKind: ClusterRole
+          roleName: edit # OCP defined role (basic permissions)
+          subjectKind: ServiceAccount
+          subjectName: jenkins
+          subjectNamespace: jenkins
+  - name: product-development
+    smcp:
+      namespace: product-development-mesh
+      version: v2.6
+      gateways:
+        enable: true
+        ingress:
+          enabled: true
+        egress:
+          enabled: true
+        openshiftRoute:
+          enabled: false
+      jaeger:
+        enable: true
+      kiali:
+        enabled: true
+      prometheus:
+        enabled: true
+      grafana:
+        enabled: true
+      mutualTLS:
+        enable: true
+      rollMembers:
+        - r-and-d
+        - quality-assurance
+        - factory-procurement
+      rbac:
+        - roleKind: Role
+          roleName: istio-admin # OSSM defined role
+          subjectKind: Group
+          subjectName: product-development-leads
+        - roleKind: Role
+          roleName: istio-admin # OSSM defined role
+          subjectKind: User
+          subjectName: luqmanbarry
+        - roleKind: Role
+          roleName: mesh-user # OSSM defined role (basic permissions)
+          subjectKind: User
+          subjectName: lbarry

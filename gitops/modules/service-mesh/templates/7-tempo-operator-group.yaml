@@ -1,0 +1,14 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: {{ .Values.operators.tempo.name }}
+  namespace: {{ .Values.operators.tempo.namespace }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    # argocd.argoproj.io/sync-wave: "7"
+    # "helm.sh/hook": ""
+    "helm.sh/hook-weight": "7"
+    argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
+spec:
+  targetNamespaces: []
