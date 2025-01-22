@@ -29,11 +29,7 @@ spec:
       jaegerQuery:
         enabled: true                 
         authentication:
-          enabled: false                
-        # ingress:                         
-        #   route:                         
-        #     termination: "edge"              
-        #   type: "route"
+          enabled: false
         monitorTab:
           enabled: true 
           prometheusEndpoint: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091 
@@ -44,8 +40,7 @@ spec:
         cpu: 1000m
   retention:                             
     global:                             
-      traces: "720h"                   
-  storageClassName: ""                 
+      traces: "720h"                 
   storageSize: "25Gi"
   tenants:
     mode: openshift
