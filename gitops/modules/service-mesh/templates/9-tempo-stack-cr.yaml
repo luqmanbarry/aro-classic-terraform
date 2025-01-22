@@ -26,8 +26,10 @@ spec:
           termination: "edge"           
         type: "route"
     queryFrontend:
-      jaegerQuery:                      
-        authentication:                  
+      jaegerQuery:
+        enabled: true                 
+        authentication:
+          enabled: false                
         ingress:                         
           route:                         
             termination: "edge"              
