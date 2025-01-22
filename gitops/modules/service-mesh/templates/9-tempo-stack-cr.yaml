@@ -33,11 +33,20 @@ spec:
         monitorTab:
           enabled: true 
           prometheusEndpoint: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091 
+    compactor:
+      replicas: 0
+    distributor:
+      component:
+        replicas: 0
+    ingester:
+      replicas: 0
+    querier:
+      replicas: 0
   resources: 
     total:
       limits:
-        memory: 4Gi
-        cpu: 1000m
+        memory: 6Gi
+        cpu: 2
   retention:                             
     global:                             
       traces: "720h"                 
