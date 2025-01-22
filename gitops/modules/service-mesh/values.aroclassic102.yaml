@@ -8,7 +8,7 @@ tenants:
       namespace: sales-mesh
       version: v2.6
       gateways:
-        enable: true
+        enabled: true
         ingress:
           enabled: true
         egress:
@@ -16,7 +16,7 @@ tenants:
         openshiftRoute:
           enabled: false
       jaeger:
-        enable: true
+        enabled: true
       kiali:
         enabled: true
       prometheus:
@@ -24,7 +24,7 @@ tenants:
       grafana:
         enabled: true
       mutualTLS:
-        enable: true
+        enabled: true
       rollMembers:
         - warehouse
         - point-of-sale
@@ -52,7 +52,7 @@ tenants:
       namespace: product-development-mesh
       version: v2.6
       gateways:
-        enable: true
+        enabled: true
         ingress:
           enabled: true
         egress:
@@ -60,7 +60,7 @@ tenants:
         openshiftRoute:
           enabled: false
       jaeger:
-        enable: true
+        enabled: true
       kiali:
         enabled: true
       prometheus:
@@ -68,7 +68,7 @@ tenants:
       grafana:
         enabled: true
       mutualTLS:
-        enable: true
+        enabled: true
       rollMembers:
         - r-and-d
         - quality-assurance

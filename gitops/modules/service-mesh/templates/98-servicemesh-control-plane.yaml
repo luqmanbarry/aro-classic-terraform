@@ -15,7 +15,7 @@ spec:
   version: "{{ $tenant.smcp.version }}"
   security:
     controlPlane:
-      mtls: "{{ $tenant.smcp.mutualTLS.enable }}"
+      mtls: "{{ $tenant.smcp.mutualTLS.enabled }}"
   telemetry:
     type: Istiod
   tracing:
@@ -42,9 +42,9 @@ spec:
         outbound:
           policy: REGISTRY_ONLY
   gateways:
-    enabled: "{{ $tenant.smcp.gateways.enable }}"
+    enabled: "{{ $tenant.smcp.gateways.enabled }}"
     egress:
-      enabled: "{{ $tenant.smcp.gateways.egress.enable }}"
+      enabled: "{{ $tenant.smcp.gateways.egress.enabled }}"
       runtime:
         deployment:
           autoScaling:
@@ -54,7 +54,7 @@ spec:
         pod: {}
       service: {}
     ingress:
-      enabled: "{{ $tenant.smcp.gateways.ingress.enable }}"
+      enabled: "{{ $tenant.smcp.gateways.ingress.enabled }}"
       runtime:
         deployment:
           autoScaling:
@@ -64,12 +64,12 @@ spec:
         pod: {}
       service: {}
     openshiftRoute:
-      enabled: "{{ $tenant.smcp.gateways.openshiftRoute.enable }}"
+      enabled: "{{ $tenant.smcp.gateways.openshiftRoute.enabled }}"
   policy:
     type: Istiod
   addons:
     grafana:
-      enabled: "{{ $tenant.smcp.grafana.enable }}"
+      enabled: "{{ $tenant.smcp.grafana.enabled }}"
       install:
         config:
           env: {}
@@ -91,9 +91,9 @@ spec:
               termination: reencrypt
     jaeger:
       install:
-        enabled: "{{ $tenant.smcp.jaeger.enable }}"
+        enabled: "{{ $tenant.smcp.jaeger.enabled }}"
     kiali:
-      enabled: "{{ $tenant.smcp.kiali.enable }}"
+      enabled: "{{ $tenant.smcp.kiali.enabled }}"
       name: kiali
       install:
         dashboard:
@@ -107,7 +107,7 @@ spec:
           ingress:
             enabled: true
     prometheus:
-      enabled: "{{ $tenant.smcp.prometheus.enable }}"
+      enabled: "{{ $tenant.smcp.prometheus.enabled }}"
       metricsExpiryDuration: "720h"
       scrape: true
       install:
