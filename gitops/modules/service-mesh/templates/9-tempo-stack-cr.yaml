@@ -14,10 +14,7 @@ metadata:
 spec:
   extraConfig:
     tempo:
-      memberlist:
-        bind_addr: ""
-        bind_port: 7946
-        advertise_addr: ""
+      memberlist: {}
   replicationFactor: 1
   storageSize: 25Gi 
   storage:
