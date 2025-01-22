@@ -8,14 +8,14 @@ metadata:
   annotations:
     managed-by: argocd.argoproj.io
     # argocd.argoproj.io/sync-wave: "98"
-    "helm.sh/hook": "post-install,post-upgrade"
+    # "helm.sh/hook": ""
     "helm.sh/hook-weight": "98"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   version: "{{ $tenant.smcp.version }}"
   security:
     controlPlane:
-      mtls: "{{ $tenant.smcp.mutualTLS.enabled }}"
+      mtls: {{ $tenant.smcp.mutualTLS.enabled }}
   telemetry:
     type: Istiod
   tracing:
@@ -42,9 +42,9 @@ spec:
         outbound:
           policy: REGISTRY_ONLY
   gateways:
-    enabled: "{{ $tenant.smcp.gateways.enabled }}"
+    enabled: {{ $tenant.smcp.gateways.enabled }}
     egress:
-      enabled: "{{ $tenant.smcp.gateways.egress.enabled }}"
+      enabled: {{ $tenant.smcp.gateways.egress.enabled }}
       runtime:
         deployment:
           autoScaling:
@@ -54,7 +54,7 @@ spec:
         pod: {}
       service: {}
     ingress:
-      enabled: "{{ $tenant.smcp.gateways.ingress.enabled }}"
+      enabled: {{ $tenant.smcp.gateways.ingress.enabled }}
       runtime:
         deployment:
           autoScaling:
@@ -64,12 +64,12 @@ spec:
         pod: {}
       service: {}
     openshiftRoute:
-      enabled: "{{ $tenant.smcp.gateways.openshiftRoute.enabled }}"
+      enabled: {{ $tenant.smcp.gateways.openshiftRoute.enabled }}
   policy:
     type: Istiod
   addons:
     grafana:
-      enabled: "{{ $tenant.smcp.grafana.enabled }}"
+      enabled: {{ $tenant.smcp.grafana.enabled }}
       install:
         config:
           env: {}
@@ -91,9 +91,9 @@ spec:
               termination: reencrypt
     jaeger:
       install:
-        enabled: "{{ $tenant.smcp.jaeger.enabled }}"
+        enabled: {{ $tenant.smcp.jaeger.enabled }}
     kiali:
-      enabled: "{{ $tenant.smcp.kiali.enabled }}"
+      enabled: {{ $tenant.smcp.kiali.enabled }}
       name: kiali
       install:
         dashboard:
@@ -107,7 +107,7 @@ spec:
           ingress:
             enabled: true
     prometheus:
-      enabled: "{{ $tenant.smcp.prometheus.enabled }}"
+      enabled: {{ $tenant.smcp.prometheus.enabled }}
       metricsExpiryDuration: "720h"
       scrape: true
       install:
