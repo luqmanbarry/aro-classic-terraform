@@ -15,7 +15,7 @@ spec:
   extraConfig:
     tempo:
       memberlist:
-        bind_addr: [ "0.0.0.0" ]
+        bind_addr: ""
         bind_port: 7946
         advertise_addr: ""
   replicationFactor: 1
