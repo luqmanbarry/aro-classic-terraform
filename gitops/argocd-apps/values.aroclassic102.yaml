@@ -89,10 +89,10 @@ modules: # List of modules to be deployed
     config_path: gitops/modules/nginx-ingress
     helm_hook: "" # Default value
     helm_hook_weight: 114
-  # - name: service-mesh
-  #   config_path: gitops/modules/service-mesh
-  #   helm_hook: "" # Default value
-  #   helm_hook_weight: 114 
+  - name: service-mesh
+    config_path: gitops/modules/service-mesh
+    helm_hook: "" # Default value
+    helm_hook_weight: 114 
   # - name: oadp-backup
   #   config_path: gitops/modules/oadp-backup
   #   helm_hook: "" # Default value
