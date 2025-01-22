@@ -12,6 +12,12 @@ metadata:
     "helm.sh/hook-weight": "9"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
+  extraConfig:
+    tempo:
+      memberlist:
+        bind_addr: "0.0.0.0"
+        bind_port: 7946
+        advertise_addr: ""
   replicationFactor: 1
   storageSize: 25Gi 
   storage:
