@@ -8,7 +8,7 @@ metadata:
   annotations:
     managed-by: argocd.argoproj.io
     # argocd.argoproj.io/sync-wave: "9"
-    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook": ""
     "helm.sh/hook-weight": "9"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
@@ -22,17 +22,15 @@ spec:
     gateway: # Gateway defines the tempo gateway spec.
       enabled: true
       ingress:
-        route:                           # Route defines the options for the OpenShift route.
-          termination: "edge"            # Termination defines the termination type. The default is "edge".
+        route:                          
+          termination: "edge"           
         type: "route"
     queryFrontend:
-      jaegerQuery:                       # JaegerQuery defines options specific to the Jaeger Query component.
-        enabled: true
-        authentication:                  # Authentication defines the options for the oauth proxy used to protect jaeger UI
-          enabled: true
-        ingress:                         # Ingress defines the options for the Jaeger Query ingress.
-          route:                         # Route defines the options for the OpenShift route.
-            termination: "edge"              # Termination defines the termination type. The default is "edge".
+      jaegerQuery:                      
+        authentication:                  
+        ingress:                         
+          route:                         
+            termination: "edge"              
           type: "route"
         monitorTab:
           enabled: true 
@@ -42,9 +40,6 @@ spec:
       limits:
         memory: 4Gi
         cpu: 1000m
-  observability:                       
-    grafana:                             
-      createDatasource: true
   retention:                             
     global:                             
       traces: "720h"                   
