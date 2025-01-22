@@ -30,10 +30,10 @@ spec:
         enabled: true                 
         authentication:
           enabled: false                
-        ingress:                         
-          route:                         
-            termination: "edge"              
-          type: "route"
+        # ingress:                         
+        #   route:                         
+        #     termination: "edge"              
+        #   type: "route"
         monitorTab:
           enabled: true 
           prometheusEndpoint: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091 
