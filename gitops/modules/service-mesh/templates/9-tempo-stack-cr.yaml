@@ -32,7 +32,7 @@ spec:
           enabled: false
         monitorTab:
           enabled: true 
-          prometheusEndpoint: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091 
+          # prometheusEndpoint: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091 
     compactor:
       replicas: 1
     distributor:
