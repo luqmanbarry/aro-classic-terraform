@@ -20,7 +20,7 @@ spec:
     type: Istiod
   tracing:
     sampling: 10000
-    type: Jaeger
+    type: None
   general:
     logging:
       logAsJSON: true

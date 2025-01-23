@@ -12,6 +12,9 @@ metadata:
     "helm.sh/hook-weight": "9"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
+  observability:
+  tracing:
+    jaeger_agent_endpoint: 'localhost:6831'
   replicationFactor: 1
   storageSize: 25Gi 
   storage:
@@ -30,11 +33,9 @@ spec:
     queryFrontend:
       jaegerQuery:
         enabled: true                 
-        # authentication:
-        #   enabled: false
-        # monitorTab:
-        #   enabled: true 
-        #   prometheusEndpoint: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091 
+        monitorTab:
+          enabled: true 
+          prometheusEndpoint: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091 
     compactor:
       replicas: 1
     distributor:
