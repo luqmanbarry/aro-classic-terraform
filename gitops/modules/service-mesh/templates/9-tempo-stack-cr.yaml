@@ -21,11 +21,12 @@ spec:
   template:
     gateway: # Gateway defines the tempo gateway spec.
       enabled: true
-      replicas: 3
-      # ingress:
-      #   route:                          
-      #     termination: "edge"           
-      #   type: "route"
+      component:
+        replicas: 3
+      ingress:
+        route:                          
+          termination: "edge"           
+        type: "route"
     queryFrontend:
       jaegerQuery:
         enabled: true                 
@@ -57,3 +58,4 @@ spec:
   tenants:
     mode: openshift
     authentication: []
+    authorization: []
