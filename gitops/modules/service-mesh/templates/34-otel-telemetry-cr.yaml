@@ -3,7 +3,7 @@
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
-  name: mesh-default
+  name: {{ $tenant.name }}
   namespace: {{ $tenant.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
