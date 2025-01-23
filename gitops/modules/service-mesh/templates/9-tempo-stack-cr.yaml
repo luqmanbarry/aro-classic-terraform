@@ -61,5 +61,5 @@ spec:
     authentication:
     {{ range $tenant := .Values.tenants }}  
       - tenantName: {{ $tenant.name | lower }} 
-        tenantId: {{ $tenant.tenantID }} 
+        tenantId: {{ $tenant.tenantId }} 
     {{ end }}
