@@ -40,9 +40,6 @@ spec:
       replicas: 1
     distributor:
       replicas: 1
-      config:
-        distributor:
-          log_level: debug
     ingester:
       replicas: 1
     querier:
