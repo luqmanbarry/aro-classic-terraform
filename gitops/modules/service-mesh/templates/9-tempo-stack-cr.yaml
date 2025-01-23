@@ -61,4 +61,4 @@ spec:
     authorization:
       roleBindings: []
       roles: []
-    mode: "Static"
+    mode: "static"
