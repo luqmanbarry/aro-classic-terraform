@@ -7,9 +7,9 @@ metadata:
   namespace: {{ .Values.operators.tempo.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
-    # argocd.argoproj.io/sync-wave: "9"
+    # argocd.argoproj.io/sync-wave: "44"
     # "helm.sh/hook": ""
-    "helm.sh/hook-weight": "9"
+    "helm.sh/hook-weight": "44"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   observability:
@@ -26,7 +26,7 @@ spec:
       type: azure
   template:
     gateway: # Gateway defines the tempo gateway spec.
-      enabled: true
+      enabled: false
       component:
         replicas: 1
       ingress:
@@ -59,10 +59,10 @@ spec:
     global:                             
       traces: "720h"                 
   storageSize: "25Gi"
-  tenants:
-    mode: openshift 
-    authentication:
-    {{ range $tenant := .Values.tenants }}  
-      - tenantName: {{ $tenant.name | lower }} 
-        tenantId: {{ $tenant.tenantId }} 
-    {{ end }}
+  # tenants:
+  #   mode: openshift 
+  #   authentication:
+  #   {{ range $tenant := .Values.tenants }}  
+  #     - tenantName: {{ $tenant.name | lower }} 
+  #       tenantId: {{ $tenant.tenantId }} 
+  #   {{ end }}

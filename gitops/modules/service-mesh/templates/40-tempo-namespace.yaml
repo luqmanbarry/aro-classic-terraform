@@ -6,8 +6,8 @@ metadata:
     openshift.io/cluster-monitoring: "true"
   annotations:
     managed-by: argocd.argoproj.io
-    # argocd.argoproj.io/sync-wave: "3"
+    # argocd.argoproj.io/sync-wave: "40"
     # "helm.sh/hook": ""
-    "helm.sh/hook-weight": "3"
+    "helm.sh/hook-weight": "40"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
-  name: {{ .Values.operators.kiali.namespace }}
+  name: {{ .Values.operators.tempo.namespace }}

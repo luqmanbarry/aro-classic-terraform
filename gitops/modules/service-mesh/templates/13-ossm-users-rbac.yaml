@@ -8,9 +8,9 @@ metadata:
   namespace: "{{ $tenant.smcp.namespace | lower }}"
   annotations:
     managed-by: argocd.argoproj.io
-    # argocd.argoproj.io/sync-wave: "2"
+    # argocd.argoproj.io/sync-wave: "13"
     # "helm.sh/hook": ""
-    "helm.sh/hook-weight": "2"
+    "helm.sh/hook-weight": "13"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 roleRef:
   apiGroup: rbac.authorization.k8s.io

@@ -4,9 +4,9 @@ kind: Subscription
 metadata:
   annotations:
     managed-by: argocd.argoproj.io
-    # argocd.argoproj.io/sync-wave: "2"
+    # argocd.argoproj.io/sync-wave: "12"
     # "helm.sh/hook": ""
-    "helm.sh/hook-weight": "2"
+    "helm.sh/hook-weight": "12"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
   name: {{ .Values.operators.servicemesh.name }}
   namespace: {{ .Values.operators.servicemesh.namespace }}
