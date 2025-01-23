@@ -54,6 +54,6 @@ spec:
     global:                             
       traces: "720h"                 
   storageSize: "25Gi"
-  # tenants:
-  #   mode: openshift
-    # authentication: []
+  tenants:
+    mode: openshift
+    authentication: []
