@@ -46,8 +46,6 @@ spec:
     distributor:
       component:
         replicas: 1
-      tls:
-        enabled: true
     ingester:
       replicas: 1
     querier:
