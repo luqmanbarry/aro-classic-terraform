@@ -1,9 +1,10 @@
+{{ range $tenant := .Values.tenants }}
 ---
 apiVersion: opentelemetry.io/v1alpha1
 kind: OpenTelemetryCollector
 metadata:
-  name: otel
-  namespace: {{ .Values.operators.otel.namespace }}
+  name: "{{ $tenant.name }}-otel-collector"
+  namespace: {{ $.Values.operators.otel.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
     # argocd.argoproj.io/sync-wave: "36"
@@ -18,7 +19,6 @@ spec:
         bearertokenauth:
           filename: "/var/run/secrets/kubernetes.io/serviceaccount/token"
       exporters:
-      {{ range $tenant := .Values.tenants }}
         otlp/{{ $tenant.name }}: 
           endpoint: "tempo-{{ $.Values.operators.tempo.name }}-gateway.{{ $.Values.operators.tempo.namespace }}.svc.cluster.local:8090"
           tls:
@@ -28,7 +28,6 @@ spec:
             authenticator: bearertokenauth
           headers:
             X-Scope-OrgID: "{{ $tenant.name }}"
-    
         otlphttp/{{ $tenant.name }}: 
           endpoint: "https://tempo-{{ $.Values.operators.tempo.name }}-gateway.{{ $.Values.operators.tempo.namespace }}.svc.cluster.local:8080/api/traces/v1/{{ $tenant.name }}"
           tls:
@@ -38,10 +37,11 @@ spec:
             authenticator: bearertokenauth
           headers:
             X-Scope-OrgID: "{{ $tenant.name }}"
-      
       service:
         extensions: [bearertokenauth]
         pipelines:
           traces:
-            exporters: [ "otlp/{{ $tenant.name }}", "otlphttp/{{ $tenant.name }}" ]
-      {{ end }}
+            exporters:
+              - otlp/{{ $tenant.name }}
+              - otlphttp/{{ $tenant.name }}
+{{ end }}

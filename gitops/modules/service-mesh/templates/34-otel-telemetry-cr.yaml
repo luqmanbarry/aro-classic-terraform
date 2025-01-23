@@ -3,7 +3,7 @@
 apiVersion: telemetry.istio.io/v1alpha1
 kind: Telemetry
 metadata:
-  name: {{ $tenant.name }}
+  name: "{{ $tenant.name }}-telemetry"
   namespace: {{ $tenant.namespace }}
   annotations:
     managed-by: argocd.argoproj.io
@@ -14,6 +14,6 @@ metadata:
 spec:
   tracing:
   - providers:
-    - name: otel # Name of OpenTelemetryCollector CR
+    - name: "{{ $tenant.name }}-otel-collector" # Name of OpenTelemetryCollector CR
     randomSamplingPercentage: 100
 {{ end }}
