@@ -20,7 +20,8 @@ spec:
       type: azure
   template:
     gateway: # Gateway defines the tempo gateway spec.
-      enabled: false
+      enabled: true
+      replicas: 3
       # ingress:
       #   route:                          
       #     termination: "edge"           
@@ -28,20 +29,22 @@ spec:
     queryFrontend:
       jaegerQuery:
         enabled: true                 
-        authentication:
-          enabled: false
-        monitorTab:
-          enabled: true 
-          prometheusEndpoint: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091 
+        # authentication:
+        #   enabled: false
+        # monitorTab:
+        #   enabled: true 
+        #   prometheusEndpoint: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091 
     compactor:
       replicas: 1
     distributor:
-      component:
-        replicas: 1
+      replicas: 3
+      config:
+        distributor:
+          log_level: debug
     ingester:
-      replicas: 1
+      replicas: 3
     querier:
-      replicas: 1
+      replicas: 3
   resources: 
     total:
       limits:
