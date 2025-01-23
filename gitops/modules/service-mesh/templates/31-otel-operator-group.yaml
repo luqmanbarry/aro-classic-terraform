@@ -11,4 +11,5 @@ metadata:
     "helm.sh/hook-weight": "31"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
-  targetNamespaces: []
+  targetNamespaces:
+    - {{ .Values.operators.otel.namespace }}
