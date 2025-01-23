@@ -12,9 +12,6 @@ metadata:
     "helm.sh/hook-weight": "9"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
-  extraConfig:
-    tempo:
-      memberlist: {}
   replicationFactor: 1
   storageSize: 25Gi 
   storage:
@@ -54,6 +51,6 @@ spec:
     global:                             
       traces: "720h"                 
   storageSize: "25Gi"
-  tenants:
-    mode: openshift
+  # tenants:
+  #   mode: openshift
     # authentication: []
