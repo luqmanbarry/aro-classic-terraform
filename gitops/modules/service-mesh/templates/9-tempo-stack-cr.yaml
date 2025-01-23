@@ -39,14 +39,14 @@ spec:
     compactor:
       replicas: 1
     distributor:
-      replicas: 3
+      replicas: 1
       config:
         distributor:
           log_level: debug
     ingester:
-      replicas: 3
+      replicas: 1
     querier:
-      replicas: 3
+      replicas: 1
   resources: 
     total:
       limits:
