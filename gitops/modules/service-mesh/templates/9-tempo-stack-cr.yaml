@@ -20,11 +20,11 @@ spec:
       type: azure
   template:
     gateway: # Gateway defines the tempo gateway spec.
-      enabled: true
-      ingress:
-        route:                          
-          termination: "edge"           
-        type: "route"
+      enabled: false
+      # ingress:
+      #   route:                          
+      #     termination: "edge"           
+      #   type: "route"
     queryFrontend:
       jaegerQuery:
         enabled: true                 
