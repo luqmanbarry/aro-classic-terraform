@@ -58,4 +58,5 @@ spec:
   tenants:
     mode: openshift
     authentication: []
-    authorization: []
+    authorization:
+      roleBindings: []
