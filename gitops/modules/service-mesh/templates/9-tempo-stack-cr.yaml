@@ -60,3 +60,5 @@ spec:
     authentication: []
     authorization:
       roleBindings: []
+      roles: []
+    mode: "Static"
