@@ -4,6 +4,7 @@ keyVaultName: stig0015-dev-vault
 # List of tenant namespaces and their SMCP configurations
 tenants:
   - name: sales
+    tenantId: "1610b0c3-c509-4592-a256-a1871353dbfa"
     smcp:
       namespace: sales-mesh
       version: v2.6
@@ -48,6 +49,7 @@ tenants:
           subjectName: jenkins
           subjectNamespace: jenkins
   - name: product-development
+    tenantId: "1610b0c3-c509-4592-a256-a1871353dbfb"
     smcp:
       namespace: product-development-mesh
       version: v2.6

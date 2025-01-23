@@ -57,4 +57,9 @@ spec:
       traces: "720h"                 
   storageSize: "25Gi"
   tenants:
-    mode: openshift
+    mode: openshift 
+    authentication:
+    {{ range $tenant := .Values.tenants }}  
+      - tenantName: {{ $tenant.name | lower }} 
+        tenantId: {{ $tenant.tenantID }} 
+    {{ end }}
