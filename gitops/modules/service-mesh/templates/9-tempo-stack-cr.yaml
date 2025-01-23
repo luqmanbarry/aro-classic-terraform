@@ -57,7 +57,3 @@ spec:
   storageSize: "25Gi"
   tenants:
     mode: openshift
-    authentication: []
-    authorization:
-      roleBindings: []
-      roles: []
