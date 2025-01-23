@@ -25,7 +25,7 @@ spec:
     gateway: # Gateway defines the tempo gateway spec.
       enabled: true
       component:
-        replicas: 3
+        replicas: 1
       ingress:
         route:                          
           termination: "edge"           
