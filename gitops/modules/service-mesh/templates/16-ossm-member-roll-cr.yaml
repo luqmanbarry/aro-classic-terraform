@@ -7,9 +7,9 @@ metadata:
   namespace: "{{ $tenant.smcp.namespace }}"
   annotations:
     managed-by: argocd.argoproj.io
-    # argocd.argoproj.io/sync-wave: "99"
+    # argocd.argoproj.io/sync-wave: "16"
     # "helm.sh/hook": ""
-    "helm.sh/hook-weight": "99"
+    "helm.sh/hook-weight": "16"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   members:

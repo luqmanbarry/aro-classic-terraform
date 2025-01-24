@@ -67,7 +67,6 @@ operators:
 # List of tenant namespaces and their SMCP configurations
 tenants:
   - name: tenant1
-    tenantId: "1610b0c3-c509-4592-a256-a1871353dbfa"
     smcp:
       namespace: tenant1-mesh
       version: v2.6

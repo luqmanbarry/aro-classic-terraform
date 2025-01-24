@@ -12,6 +12,9 @@ metadata:
     "helm.sh/hook-weight": "44"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
+  hashRing:                              # HashRing defines the spec for the distributed hash ring configuration.
+    memberlist:                          # MemberList configuration spec
+      instanceAddrType: "podIP"  
   observability:
     metrics:
       createPrometheusRules: true
@@ -59,10 +62,14 @@ spec:
     global:                             
       traces: "720h"                 
   storageSize: "25Gi"
-  # tenants:
-  #   mode: openshift 
-  #   authentication:
-  #   {{ range $tenant := .Values.tenants }}  
-  #     - tenantName: {{ $tenant.name | lower }} 
-  #       tenantId: {{ $tenant.tenantId }} 
-  #   {{ end }}
+  tenants:
+    mode: openshift 
+    authentication:
+    {{ range $tenant := .Values.tenants }}  
+      - tenantName: {{ $tenant.name | lower }} 
+        tenantId: {{ $tenant.name | lower | sha256sum }}
+    {{ range $rollMember := $tenant.smcp.rollMembers }} 
+      - tenantName: {{ $rollMember | lower }} 
+        tenantId: {{ $rollMember | lower | sha256sum }}
+    {{ end }}
+    {{ end }}

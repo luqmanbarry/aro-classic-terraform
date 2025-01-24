@@ -13,8 +13,11 @@ rules:
   - apiGroups:
       - 'tempo.grafana.com'
     resources: 
-     {{ range $tenant := .Values.tenants }}
-      - {{ $tenant.name }}
+    {{ range $tenant := .Values.tenants }}  
+      - {{ $tenant.name | lower }}
+    {{ range $rollMember := $tenant.smcp.rollMembers }} 
+      - {{ $rollMember | lower }}
+    {{ end }}
     {{ end }}
     resourceNames:
       - traces
