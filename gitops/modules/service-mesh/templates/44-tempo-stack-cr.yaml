@@ -12,9 +12,9 @@ metadata:
     "helm.sh/hook-weight": "44"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
-  hashRing:                              # HashRing defines the spec for the distributed hash ring configuration.
-    memberlist:                          # MemberList configuration spec
-      instanceAddrType: "podIP"  
+  hashRing:
+    memberlist:
+      instanceAddrType: "podIP"      # Docs: https://access.redhat.com/solutions/6998362, 
   observability:
     metrics:
       createPrometheusRules: true
