@@ -29,7 +29,7 @@ spec:
       type: azure
   template:
     gateway: # Gateway defines the tempo gateway spec.
-      enabled: false
+      enabled: true
       component:
         replicas: 1
       ingress:
