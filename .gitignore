@@ -39,3 +39,9 @@ override.tf.json
 **/Chart.lock
 
 **/.kube
+
+# Local transient outputs (may contain secrets)
+**/.tmp
+
+# Local safety backup created during history rewrite
+.mirror-backup/
