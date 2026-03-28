@@ -1,0 +1,29 @@
+---
+- name: Run ARO classic cluster stack
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    cluster_dir: clusters/dev/aroclassic101
+    artifact_dir: "{{ playbook_dir }}/../../.artifacts/aap/{{ cluster_dir | basename }}"
+    execution_mode: plan
+    skip_tool_check: false
+    skip_az_login: false
+    backend_false: false
+  tasks:
+    - name: Build cluster stack command
+      ansible.builtin.set_fact:
+        cluster_stack_command: >-
+          scripts/run_cluster_stack.sh
+          --cluster-dir {{ cluster_dir | quote }}
+          --artifact-dir {{ artifact_dir | quote }}
+          --mode {{ execution_mode | quote }}
+          {% if skip_tool_check | bool %} --skip-tool-check{% endif %}
+          {% if skip_az_login | bool %} --skip-az-login{% endif %}
+          {% if backend_false | bool %} --backend-false{% endif %}
+
+    - name: Run cluster stack command
+      ansible.builtin.command:
+        cmd: "{{ cluster_stack_command }}"
+        chdir: "{{ playbook_dir }}/../.."
+

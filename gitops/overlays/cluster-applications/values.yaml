@@ -1,0 +1,6 @@
+clusterName: aroclassic101
+gitopsNamespace: openshift-gitops
+git:
+  repoURL: https://github.com/your-org/aro-classic-terraform.git
+  targetRevision: main
+applications: []

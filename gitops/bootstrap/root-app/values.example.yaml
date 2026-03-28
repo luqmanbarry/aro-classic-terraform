@@ -1,0 +1,16 @@
+clusterName: aroclassic101
+argoNamespace: openshift-gitops
+overlayPath: gitops/overlays/cluster-applications
+git:
+  repoURL: https://github.com/your-org/aro-classic-terraform.git
+  targetRevision: main
+  username: ""
+  password: ""
+gitopsNamespace: openshift-gitops
+applications: []
+syncPolicy:
+  automated: true
+  prune: true
+  selfHeal: true
+  syncOptions:
+    - CreateNamespace=true

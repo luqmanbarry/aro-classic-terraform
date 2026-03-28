@@ -1,0 +1,20 @@
+cluster_name: aroclassic101
+class_name: dev
+cluster:
+  resource_group_name: aro-dev-aroclassic101
+  dns_prefix: aroclassic101.dev.eastus.platform
+business_metadata:
+  owner: platform-team
+  cost_center: app-modernization
+  contact: platform-team@example.com
+network:
+  base_dns_zone_name: apps.example.com
+  base_dns_zone_resource_group: rg-dns-platform
+key_vault:
+  name: kv-aro-dev-shared
+  resource_group: rg-security-shared
+  pull_secret_secret_name: aro-pull-secret
+  cluster_details_secret_name: openshift-dev-aroclassic101-cluster-details
+gitops:
+  repository_url: https://github.com/your-org/aro-classic-terraform.git
+  target_revision: main

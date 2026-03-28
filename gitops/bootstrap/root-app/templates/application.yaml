@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: '{{ .Values.clusterName }}-root'
+  namespace: '{{ .Values.argoNamespace | default "openshift-gitops" }}'
+spec:
+  destination:
+    namespace: '{{ .Values.argoNamespace | default "openshift-gitops" }}'
+    server: https://kubernetes.default.svc
+  project: platform
+  source:
+    path: '{{ .Values.overlayPath }}'
+    repoURL: '{{ .Values.git.repoURL }}'
+    targetRevision: '{{ .Values.git.targetRevision }}'
+    helm:
+      values: |
+        clusterName: {{ .Values.clusterName }}
+        gitopsNamespace: {{ (.Values.gitopsNamespace | default "openshift-gitops") | quote }}
+        git:
+          repoURL: {{ .Values.git.repoURL | quote }}
+          targetRevision: {{ .Values.git.targetRevision | quote }}
+        applications:
+{{ toYaml (.Values.applications | default list) | indent 10 }}
+{{- with .Values.helmValues }}
+{{ toYaml . | indent 8 }}
+{{- end }}
+  syncPolicy:
+    {{- $syncPolicy := default (dict) .Values.syncPolicy }}
+    {{- $automated := true }}
+    {{- if hasKey $syncPolicy "automated" }}
+    {{- $automated = $syncPolicy.automated }}
+    {{- end }}
+    {{- if $automated }}
+    automated:
+      prune: {{ default true $syncPolicy.prune }}
+      selfHeal: {{ default true $syncPolicy.selfHeal }}
+    {{- end }}
+    {{- with $syncPolicy.syncOptions }}
+    syncOptions:
+{{ toYaml . | indent 6 }}
+    {{- end }}

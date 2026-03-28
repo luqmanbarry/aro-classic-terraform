@@ -42,6 +42,10 @@ override.tf.json
 
 # Local transient outputs (may contain secrets)
 **/.tmp
+**/.artifacts
+**/terraform.auto.tfvars.json
+**/__pycache__/
+**/*.pyc
 
 # Local safety backup created during history rewrite
 .mirror-backup/

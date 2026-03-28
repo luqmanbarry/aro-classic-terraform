@@ -1,0 +1,150 @@
+name: factory
+
+permissions:
+  contents: read
+  id-token: write
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.14.8
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Set up OpenShift CLI
+        uses: redhat-actions/oc-installer@v1
+        with:
+          version: latest
+
+      - name: Install Python dependencies
+        run: python3 -m pip install --upgrade pyyaml
+
+      - name: Detect changed clusters
+        id: clusters
+        run: |
+          chmod +x scripts/detect_changed_clusters.sh
+          chmod +x scripts/run_cluster_stack.sh scripts/run_cluster_stack_bastion.sh
+          CHANGED="$(scripts/detect_changed_clusters.sh origin/${{ github.base_ref }} HEAD)"
+          {
+            echo 'changed<<EOF'
+            echo "$CHANGED"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Validate changed clusters
+        run: |
+          mkdir -p .artifacts/pr
+          while IFS= read -r stack; do
+            [ -z "$stack" ] && continue
+            out=".artifacts/pr/${stack//\//_}"
+            bash scripts/run_cluster_stack.sh \
+              --cluster-dir "$stack" \
+              --artifact-dir "$out" \
+              --mode validate \
+              --backend-false \
+              --skip-az-login
+          done <<< "${{ steps.clusters.outputs.changed }}"
+
+      - name: Terraform fmt
+        run: terraform fmt -recursive -check
+
+      - name: Upload PR artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-rendered-configs
+          path: .artifacts/pr
+
+  apply:
+    if: github.event_name == 'push' && vars.TERRAFORM_APPLY == 'true'
+    runs-on: ubuntu-latest
+    environment: aro-classic-apply
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.14.8
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Set up OpenShift CLI
+        uses: redhat-actions/oc-installer@v1
+        with:
+          version: latest
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Install Python dependencies
+        run: python3 -m pip install --upgrade pyyaml
+
+      - name: Detect changed clusters
+        id: clusters
+        run: |
+          chmod +x scripts/detect_changed_clusters.sh
+          chmod +x scripts/run_cluster_stack.sh scripts/run_cluster_stack_bastion.sh
+          CHANGED="$(scripts/detect_changed_clusters.sh HEAD~1 HEAD)"
+          {
+            echo 'changed<<EOF'
+            echo "$CHANGED"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Apply changed clusters
+        run: |
+          mkdir -p .artifacts/apply
+          while IFS= read -r stack; do
+            [ -z "$stack" ] && continue
+            python3 scripts/validate_stack_inputs.py \
+              --cluster "$stack/cluster.yaml" \
+              --gitops-values "$stack/gitops.yaml"
+            out=".artifacts/apply/${stack//\//_}"
+            bash scripts/run_cluster_stack.sh \
+              --cluster-dir "$stack" \
+              --artifact-dir "$out" \
+              --mode apply
+          done <<< "${{ steps.clusters.outputs.changed }}"
+
+      - name: Upload apply artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: apply-rendered-configs
+          path: .artifacts/apply
