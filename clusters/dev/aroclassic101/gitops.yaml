@@ -27,6 +27,20 @@ applications:
     syncWave: "20"
     valueFiles:
       - clusters/dev/aroclassic101/values/user-workload-monitoring.yaml
+  - name: cluster-autoscaler
+    enabled: false
+    namespace: openshift-machine-api
+    path: gitops/apps/platform/cluster-autoscaler
+    syncWave: "21"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/cluster-autoscaler.yaml
+  - name: machine-pools
+    enabled: false
+    namespace: openshift-machine-api
+    path: gitops/apps/platform/machine-pools
+    syncWave: "22"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/machine-pools.yaml
   - name: internal-image-registry
     enabled: false
     namespace: openshift-image-registry

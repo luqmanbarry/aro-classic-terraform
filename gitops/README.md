@@ -20,6 +20,14 @@ How to set up GitOps for one cluster:
 - put each app's values in `clusters/<environment>/<cluster>/values/<app>.yaml`
 - if an app needs a Kubernetes `Secret`, add its `externalSecrets` entries to that same values file before you enable the app
 
+ARO note:
+
+- use Terraform for the base cluster
+- use GitOps for extra `MachineSet` objects, `MachineAutoscaler` objects, and the `ClusterAutoscaler` object after the cluster is up
+- for extra worker pools on ARO, copy a real `MachineSet` from the cluster first and then edit it in Git
+- use Azure Key Vault as the default shared secret backend for ARO
+- use `external-secrets-operator` and `external-secrets-config` to expose Key Vault secrets to apps
+
 The sample cluster lists every app that is available now. Only `external-secrets-operator` is enabled by default. Everything else is opt-in.
 
 ## Layout

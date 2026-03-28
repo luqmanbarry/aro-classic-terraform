@@ -1,0 +1,8 @@
+{{- if .Values.enabled }}
+apiVersion: autoscaling.openshift.io/v1
+kind: ClusterAutoscaler
+metadata:
+  name: {{ .Values.name | default "default" | quote }}
+spec:
+{{ toYaml .Values.spec | indent 2 }}
+{{- end }}

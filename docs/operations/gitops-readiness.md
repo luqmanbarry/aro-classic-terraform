@@ -23,6 +23,8 @@ Readiness here means:
 - `groups-rbac`
 - `identity-providers`
 - `image-registry-allow-deny`
+- `cluster-autoscaler`
+- `machine-pools`
 - `internal-image-registry`
 - `namespace-onboarding`
 - `oadp-backup`
@@ -66,6 +68,8 @@ These apps define the shared secret-store side of the contract:
 
 - `external-secrets-config`
 - `external-secrets-operator`
+
+For ARO in this repo, the default shared secret backend is Azure Key Vault through those two apps.
 
 These apps do not currently require an external secret contract in their chart logic:
 

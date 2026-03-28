@@ -20,6 +20,9 @@ Use OpenShift GitOps for normal cluster configuration after the cluster is reach
 - identity configuration
 - logging and monitoring
 - image registry policy
+- Azure Key Vault secret sync through External Secrets Operator
+- extra worker `MachineSet` objects
+- `MachineAutoscaler` and `ClusterAutoscaler` objects
 - workload enablement
 
 ## Boundary Rule

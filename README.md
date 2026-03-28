@@ -35,6 +35,7 @@ High-level flow:
 
 - Terraform builds the Azure resources, the ARO cluster, and the bootstrap pieces.
 - OpenShift GitOps manages normal in-cluster changes after bootstrap.
+- Azure Key Vault is the default secret-management backend for ARO in this repo.
 - People write YAML input files.
 - Scripts create JSON files from those YAML files.
 - Cluster differences should stay in Git, not in hidden shell scripts.
