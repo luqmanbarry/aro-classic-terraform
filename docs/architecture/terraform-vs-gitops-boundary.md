@@ -6,13 +6,15 @@ Use OpenShift GitOps for normal cluster configuration after the cluster is reach
 
 ## Terraform
 
-- Azure infrastructure required by the cluster
+- optional Azure infrastructure required by the cluster
 - ARO classic cluster
 - cluster DNS records
 - cluster connection details in Key Vault
 - kubeconfig generation for automation
 - optional ACM registration
 - OpenShift GitOps operator bootstrap
+
+When Azure infrastructure is customer-managed, Terraform for the cluster has a smaller blast radius. Problems in cluster state are less likely to affect shared VNets, subnets, and DNS that may be used by other clusters.
 
 ## OpenShift GitOps
 

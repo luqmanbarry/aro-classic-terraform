@@ -8,7 +8,7 @@ Simple flow:
 2. A pull request is reviewed and approved.
 3. CI validates and renders the effective configuration.
 4. Merge to `main` runs Terraform to:
-   - create Azure infrastructure in scope
+   - optionally create Azure infrastructure in scope
    - create the ARO classic cluster
    - write cluster connection details to Key Vault
    - optionally register the cluster to ACM
@@ -22,7 +22,7 @@ Cluster class
   + cluster files
   -> render effective config
   -> Terraform modules
-     -> Azure infrastructure
+     -> optional Azure infrastructure
      -> ARO classic cluster
      -> kubeconfig bootstrap
      -> optional ACM registration
@@ -36,12 +36,22 @@ Cluster class
 
 Terraform handles build and bootstrap work:
 
-- Azure resource group, VNet, subnets, NSG, identities, and DNS
+- optional Azure resource group, VNet, subnets, NSG, identities, and DNS
 - ARO classic cluster creation
 - cluster admin detail capture into Key Vault
 - managed cluster kubeconfig generation
 - optional ACM registration
 - optional OpenShift GitOps bootstrap
+
+Customer-managed infrastructure is also supported. In that model, Terraform still creates the ARO cluster, but it uses existing subnet IDs and an existing cluster service principal client ID instead of building those Azure resources.
+
+This is the default model. Teams must explicitly set `infrastructure.create_azure_resources: true` if they want this repo to build Azure infrastructure too.
+
+Why this is the default:
+
+- it reduces blast radius if cluster Terraform state is corrupted
+- it keeps shared Azure resources such as VNets, subnets, and DNS out of the normal cluster stack
+- it fits enterprise operating models where a cloud team owns shared landing-zone resources and the platform team owns the cluster lifecycle
 
 ## GitOps Scope
 

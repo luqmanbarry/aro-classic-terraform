@@ -23,6 +23,7 @@ clusters/
 ## Files
 
 - `cluster.yaml`: main cluster settings such as Azure region, networking, sizing, Key Vault, and bootstrap flags
+- `infrastructure`: choose whether this repo uses existing customer-managed Azure resources or builds them itself
 - `gitops.yaml`: list of GitOps apps for this cluster, including what is enabled and which values files to use
 - `values/*.yaml`: one values file per GitOps app
 - Terraform wrapper files: small root module files that call `modules/factory-stack`

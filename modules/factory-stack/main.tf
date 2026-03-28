@@ -1,4 +1,19 @@
+data "azurerm_key_vault" "target" {
+  name                = var.key_vault.name
+  resource_group_name = var.key_vault.resource_group
+}
+
+locals {
+  custom_dns_domain_name = var.use_azure_provided_domain ? "" : "${var.cluster.dns_prefix}.${var.network.base_dns_zone_name}"
+  resource_group_name    = var.infrastructure.create_azure_resources ? module.aro_classic_infra[0].resource_group_name : var.cluster.resource_group_name
+  main_subnet_id         = var.infrastructure.create_azure_resources ? module.aro_classic_infra[0].main_subnet_id : var.infrastructure.existing.main_subnet_id
+  worker_subnet_id       = var.infrastructure.create_azure_resources ? module.aro_classic_infra[0].worker_subnet_id : var.infrastructure.existing.worker_subnet_id
+  key_vault_id           = data.azurerm_key_vault.target.id
+  cluster_sp_client_id   = var.infrastructure.create_azure_resources ? module.aro_classic_infra[0].cluster_sp_client_id : var.infrastructure.existing.cluster_sp_client_id
+}
+
 module "aro_classic_infra" {
+  count  = var.infrastructure.create_azure_resources ? 1 : 0
   source = "../aro-classic-infra"
 
   cluster_name                 = var.cluster_name
@@ -27,12 +42,12 @@ module "aro_classic_core" {
   network                      = var.network
   key_vault                    = var.key_vault
   use_azure_provided_domain    = var.use_azure_provided_domain
-  resource_group_name          = module.aro_classic_infra.resource_group_name
-  main_subnet_id               = module.aro_classic_infra.main_subnet_id
-  worker_subnet_id             = module.aro_classic_infra.worker_subnet_id
-  key_vault_id                 = module.aro_classic_infra.key_vault_id
-  cluster_sp_client_id         = module.aro_classic_infra.cluster_sp_client_id
-  custom_dns_domain_name       = module.aro_classic_infra.custom_dns_domain_name
+  resource_group_name          = local.resource_group_name
+  main_subnet_id               = local.main_subnet_id
+  worker_subnet_id             = local.worker_subnet_id
+  key_vault_id                 = local.key_vault_id
+  cluster_sp_client_id         = local.cluster_sp_client_id
+  custom_dns_domain_name       = local.custom_dns_domain_name
   base_dns_zone_resource_group = var.network.base_dns_zone_resource_group
   temp_dir                     = "${var.temp_dir}/${var.cluster_name}"
   default_tags                 = var.default_tags
@@ -42,7 +57,7 @@ module "aro_classic_kubeconfig" {
   source = "../aro-classic-kubeconfig"
 
   cluster_details_secret_name         = var.key_vault.cluster_details_secret_name
-  key_vault_id                        = module.aro_classic_infra.key_vault_id
+  key_vault_id                        = local.key_vault_id
   default_kubeconfig_filename         = var.default_kubeconfig_filename
   managed_cluster_kubeconfig_filename = var.managed_cluster_kubeconfig_filename
   acmhub_registration_enabled         = var.enable_acm_registration

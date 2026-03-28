@@ -16,6 +16,7 @@ module "factory_stack" {
   use_azure_provided_domain           = var.use_azure_provided_domain
   enable_acm_registration             = var.enable_acm_registration
   enable_gitops_bootstrap             = var.enable_gitops_bootstrap
+  infrastructure                      = var.infrastructure
   redhatopenshift_sp_client_id        = var.redhatopenshift_sp_client_id
   default_tags                        = var.default_tags
   business_metadata                   = var.business_metadata

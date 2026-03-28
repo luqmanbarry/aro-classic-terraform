@@ -42,6 +42,17 @@ variable "enable_gitops_bootstrap" {
   type = bool
 }
 
+variable "infrastructure" {
+  type = object({
+    create_azure_resources = bool
+    existing = optional(object({
+      main_subnet_id       = string
+      worker_subnet_id     = string
+      cluster_sp_client_id = string
+    }))
+  })
+}
+
 variable "default_tags" {
   type    = map(string)
   default = {}

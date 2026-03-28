@@ -16,6 +16,22 @@ variable "managed_cluster_kubeconfig_filename" { type = string }
 variable "acmhub_kubeconfig_filename" { type = string }
 variable "temp_dir" { type = string }
 
+variable "infrastructure" {
+  type = object({
+    create_azure_resources = bool
+    existing = optional(object({
+      main_subnet_id       = string
+      worker_subnet_id     = string
+      cluster_sp_client_id = string
+    }))
+  })
+
+  validation {
+    condition     = var.infrastructure.create_azure_resources || try(var.infrastructure.existing.main_subnet_id != "" && var.infrastructure.existing.worker_subnet_id != "" && var.infrastructure.existing.cluster_sp_client_id != "", false)
+    error_message = "When infrastructure.create_azure_resources is false, infrastructure.existing.main_subnet_id, infrastructure.existing.worker_subnet_id, and infrastructure.existing.cluster_sp_client_id must be set."
+  }
+}
+
 variable "business_metadata" {
   type = object({
     owner       = string

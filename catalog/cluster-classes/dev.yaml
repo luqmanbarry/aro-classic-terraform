@@ -8,6 +8,8 @@ fips_enabled: false
 use_azure_provided_domain: false
 enable_acm_registration: false
 enable_gitops_bootstrap: true
+infrastructure:
+  create_azure_resources: false
 default_tags:
   managed_by: terraform
   workload: aro-classic

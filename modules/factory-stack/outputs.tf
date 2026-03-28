@@ -3,7 +3,7 @@ output "cluster_name" {
 }
 
 output "resource_group_name" {
-  value = module.aro_classic_infra.resource_group_name
+  value = local.resource_group_name
 }
 
 output "console_url" {
@@ -17,5 +17,5 @@ output "api_server_url" {
 }
 
 output "custom_dns_domain_name" {
-  value = module.aro_classic_infra.custom_dns_domain_name
+  value = local.custom_dns_domain_name
 }
