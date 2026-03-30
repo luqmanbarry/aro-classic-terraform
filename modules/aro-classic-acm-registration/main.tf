@@ -61,7 +61,7 @@ resource "kubernetes_manifest" "addon_config" {
 
 resource "kubernetes_manifest" "auto_import_secret" {
   provider   = kubernetes.acmhub_cluster
-  depends_on = [kubernetes_manifest.managed_cluster_namespace, kubernetes_manifest.managed_cluster]
+  depends_on = [kubernetes_manifest.managed_cluster_namespace, kubernetes_manifest.managed_cluster, kubernetes_manifest.addon_config]
   manifest = {
     apiVersion = "v1"
     kind       = "Secret"
