@@ -37,6 +37,8 @@ High-level flow:
 - The Azure infrastructure module is optional. By default, customers use existing Azure resources from a customer-managed landing zone. Set `infrastructure.create_azure_resources: true` only when you want this repo to build Azure resources too.
 - This helps reduce blast radius. If cluster Terraform state is damaged, the stack is less likely to affect shared Azure resources such as VNets, subnets, and DNS that may be used by other clusters.
 - OpenShift GitOps manages normal in-cluster changes after bootstrap.
+- Use one OpenShift GitOps operator per cluster. The default admin Argo CD instance in `openshift-gitops` manages shared platform and workload apps from this repo.
+- When tenant app delivery is needed, use one separate shared tenant Argo CD instance instead of a second GitOps operator.
 - Azure Key Vault is the default secret-management backend for ARO in this repo.
 - People write YAML input files.
 - Scripts create JSON files from those YAML files.

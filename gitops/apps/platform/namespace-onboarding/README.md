@@ -33,7 +33,7 @@ Creates OpenShift projects, applies common namespace guardrails, and can onboard
 
 The chart also supports a top-level `projectRequestTemplate` block for self-service project creation. Use that with the `self-provisioner` chart when you want new user-created projects to inherit quotas, limit ranges, and network policies.
 
-The chart also supports a top-level `tenantGitOps` block for shared tenant Argo CD onboarding.
+The chart uses a top-level `sharedTenantArgoCD` block for the shared tenant Argo CD instance and a top-level `tenants` list for approved teams.
 
 ## Tenant GitOps Model
 
@@ -48,23 +48,47 @@ Use it when:
 Design rules:
 
 - `platform/` and `workloads/` in this repo stay admin-only
-- tenant teams do not get their own Argo CD instance
+- tenant teams do not get their own GitOps operator
+- tenant teams do not get their own Argo CD instance by default
 - tenant teams share one tenant Argo CD instance
 - each tenant gets its own `AppProject`
 - each tenant gets an approved repo allow-list
 - each tenant gets an approved namespace allow-list
-- `ApplicationSet` is allowed only when `allowApplicationSets: true`
+- `ApplicationSet` is allowed only when `allow_application_sets: true`
 - enabled tenant groups get namespace-scoped Kubernetes RBAC for Argo CD custom resources in their approved namespaces
 - tenant repo credential secrets are created with `ExternalSecret`
 - tenant repo credentials support the same HTTPS and SSH pattern used in the other factory repos
 - tenant namespaces are added to the shared Argo CD instance only when the tenant is enabled
 
-You can also tune the shared tenant Argo CD instance through `tenantGitOps.instance`, for example:
+You can also tune the shared tenant Argo CD instance through `sharedTenantArgoCD.instance`, for example:
 
 - server route enablement
 - server, controller, repo-server, redis, and ApplicationSet resource requests and limits
 
 ## Example
+
+```yaml
+sharedTenantArgoCD:
+  enabled: true
+  namespace: openshift-gitops-tenants
+  instanceName: tenant-gitops
+
+tenants:
+  - name: team-a
+    enabled: true
+    project_name: team-a
+    description: Shared tenant Argo CD project for Team A
+    namespaces:
+      - team-a-dev
+    source_repos:
+      - https://github.com/your-org/team-a-apps.git
+    admin_groups:
+      - team-a-operators
+    developer_groups:
+      - team-a-developers
+```
+
+Namespace guardrails still live in the `namespaces` list:
 
 ```yaml
 namespaces:
@@ -117,4 +141,4 @@ namespaces:
 - the tenant Argo CD instance is disabled by default until an admin turns it on
 - this design uses Argo CD "apps in any namespace"
 - enabled tenant admin and deployer groups get namespace-scoped `Role` and `RoleBinding` objects so they can create `Application` objects in their approved namespaces
-- `ApplicationSet` in any namespace is enabled only for tenants where `allowApplicationSets: true`
+- `ApplicationSet` in any namespace is enabled only for tenants where `allow_application_sets: true`

@@ -6,12 +6,39 @@ Simple flow:
 
 1. Terraform installs the OpenShift GitOps operator and creates a root `Application`.
 2. The root application points to the shared overlay under `gitops/overlays/cluster-applications/`.
-3. The shared overlay creates child Argo CD applications.
-4. Those child applications deploy platform and workload apps.
+3. The shared overlay creates the shared `platform` and `workloads` AppProjects in the admin Argo CD instance.
+4. The shared overlay creates child Argo CD applications.
+5. Those child applications deploy platform and workload apps.
 
 Most reusable apps in this repo are Helm charts.
 
 The shared overlay is also a Helm chart. During bootstrap, Terraform passes in the real Git repo URL and Git revision.
+
+## Argo CD Model
+
+This repo uses one GitOps operator per cluster.
+
+It then splits Argo CD use into two layers:
+
+- one admin Argo CD instance in `openshift-gitops`
+- one optional shared tenant Argo CD instance for app teams
+
+The admin instance is for platform-owned GitOps:
+
+- apps from `gitops/apps/platform`
+- apps from `gitops/apps/workloads`
+- the shared `platform` AppProject
+- the shared `workloads` AppProject
+
+The tenant instance is for approved app teams:
+
+- it is created only when onboarding is enabled
+- it runs in its own namespace
+- each tenant gets its own `AppProject`
+- each tenant is limited to approved repos and namespaces
+
+Do not deploy a second OpenShift GitOps operator for tenants.
+Keep one operator and use separate Argo CD instances with separate RBAC.
 
 How to set up GitOps for one cluster:
 

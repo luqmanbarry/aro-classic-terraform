@@ -1,7 +1,13 @@
-{{- if .Values.tenantGitOps.enabled }}
-{{- range $tenant := .Values.tenantGitOps.tenants }}
+{{- $shared := .Values.sharedTenantArgoCD | default dict }}
+{{- $tenants := .Values.tenants | default list }}
+{{- if $shared.enabled }}
+{{- range $tenant := $tenants }}
 {{- if $tenant.enabled }}
-{{- $projectName := default $tenant.name $tenant.projectName }}
+{{- $projectName := default $tenant.name $tenant.project_name }}
+{{- $deployerGroups := $tenant.developer_groups | default list }}
+{{- $adminGroups := $tenant.admin_groups | default list }}
+{{- $viewerGroups := $tenant.viewer_groups | default list }}
+{{- $allowApplicationSets := $tenant.allow_application_sets | default false }}
 {{- range $namespace := $tenant.namespaces }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -24,7 +30,7 @@ rules:
       - update
       - patch
       - delete
-  {{- if $tenant.allowApplicationSets }}
+  {{- if $allowApplicationSets }}
   - apiGroups:
       - argoproj.io
     resources:
@@ -47,12 +53,12 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "36"
 subjects:
-{{- range $group := $tenant.groups.deployers }}
+{{- range $group := $deployerGroups }}
   - kind: Group
     apiGroup: rbac.authorization.k8s.io
     name: {{ $group }}
 {{- end }}
-{{- range $group := $tenant.groups.admins }}
+{{- range $group := $adminGroups }}
   - kind: Group
     apiGroup: rbac.authorization.k8s.io
     name: {{ $group }}
@@ -61,7 +67,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: {{ printf "%s-argocd-deployer" $projectName }}
-{{- if $tenant.groups.viewers }}
+{{- if $viewerGroups }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -79,7 +85,7 @@ rules:
       - get
       - list
       - watch
-  {{- if $tenant.allowApplicationSets }}
+  {{- if $allowApplicationSets }}
   - apiGroups:
       - argoproj.io
     resources:
@@ -98,7 +104,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "36"
 subjects:
-{{- range $group := $tenant.groups.viewers }}
+{{- range $group := $viewerGroups }}
   - kind: Group
     apiGroup: rbac.authorization.k8s.io
     name: {{ $group }}

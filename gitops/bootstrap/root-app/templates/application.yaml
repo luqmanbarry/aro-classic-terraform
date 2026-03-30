@@ -1,29 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: '{{ .Values.clusterName }}-root'
-  namespace: '{{ .Values.argoNamespace | default "openshift-gitops" }}'
+  name: '{{ .Values.rootApplication.name }}'
+  namespace: '{{ .Values.rootApplication.namespace }}'
 spec:
   destination:
-    namespace: '{{ .Values.argoNamespace | default "openshift-gitops" }}'
+    namespace: '{{ .Values.rootApplication.destinationNamespace }}'
     server: https://kubernetes.default.svc
-  project: platform
+  project: '{{ .Values.rootApplication.project | default "default" }}'
   source:
-    path: '{{ .Values.overlayPath }}'
+    path: '{{ .Values.rootApplication.path }}'
     repoURL: '{{ .Values.git.repoURL }}'
     targetRevision: '{{ .Values.git.targetRevision }}'
     helm:
       values: |
-        clusterName: {{ .Values.clusterName }}
-        gitopsNamespace: {{ (.Values.gitopsNamespace | default "openshift-gitops") | quote }}
-        git:
-          repoURL: {{ .Values.git.repoURL | quote }}
-          targetRevision: {{ .Values.git.targetRevision | quote }}
-        applications:
-{{ toYaml (.Values.applications | default list) | indent 10 }}
-{{- with .Values.helmValues }}
-{{ toYaml . | indent 8 }}
-{{- end }}
+{{ toYaml .Values.bootstrapValues | indent 8 }}
   syncPolicy:
     {{- $syncPolicy := default (dict) .Values.syncPolicy }}
     {{- $automated := true }}

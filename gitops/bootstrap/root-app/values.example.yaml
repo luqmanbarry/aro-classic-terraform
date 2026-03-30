@@ -1,13 +1,28 @@
-clusterName: aroclassic101
-argoNamespace: openshift-gitops
-overlayPath: gitops/overlays/cluster-applications
+rootApplication:
+  name: aroclassic101-root
+  namespace: openshift-gitops
+  destinationNamespace: openshift-gitops
+  project: default
+  path: gitops/overlays/cluster-applications
 git:
   repoURL: https://github.com/your-org/aro-classic-terraform.git
   targetRevision: main
   username: ""
   password: ""
-gitopsNamespace: openshift-gitops
-applications: []
+bootstrapValues:
+  clusterName: aroclassic101
+  gitopsNamespace: openshift-gitops
+  git:
+    repoURL: https://github.com/your-org/aro-classic-terraform.git
+    targetRevision: main
+  projects:
+    - name: platform
+      namespace: openshift-gitops
+      description: Shared platform applications managed by the cluster factory.
+    - name: workloads
+      namespace: openshift-gitops
+      description: Shared workload applications managed by the cluster factory.
+  applications: []
 syncPolicy:
   automated: true
   prune: true

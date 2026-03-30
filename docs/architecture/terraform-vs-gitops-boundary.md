@@ -18,6 +18,9 @@ When Azure infrastructure is customer-managed, Terraform for the cluster has a s
 
 ## OpenShift GitOps
 
+- one OpenShift GitOps operator per cluster
+- one admin Argo CD instance for shared platform and workload apps
+- one optional shared tenant Argo CD instance for approved app teams
 - operator subscriptions and namespaces
 - identity configuration
 - logging and monitoring

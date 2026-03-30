@@ -6,7 +6,10 @@ Readiness here means:
 
 - the chart exists with Kubernetes manifests
 - the chart renders successfully with its current contract
+- operator-backed apps use a current OLM channel in chart defaults and sample cluster values
 - secret-consuming apps own their own `ExternalSecret` resources when they fetch secrets from an external backend
+
+This readiness check was reviewed against ARO with an OpenShift 4.18 baseline.
 
 ## Ready Platform Apps
 
@@ -42,6 +45,33 @@ Readiness here means:
 ## Ready Workload Apps
 
 - `aap`
+- `cp4ba-operator`
+- `openshift-ai`
+
+## Operator Defaults
+
+These operator-backed apps now ship with an explicit default OLM channel:
+
+- `advanced-cluster-security-operator-bootstrap`: `stable`
+- `cert-manager-operator`: `stable-v1`
+- `cluster-logging`: `stable`
+- `compliance-operator`: `stable`
+- `external-secrets-operator`: `stable`
+- `file-integrity-operator-bootstrap`: `stable`
+- `oadp-operator`: `stable-1.4`
+- `openshift-data-foundation-operator-bootstrap`: `stable-4.18`
+- `openshift-pipelines-operator-bootstrap`: `latest`
+- `openshift-service-mesh-operator-bootstrap`:
+  servicemesh `stable`, kiali `stable`, otel `stable`, tempo `stable`
+- `openshift-virtualization-operator-bootstrap`: `stable`
+- `aap`: `stable-2.6`
+- `cp4ba-operator`: `v24.0`
+- `openshift-ai`: `stable`
+
+These defaults are intended to be deployable on ARO when the app is enabled. Some of these apps still need normal platform approval before use because they also depend on storage, sizing, or workload design decisions:
+
+- `openshift-data-foundation-operator-bootstrap`
+- `openshift-virtualization-operator-bootstrap`
 - `cp4ba-operator`
 - `openshift-ai`
 
@@ -102,3 +132,5 @@ The current repository has been checked with:
 - cluster input validation
 - effective-config rendering
 - Terraform validation for the sample cluster stack
+
+The current operator defaults assume an ARO cluster on the OpenShift 4.18 release family.

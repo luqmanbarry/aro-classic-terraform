@@ -1,11 +1,19 @@
-{{- if .Values.tenantGitOps.enabled }}
+{{- $shared := .Values.sharedTenantArgoCD | default dict }}
+{{- $tenants := .Values.tenants | default list }}
+{{- $instance := default (dict) $shared.instance }}
+{{- $server := default (dict) $instance.server }}
+{{- $controller := default (dict) $instance.controller }}
+{{- $repo := default (dict) $instance.repo }}
+{{- $redis := default (dict) $instance.redis }}
+{{- $applicationSet := default (dict) $instance.applicationSet }}
+{{- if $shared.enabled }}
 {{- $applicationNamespaces := list }}
 {{- $applicationSetNamespaces := list }}
-{{- range $tenant := .Values.tenantGitOps.tenants }}
+{{- range $tenant := $tenants }}
 {{- if $tenant.enabled }}
 {{- range $namespace := $tenant.namespaces }}
 {{- $applicationNamespaces = append $applicationNamespaces $namespace }}
-{{- if $tenant.allowApplicationSets }}
+{{- if $tenant.allow_application_sets }}
 {{- $applicationSetNamespaces = append $applicationSetNamespaces $namespace }}
 {{- end }}
 {{- end }}
@@ -15,13 +23,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ArgoCD
 metadata:
-  name: {{ .Values.tenantGitOps.instanceName }}
-  namespace: {{ .Values.tenantGitOps.namespace }}
+  name: {{ $shared.instanceName }}
+  namespace: {{ $shared.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "33"
 spec:
   resourceTrackingMethod: annotation+label
-  {{- with .Values.tenantGitOps.instance.server }}
+  {{- with $server }}
   server:
     {{- with .route }}
     route:
@@ -32,17 +40,17 @@ spec:
 {{ toYaml . | indent 6 }}
     {{- end }}
   {{- end }}
-  {{- with .Values.tenantGitOps.instance.controller.resources }}
+  {{- with $controller.resources }}
   controller:
     resources:
 {{ toYaml . | indent 6 }}
   {{- end }}
-  {{- with .Values.tenantGitOps.instance.repo.resources }}
+  {{- with $repo.resources }}
   repo:
     resources:
 {{ toYaml . | indent 6 }}
   {{- end }}
-  {{- with .Values.tenantGitOps.instance.redis.resources }}
+  {{- with $redis.resources }}
   redis:
     resources:
 {{ toYaml . | indent 6 }}
@@ -57,7 +65,7 @@ spec:
   {{- end }}
   {{- if $applicationSetNamespaces }}
   applicationSet:
-    {{- with .Values.tenantGitOps.instance.applicationSet.resources }}
+    {{- with $applicationSet.resources }}
     resources:
 {{ toYaml . | indent 6 }}
     {{- end }}

@@ -1,5 +1,5 @@
 namespaces: []
-tenantGitOps:
+sharedTenantArgoCD:
   enabled: false
   namespace: openshift-gitops-tenants
   instanceName: tenant-gitops
@@ -48,7 +48,7 @@ tenantGitOps:
     - group: project.openshift.io
       kind: Project
   clusterResourceWhitelist: []
-  tenants: []
+tenants: []
 projectRequestTemplate:
   enabled: false
   name: project-request-template

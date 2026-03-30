@@ -5,19 +5,43 @@ locals {
 }
 
 resource "local_file" "root_app_values" {
-	content = yamlencode({
-		clusterName = var.cluster_name
-		overlayPath = var.gitops_root_app_path
-		git = {
+  content = yamlencode({
+    rootApplication = {
+      name                 = "${var.cluster_name}-root"
+      namespace            = "openshift-gitops"
+      destinationNamespace = "openshift-gitops"
+      project              = "default"
+      path                 = var.gitops_root_app_path
+    }
+    git = {
       repoURL        = var.gitops_git_repo_url
       targetRevision = var.gitops_target_revision
-			username       = var.gitops_repo_username
-			password       = var.gitops_repo_password
-		}
-		gitopsNamespace = "openshift-gitops"
-		applications    = try(var.gitops_values.applications, [])
-	})
-	filename = local.root_app_values_file
+      username       = var.gitops_repo_username
+      password       = var.gitops_repo_password
+    }
+    bootstrapValues = {
+      clusterName     = var.cluster_name
+      gitopsNamespace = "openshift-gitops"
+      git = {
+        repoURL        = var.gitops_git_repo_url
+        targetRevision = var.gitops_target_revision
+      }
+      projects = [
+        {
+          name        = "platform"
+          namespace   = "openshift-gitops"
+          description = "Shared platform applications managed by the cluster factory."
+        },
+        {
+          name        = "workloads"
+          namespace   = "openshift-gitops"
+          description = "Shared workload applications managed by the cluster factory."
+        },
+      ]
+      applications = try(var.gitops_values.applications, [])
+    }
+  })
+  filename = local.root_app_values_file
 }
 
 resource "null_resource" "deploy_operator" {
