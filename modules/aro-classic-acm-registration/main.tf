@@ -1,3 +1,14 @@
+resource "kubernetes_manifest" "managed_cluster_namespace" {
+  provider = kubernetes.acmhub_cluster
+  manifest = {
+    apiVersion = "v1"
+    kind       = "Namespace"
+    metadata = {
+      name = var.cluster_name
+    }
+  }
+}
+
 resource "kubernetes_manifest" "managed_cluster" {
   provider = kubernetes.acmhub_cluster
   manifest = {
@@ -14,7 +25,7 @@ resource "kubernetes_manifest" "managed_cluster" {
 
 resource "kubernetes_manifest" "addon_config" {
   provider   = kubernetes.acmhub_cluster
-  depends_on = [kubernetes_manifest.managed_cluster]
+  depends_on = [kubernetes_manifest.managed_cluster_namespace, kubernetes_manifest.managed_cluster]
   manifest = {
     apiVersion = "agent.open-cluster-management.io/v1"
     kind       = "KlusterletAddonConfig"
@@ -48,23 +59,20 @@ resource "kubernetes_manifest" "addon_config" {
   }
 }
 
-resource "null_resource" "apply_import" {
-  depends_on = [kubernetes_manifest.addon_config]
-
-  provisioner "local-exec" {
-    interpreter = ["/bin/bash", "-c"]
-    command     = <<EOT
-oc --kubeconfig="$HUB_KUBECONFIG" get secret "$CLUSTER-import" -n "$CLUSTER" -o jsonpath='{.data.crds\.yaml}' | base64 --decode | oc apply --kubeconfig="$MANAGED_KUBECONFIG" -f -
-oc --kubeconfig="$HUB_KUBECONFIG" get secret "$CLUSTER-import" -n "$CLUSTER" -o jsonpath='{.data.import\.yaml}' | base64 --decode | oc apply --kubeconfig="$MANAGED_KUBECONFIG" -f -
-EOT
-    environment = {
-      CLUSTER            = var.cluster_name
-      MANAGED_KUBECONFIG = var.managed_cluster_kubeconfig_filename
-      HUB_KUBECONFIG     = var.acmhub_kubeconfig_filename
+resource "kubernetes_manifest" "auto_import_secret" {
+  provider   = kubernetes.acmhub_cluster
+  depends_on = [kubernetes_manifest.managed_cluster_namespace, kubernetes_manifest.managed_cluster]
+  manifest = {
+    apiVersion = "v1"
+    kind       = "Secret"
+    metadata = {
+      name      = "auto-import-secret"
+      namespace = var.cluster_name
     }
-  }
-
-  triggers = {
-    cluster_name = var.cluster_name
+    stringData = {
+      autoImportRetry = "5"
+      kubeconfig      = file(var.managed_cluster_kubeconfig_filename)
+    }
+    type = "Opaque"
   }
 }

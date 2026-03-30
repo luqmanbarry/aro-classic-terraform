@@ -52,5 +52,4 @@ gitops:
   target_revision: main
   root_app_path: gitops/overlays/cluster-applications
 acm:
-  enabled: false
   hub_cluster_secret_name: openshift-dev-acmhub-cluster-details

@@ -4,12 +4,12 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 4.14"
+      version = "~> 4.66"
     }
 
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 2.42"
+      version = "~> 2.53"
     }
 
     kubernetes = {
@@ -20,7 +20,7 @@ terraform {
 
     local = {
       source  = "hashicorp/local"
-      version = "~> 2.5"
+      version = "~> 2.7"
     }
 
     null = {
@@ -30,7 +30,7 @@ terraform {
 
     random = {
       source  = "hashicorp/random"
-      version = "~> 3.7"
+      version = "~> 3.8"
     }
 
     time = {

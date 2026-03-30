@@ -127,9 +127,13 @@ variable "gitops" {
 
 variable "acm" {
   type = object({
-    enabled                 = bool
     hub_cluster_secret_name = optional(string)
   })
+
+  validation {
+    condition     = !var.enable_acm_registration || try(var.acm.hub_cluster_secret_name != "", false)
+    error_message = "When enable_acm_registration is true, acm.hub_cluster_secret_name must be set."
+  }
 }
 
 variable "default_kubeconfig_filename" {

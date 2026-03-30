@@ -75,7 +75,6 @@ module "acm_registration" {
 
   cluster_name                        = var.cluster_name
   managed_cluster_kubeconfig_filename = var.managed_cluster_kubeconfig_filename
-  acmhub_kubeconfig_filename          = var.acmhub_kubeconfig_filename
 }
 
 module "gitops_bootstrap" {
