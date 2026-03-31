@@ -8,6 +8,7 @@ Use OpenShift GitOps for normal cluster configuration after the cluster is reach
 
 - optional Azure infrastructure required by the cluster
 - ARO classic cluster
+- optional managed identity cluster configuration for new clusters
 - cluster DNS records
 - cluster connection details in Key Vault
 - kubeconfig generation for automation
@@ -34,3 +35,5 @@ When Azure infrastructure is customer-managed, Terraform for the cluster has a s
 
 Terraform stops once the cluster and GitOps bootstrap are complete.
 Day-2 configuration should be modeled as GitOps applications whenever practical.
+
+Managed identity for the ARO cluster itself is a Terraform concern because it changes the cluster identity model and Azure role assignment model. Workload identity use by apps remains a GitOps or app-delivery concern after the cluster exists.

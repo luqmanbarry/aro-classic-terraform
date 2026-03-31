@@ -39,6 +39,8 @@ High-level flow:
 - OpenShift GitOps manages normal in-cluster changes after bootstrap.
 - Use one OpenShift GitOps operator per cluster. The default admin Argo CD instance in `openshift-gitops` manages shared platform and workload apps from this repo.
 - When tenant app delivery is needed, use one separate shared tenant Argo CD instance instead of a second GitOps operator.
+- Managed identity support is Terraform-based, opt-in, and for new clusters only.
+- The first managed identity implementation in this repo currently requires `infrastructure.create_azure_resources: true`.
 - Azure Key Vault is the default secret-management backend for ARO in this repo.
 - People write YAML input files.
 - Scripts create JSON files from those YAML files.

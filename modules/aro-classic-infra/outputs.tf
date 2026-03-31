@@ -15,9 +15,15 @@ output "key_vault_id" {
 }
 
 output "cluster_sp_client_id" {
-  value = azuread_service_principal.cluster.client_id
+  value = var.managed_identity_enabled ? null : azuread_service_principal.cluster[0].client_id
 }
 
 output "custom_dns_domain_name" {
   value = local.custom_dns_domain_name
+}
+
+output "managed_identity_ids" {
+  value = {
+    for key, identity in azurerm_user_assigned_identity.managed : key => identity.id
+  }
 }

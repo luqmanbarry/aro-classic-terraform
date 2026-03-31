@@ -42,6 +42,12 @@ variable "enable_gitops_bootstrap" {
   type = bool
 }
 
+variable "managed_identity" {
+  type = object({
+    enabled = bool
+  })
+}
+
 variable "infrastructure" {
   type = object({
     create_azure_resources = bool

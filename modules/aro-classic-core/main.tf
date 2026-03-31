@@ -1,9 +1,13 @@
+data "azurerm_client_config" "current" {}
+
 data "azuread_service_principal" "cluster" {
+  count     = var.managed_identity.enabled ? 0 : 1
   client_id = var.cluster_sp_client_id
 }
 
 resource "azuread_service_principal_password" "cluster" {
-  service_principal_id = data.azuread_service_principal.cluster.object_id
+  count                = var.managed_identity.enabled ? 0 : 1
+  service_principal_id = data.azuread_service_principal.cluster[0].object_id
 }
 
 data "azurerm_key_vault_secret" "pull_secret" {
@@ -13,6 +17,7 @@ data "azurerm_key_vault_secret" "pull_secret" {
 
 locals {
   managed_resource_group_name = "${var.resource_group_name}-resources"
+  managed_resource_group_id   = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${local.managed_resource_group_name}"
   resource_tags = merge(
     {
       cluster_name = var.cluster_name
@@ -30,9 +35,13 @@ locals {
   api_server_ip_file  = "${var.temp_dir}/api_server_lb_ip"
   admin_username_file = "${var.temp_dir}/admin_username"
   admin_password_file = "${var.temp_dir}/admin_password"
+  managed_identity_arm_ids = {
+    for id in values(var.managed_identity_ids) : id => {}
+  }
 }
 
 resource "azurerm_redhat_openshift_cluster" "cluster" {
+  count               = var.managed_identity.enabled ? 0 : 1
   name                = var.cluster_name
   location            = var.azure_region
   resource_group_name = var.resource_group_name
@@ -73,15 +82,68 @@ resource "azurerm_redhat_openshift_cluster" "cluster" {
   }
 
   service_principal {
-    client_id     = data.azuread_service_principal.cluster.client_id
-    client_secret = azuread_service_principal_password.cluster.value
+    client_id     = data.azuread_service_principal.cluster[0].client_id
+    client_secret = azuread_service_principal_password.cluster[0].value
   }
 
   tags = local.resource_tags
 }
 
+resource "azapi_resource" "cluster" {
+  count                     = var.managed_identity.enabled ? 1 : 0
+  type                      = "Microsoft.RedHatOpenShift/openShiftClusters@2024-08-12-preview"
+  name                      = var.cluster_name
+  parent_id                 = "/subscriptions/${data.azurerm_client_config.current.subscription_id}/resourceGroups/${var.resource_group_name}"
+  location                  = var.azure_region
+  schema_validation_enabled = false
+  body = {
+    identity = {
+      type                   = "UserAssigned"
+      userAssignedIdentities = local.managed_identity_arm_ids
+    }
+    properties = {
+      clusterProfile = {
+        domain               = var.use_azure_provided_domain ? "${var.cluster_name}-${replace(var.cluster.dns_prefix, ".", "-")}" : var.custom_dns_domain_name
+        version              = var.openshift_version
+        pullSecret           = data.azurerm_key_vault_secret.pull_secret.value
+        resourceGroupId      = local.managed_resource_group_id
+        fipsValidatedModules = var.fips_enabled ? "Enabled" : "Disabled"
+      }
+      networkProfile = {
+        podCidr     = var.network.pod_cidr
+        serviceCidr = var.network.service_cidr
+      }
+      masterProfile = {
+        vmSize           = var.cluster.main_vm_size
+        subnetId         = var.main_subnet_id
+        encryptionAtHost = "Disabled"
+      }
+      workerProfiles = [
+        {
+          name             = "worker"
+          vmSize           = var.cluster.worker_vm_size
+          diskSizeGB       = var.cluster.worker_disk_size_gb
+          count            = var.cluster.worker_node_count
+          subnetId         = var.worker_subnet_id
+          encryptionAtHost = "Disabled"
+        }
+      ]
+      apiserverProfile = {
+        visibility = var.private_cluster ? "Private" : "Public"
+      }
+      ingressProfiles = [
+        {
+          name       = "default"
+          visibility = var.private_cluster ? "Private" : "Public"
+        }
+      ]
+    }
+    tags = local.resource_tags
+  }
+}
+
 resource "time_sleep" "wait_for_cluster" {
-  depends_on      = [azurerm_redhat_openshift_cluster.cluster]
+  depends_on      = var.managed_identity.enabled ? [azapi_resource.cluster] : [azurerm_redhat_openshift_cluster.cluster]
   create_duration = "300s"
 }
 
@@ -157,7 +219,7 @@ resource "null_resource" "cluster_details" {
   }
 
   triggers = {
-    cluster_id = azurerm_redhat_openshift_cluster.cluster.id
+    cluster_id = var.managed_identity.enabled ? azapi_resource.cluster[0].id : azurerm_redhat_openshift_cluster.cluster[0].id
   }
 }
 
@@ -201,8 +263,10 @@ locals {
     ingress_lb_ip            = trimspace(data.local_file.ingress_ip.content)
     api_server_lb_ip         = trimspace(data.local_file.api_server_ip.content)
     openshift_version        = var.openshift_version
-    cluster_sp_client_id     = var.cluster_sp_client_id
-    cluster_sp_client_secret = azuread_service_principal_password.cluster.value
+    cluster_sp_client_id     = var.managed_identity.enabled ? null : var.cluster_sp_client_id
+    cluster_sp_client_secret = var.managed_identity.enabled ? null : azuread_service_principal_password.cluster[0].value
+    managed_identity_enabled = var.managed_identity.enabled
+    managed_identity_ids     = var.managed_identity_ids
   }
 }
 

@@ -4,6 +4,7 @@ variable "azure_region" { type = string }
 variable "use_azure_provided_domain" { type = bool }
 variable "redhatopenshift_sp_client_id" { type = string }
 variable "default_tags" { type = map(string) }
+variable "managed_identity_enabled" { type = bool }
 
 variable "business_metadata" {
   type = object({

@@ -9,6 +9,16 @@ variable "fips_enabled" { type = bool }
 variable "use_azure_provided_domain" { type = bool }
 variable "enable_acm_registration" { type = bool }
 variable "enable_gitops_bootstrap" { type = bool }
+variable "managed_identity" {
+  type = object({
+    enabled = bool
+  })
+
+  validation {
+    condition     = !var.managed_identity.enabled || var.infrastructure.create_azure_resources
+    error_message = "Managed identity support currently requires infrastructure.create_azure_resources to be true."
+  }
+}
 variable "redhatopenshift_sp_client_id" { type = string }
 variable "default_tags" { type = map(string) }
 variable "default_kubeconfig_filename" { type = string }

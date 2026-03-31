@@ -10,6 +10,12 @@ variable "main_subnet_id" { type = string }
 variable "worker_subnet_id" { type = string }
 variable "key_vault_id" { type = string }
 variable "cluster_sp_client_id" { type = string }
+variable "managed_identity" {
+  type = object({
+    enabled = bool
+  })
+}
+variable "managed_identity_ids" { type = map(string) }
 variable "custom_dns_domain_name" { type = string }
 variable "base_dns_zone_resource_group" { type = string }
 variable "temp_dir" { type = string }

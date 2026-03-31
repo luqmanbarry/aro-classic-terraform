@@ -17,6 +17,8 @@ key_vault:
   cluster_details_secret_name: openshift-dev-aroclassic101-cluster-details
 infrastructure:
   create_azure_resources: true
+managed_identity:
+  enabled: false
 gitops:
   repository_url: https://github.com/your-org/aro-classic-terraform.git
   target_revision: main

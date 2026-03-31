@@ -38,6 +38,7 @@ Terraform handles build and bootstrap work:
 
 - optional Azure resource group, VNet, subnets, NSG, identities, and DNS
 - ARO classic cluster creation
+- optional managed identity cluster creation path for new clusters
 - cluster admin detail capture into Key Vault
 - managed cluster kubeconfig generation
 - optional ACM registration
@@ -52,6 +53,18 @@ Why this is the default:
 - it reduces blast radius if cluster Terraform state is corrupted
 - it keeps shared Azure resources such as VNets, subnets, and DNS out of the normal cluster stack
 - it fits enterprise operating models where a cloud team owns shared landing-zone resources and the platform team owns the cluster lifecycle
+
+## Managed Identity
+
+Managed identity is a Terraform feature in this repo, not a GitOps feature.
+
+It is:
+
+- opt-in
+- for new clusters only
+- currently supported only when this repo also creates the Azure infrastructure
+
+This repo keeps the service principal path as the default because many customer environments still use it.
 
 ## GitOps Scope
 
