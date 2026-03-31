@@ -17,12 +17,27 @@ resource "azurerm_user_assigned_identity" "external_secrets" {
 }
 
 resource "azurerm_key_vault_access_policy" "external_secrets" {
+  count        = var.key_vault_authorization_mode == "access_policy" ? 1 : 0
   key_vault_id = var.key_vault_id
   tenant_id    = data.azurerm_client_config.current.tenant_id
   object_id    = azurerm_user_assigned_identity.external_secrets.principal_id
 
   secret_permissions      = ["Get", "List"]
   certificate_permissions = ["Get", "List"]
+}
+
+resource "azurerm_role_assignment" "external_secrets_key_vault_secrets_user" {
+  count                = var.key_vault_authorization_mode == "rbac" ? 1 : 0
+  scope                = var.key_vault_id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = azurerm_user_assigned_identity.external_secrets.principal_id
+}
+
+resource "azurerm_role_assignment" "external_secrets_key_vault_certificate_user" {
+  count                = var.key_vault_authorization_mode == "rbac" ? 1 : 0
+  scope                = var.key_vault_id
+  role_definition_name = "Key Vault Certificate User"
+  principal_id         = azurerm_user_assigned_identity.external_secrets.principal_id
 }
 
 resource "local_file" "root_app_values" {
@@ -77,6 +92,9 @@ resource "null_resource" "discover_oidc_issuer" {
 
   triggers = {
     cluster_name = var.cluster_name
+    kubeconfig   = var.managed_cluster_kubeconfig_filename
+    issuer_file  = local.oidc_issuer_file
+    wi_subject   = local.workload_identity_subject
   }
 }
 
@@ -97,6 +115,8 @@ resource "azurerm_federated_identity_credential" "external_secrets" {
 resource "null_resource" "bootstrap_workload_identity_secret" {
   depends_on = [
     azurerm_key_vault_access_policy.external_secrets,
+    azurerm_role_assignment.external_secrets_key_vault_secrets_user,
+    azurerm_role_assignment.external_secrets_key_vault_certificate_user,
     azurerm_federated_identity_credential.external_secrets,
   ]
 
@@ -126,8 +146,11 @@ EOT
   }
 
   triggers = {
-    client_id = azurerm_user_assigned_identity.external_secrets.client_id
-    tenant_id = data.azurerm_client_config.current.tenant_id
+    client_id        = azurerm_user_assigned_identity.external_secrets.client_id
+    tenant_id        = data.azurerm_client_config.current.tenant_id
+    kubeconfig       = var.managed_cluster_kubeconfig_filename
+    secret_name      = var.workload_identity_secret_name
+    secret_namespace = var.workload_identity_secret_namespace
   }
 }
 

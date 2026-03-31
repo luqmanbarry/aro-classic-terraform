@@ -9,6 +9,7 @@ variable "gitops_values" { type = any }
 variable "resource_group_name" { type = string }
 variable "azure_region" { type = string }
 variable "key_vault_id" { type = string }
+variable "key_vault_authorization_mode" { type = string }
 variable "default_tags" { type = map(string) }
 variable "workload_identity_namespace" { type = string }
 variable "workload_identity_service_account_name" { type = string }

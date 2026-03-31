@@ -41,6 +41,7 @@ key_vault:
   resource_group: rg-security-shared
   pull_secret_secret_name: aro-pull-secret
   cluster_details_secret_name: openshift-prod-dr-aroclassic410-cluster-details
+  authorization_mode: rbac
 gitops:
   enabled: true
   overlay: cluster-applications

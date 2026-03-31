@@ -52,6 +52,8 @@ This repo defaults to customer-managed Azure networking and shared landing-zone 
 - Key Vault:
   - a Key Vault for cluster secrets
   - the pull secret saved under the secret name used in the cluster files
+  - `authorization_mode: rbac` is the default factory setting
+  - use `authorization_mode: access_policy` only for older vaults that still rely on access policies
 - Tooling:
   - `terraform`
   - `python3`

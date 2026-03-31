@@ -88,7 +88,13 @@ variable "key_vault" {
     resource_group              = string
     pull_secret_secret_name     = string
     cluster_details_secret_name = string
+    authorization_mode          = optional(string, "rbac")
   })
+
+  validation {
+    condition     = contains(["rbac", "access_policy"], var.key_vault.authorization_mode)
+    error_message = "key_vault.authorization_mode must be rbac or access_policy."
+  }
 }
 
 variable "gitops" {

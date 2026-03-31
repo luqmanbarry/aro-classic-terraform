@@ -148,12 +148,19 @@ resource "azuread_service_principal" "cluster" {
 }
 
 resource "azurerm_key_vault_access_policy" "cluster" {
-  count        = var.managed_identity_enabled ? 0 : 1
+  count        = var.managed_identity_enabled || var.key_vault.authorization_mode != "access_policy" ? 0 : 1
   key_vault_id = data.azurerm_key_vault.target.id
   tenant_id    = data.azuread_client_config.current.tenant_id
   object_id    = azuread_service_principal.cluster[0].object_id
 
   secret_permissions = ["Get", "List", "Set"]
+}
+
+resource "azurerm_role_assignment" "cluster_key_vault_secrets_officer" {
+  count                = var.managed_identity_enabled || var.key_vault.authorization_mode != "rbac" ? 0 : 1
+  scope                = data.azurerm_key_vault.target.id
+  role_definition_name = "Key Vault Secrets Officer"
+  principal_id         = azuread_service_principal.cluster[0].object_id
 }
 
 resource "azurerm_role_assignment" "cluster_network_contributor" {

@@ -15,6 +15,7 @@ key_vault:
   resource_group: rg-security-shared
   pull_secret_secret_name: aro-pull-secret
   cluster_details_secret_name: openshift-prod-dr-aroclassic410-cluster-details
+  authorization_mode: rbac
 infrastructure:
   create_azure_resources: false
   existing:

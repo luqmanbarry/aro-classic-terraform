@@ -90,6 +90,7 @@ module "gitops_bootstrap" {
   resource_group_name                    = local.resource_group_name
   azure_region                           = var.azure_region
   key_vault_id                           = local.key_vault_id
+  key_vault_authorization_mode           = var.key_vault.authorization_mode
   default_tags                           = var.default_tags
   gitops_git_repo_url                    = var.gitops.repository_url
   gitops_target_revision                 = var.gitops.target_revision

@@ -52,5 +52,6 @@ variable "key_vault" {
     resource_group              = string
     pull_secret_secret_name     = string
     cluster_details_secret_name = string
+    authorization_mode          = optional(string, "rbac")
   })
 }

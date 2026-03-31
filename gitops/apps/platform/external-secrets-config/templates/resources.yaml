@@ -59,35 +59,13 @@ spec:
 {{- $azurekv := ($provider.azurekv | default dict) }}
 {{- $servicePrincipal := ($azurekv.servicePrincipal | default dict) }}
 {{- if $azurekv }}
+{{- $azurekvRendered := omit $azurekv "servicePrincipal" }}
+{{- if eq $azurekv.authType "ServicePrincipal" }}
+{{- $azurekvRendered = mergeOverwrite $azurekvRendered (dict "authSecretRef" (dict "clientId" (dict "name" ($servicePrincipal.secretName | default "") "namespace" ($servicePrincipal.secretNamespace | default "") "key" ($servicePrincipal.clientIdKey | default "")) "clientSecret" (dict "name" ($servicePrincipal.secretName | default "") "namespace" ($servicePrincipal.secretNamespace | default "") "key" ($servicePrincipal.clientSecretKey | default "")))) }}
+{{- end }}
   provider:
     azurekv:
-      authType: {{ $azurekv.authType }}
-      tenantId: {{ $azurekv.tenantId }}
-      vaultUrl: {{ $azurekv.vaultUrl }}
-{{- if eq $azurekv.authType "WorkloadIdentity" }}
-      serviceAccountRef:
-        name: {{ ($azurekv.serviceAccountRef | default dict).name }}
-        namespace: {{ ($azurekv.serviceAccountRef | default dict).namespace }}
-      authSecretRef:
-        clientId:
-          name: {{ (($azurekv.authSecretRef | default dict).clientId | default dict).name }}
-          namespace: {{ (($azurekv.authSecretRef | default dict).clientId | default dict).namespace }}
-          key: {{ (($azurekv.authSecretRef | default dict).clientId | default dict).key }}
-        tenantId:
-          name: {{ (($azurekv.authSecretRef | default dict).tenantId | default dict).name }}
-          namespace: {{ (($azurekv.authSecretRef | default dict).tenantId | default dict).namespace }}
-          key: {{ (($azurekv.authSecretRef | default dict).tenantId | default dict).key }}
-{{- else }}
-      authSecretRef:
-        clientId:
-          name: {{ ($servicePrincipal.secretName | default "") }}
-          namespace: {{ ($servicePrincipal.secretNamespace | default "") }}
-          key: {{ ($servicePrincipal.clientIdKey | default "") }}
-        clientSecret:
-          name: {{ ($servicePrincipal.secretName | default "") }}
-          namespace: {{ ($servicePrincipal.secretNamespace | default "") }}
-          key: {{ ($servicePrincipal.clientSecretKey | default "") }}
-{{- end }}
+{{ toYaml $azurekvRendered | indent 6 }}
 {{- else }}
 {{ toYaml $store.spec | indent 2 }}
 {{- end }}
