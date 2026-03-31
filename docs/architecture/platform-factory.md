@@ -7,7 +7,7 @@ Simple flow:
 1. Users propose cluster inputs in Git.
 2. A pull request is reviewed and approved.
 3. CI validates and renders the effective configuration.
-4. Merge to `main` runs Terraform to:
+4. After merge, a gated Terraform apply flow can run to:
    - optionally create Azure infrastructure in scope
    - create the ARO classic cluster
    - write cluster connection details to Key Vault

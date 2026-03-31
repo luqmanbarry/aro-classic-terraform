@@ -199,23 +199,11 @@ steps:
       scriptType: bash
       scriptLocation: inlineScript
       inlineScript: |
-        az version
-        scripts/check_required_ci_tools.sh bash git jq python3 terraform helm rg oc az
-
-        python3 scripts/validate_stack_inputs.py \
-          --cluster "$(cluster_dir)/cluster.yaml" \
-          --gitops-values "$(cluster_dir)/gitops.yaml"
-
-        python3 scripts/render_effective_config.py \
-          --cluster "$(cluster_dir)/cluster.yaml" \
-          --gitops-values "$(cluster_dir)/gitops.yaml" \
-          --output-dir "$(artifact_dir)"
-
-        cp "$(artifact_dir)/terraform.auto.tfvars.json" \
-          "$(cluster_dir)/terraform.auto.tfvars.json"
-
-        terraform -chdir="$(cluster_dir)" init
-        terraform -chdir="$(cluster_dir)" plan
+        chmod +x scripts/check_required_ci_tools.sh scripts/run_cluster_stack.sh
+        scripts/run_cluster_stack.sh \
+          --cluster-dir "$(cluster_dir)" \
+          --artifact-dir "$(artifact_dir)" \
+          --mode plan
     displayName: Validate and plan
 ```
 

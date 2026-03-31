@@ -6,4 +6,4 @@ Use this module when you want GitOps to create the operator namespace, `Operator
 
 The default OLM channel is `stable`.
 
-Keep it disabled until you have approved worker pool and storage settings for virtualization.
+Keep it disabled until you have approved machine-pool and storage settings for virtualization.

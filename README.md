@@ -50,7 +50,7 @@ High-level flow:
 
 - Azure access:
   - permission to create resource groups, networking, identities, role assignments, ARO clusters, and DNS records
-  - Azure login or service principal details for Terraform
+  - Azure login details for Terraform
 - ARO access:
   - an Azure subscription that can run ARO
   - a Red Hat pull secret stored in Azure Key Vault

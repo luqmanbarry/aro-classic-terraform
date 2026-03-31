@@ -8,7 +8,7 @@
 # 5. Add a MachineAutoscaler entry if you want this pool to scale.
 #
 # This example is a more realistic ARO starting point. It is commented out on
-# purpose so the sample cluster does not create extra worker pools by default.
+# purpose so the sample cluster does not create extra machine pools by default.
 #
 # Example:
 # machineSets:

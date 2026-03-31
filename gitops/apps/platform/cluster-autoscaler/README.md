@@ -2,7 +2,7 @@
 
 Use this app to manage the OpenShift `ClusterAutoscaler` object for ARO.
 
-This app does not create machine sets by itself. Use it together with the `machine-pools` app if you want autoscaling on extra worker pools.
+This app does not create machine sets by itself. Use it together with the `machine-pools` app if you want autoscaling on extra machine pools.
 
 How to use it:
 

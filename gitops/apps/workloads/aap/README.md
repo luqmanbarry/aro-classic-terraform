@@ -27,5 +27,5 @@ These defaults are a starting point, not a full customer design. Before enabling
 
 Placement is optional by design:
 
-- if `controller.node_selector` and `controller.postgres_selector` are empty, AAP schedules onto the default worker pool
-- if you set those fields to labeled dedicated pools, AAP and its managed database are pinned to those nodes
+- if `controller.node_selector` and `controller.postgres_selector` are empty, AAP schedules onto the default worker nodes
+- if you set those fields to labels used by dedicated machine pools, AAP and its managed database are pinned to those nodes

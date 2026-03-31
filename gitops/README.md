@@ -51,7 +51,7 @@ ARO note:
 
 - use Terraform for the base cluster
 - use GitOps for extra `MachineSet` objects, `MachineAutoscaler` objects, and the `ClusterAutoscaler` object after the cluster is up
-- for extra worker pools on ARO, copy a real `MachineSet` from the cluster first and then edit it in Git
+- for extra machine pools on ARO, copy a real `MachineSet` from the cluster first and then edit it in Git
 - use Azure Key Vault as the default shared secret backend for ARO
 - use `external-secrets-operator` and `external-secrets-config` to expose Key Vault secrets to apps
 
