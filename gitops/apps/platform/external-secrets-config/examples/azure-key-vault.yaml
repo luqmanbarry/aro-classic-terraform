@@ -8,12 +8,23 @@ config:
     spec:
       provider:
         azurekv:
+          authType: WorkloadIdentity
           tenantId: 00000000-0000-0000-0000-000000000000
           vaultUrl: https://<vault-name>.vault.azure.net
+          serviceAccountRef:
+            name: azure-key-vault-auth
+            namespace: external-secrets-operator
           authSecretRef:
             clientId:
               name: azure-key-vault-auth
+              namespace: ocp-tf-resources
               key: client-id
-            clientSecret:
+            tenantId:
               name: azure-key-vault-auth
-              key: client-secret
+              namespace: ocp-tf-resources
+              key: tenant-id
+          servicePrincipal:
+            secretName: cluster-sp-secret
+            secretNamespace: ocp-tf-resources
+            clientIdKey: client_id
+            clientSecretKey: client_secret

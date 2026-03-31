@@ -19,6 +19,7 @@ OpenShift GitOps manages normal in-cluster changes after Terraform finishes boot
 ## GitOps Modules
 
 - Azure Key Vault plus External Secrets Operator is the default secret pattern.
+- The shared Azure Key Vault store uses workload identity. Terraform creates the Azure identity, federated credential, and bootstrap metadata secret. GitOps creates the `ClusterSecretStore` and in-cluster service account.
 - Platform charts cover identity, RBAC, logging, monitoring, registry policy, onboarding, operator bootstrap, and optional storage integration patterns.
 - Workload charts cover shared platforms such as AAP, OpenShift AI, and CP4BA.
 - `namespace-onboarding` can record namespace-level feature intent and access bindings for shared features such as service mesh, OpenShift AI, CP4BA, and AAP while keeping operator subscriptions under admin control.

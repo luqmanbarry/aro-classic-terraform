@@ -14,6 +14,7 @@ Use OpenShift GitOps for normal cluster configuration after the cluster is reach
 - kubeconfig generation for automation
 - optional ACM registration
 - OpenShift GitOps operator bootstrap
+- the shared Azure workload identity and bootstrap metadata secret for the default External Secrets Operator store
 
 When Azure infrastructure is customer-managed, Terraform for the cluster has a smaller blast radius. Problems in cluster state are less likely to affect shared VNets, subnets, and DNS that may be used by other clusters.
 
@@ -36,4 +37,4 @@ When Azure infrastructure is customer-managed, Terraform for the cluster has a s
 Terraform stops once the cluster and GitOps bootstrap are complete.
 Day-2 configuration should be modeled as GitOps applications whenever practical.
 
-Managed identity for the ARO cluster itself is a Terraform concern because it changes the cluster identity model and Azure role assignment model. Workload identity use by apps remains a GitOps or app-delivery concern after the cluster exists.
+Managed identity for the ARO cluster itself is a Terraform concern because it changes the cluster identity model and Azure role assignment model. The shared GitOps bootstrap identity for the default External Secrets store is also Terraform-owned because it depends on Azure role assignment and federated credential setup. Day-2 app-specific workload identity remains a GitOps or app-delivery concern after the cluster exists.

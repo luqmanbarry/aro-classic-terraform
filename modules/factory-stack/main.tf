@@ -85,12 +85,20 @@ module "gitops_bootstrap" {
   count  = var.enable_gitops_bootstrap && var.gitops.enabled ? 1 : 0
   source = "../openshift-gitops-bootstrap"
 
-  cluster_name                        = var.cluster_name
-  managed_cluster_kubeconfig_filename = var.managed_cluster_kubeconfig_filename
-  gitops_git_repo_url                 = var.gitops.repository_url
-  gitops_target_revision              = var.gitops.target_revision
-  gitops_root_app_path                = try(var.gitops.root_app_path, "gitops/overlays/${var.gitops.overlay}")
-  gitops_repo_username                = try(var.gitops.repo_username, "")
-  gitops_repo_password                = try(var.gitops.repo_password, "")
-  gitops_values                       = try(var.gitops.values, {})
+  cluster_name                           = var.cluster_name
+  managed_cluster_kubeconfig_filename    = var.managed_cluster_kubeconfig_filename
+  resource_group_name                    = local.resource_group_name
+  azure_region                           = var.azure_region
+  key_vault_id                           = local.key_vault_id
+  default_tags                           = var.default_tags
+  gitops_git_repo_url                    = var.gitops.repository_url
+  gitops_target_revision                 = var.gitops.target_revision
+  gitops_root_app_path                   = try(var.gitops.root_app_path, "gitops/overlays/${var.gitops.overlay}")
+  gitops_repo_username                   = try(var.gitops.repo_username, "")
+  gitops_repo_password                   = try(var.gitops.repo_password, "")
+  gitops_values                          = try(var.gitops.values, {})
+  workload_identity_namespace            = "external-secrets-operator"
+  workload_identity_service_account_name = "azure-key-vault-auth"
+  workload_identity_secret_namespace     = "ocp-tf-resources"
+  workload_identity_secret_name          = "azure-key-vault-auth"
 }

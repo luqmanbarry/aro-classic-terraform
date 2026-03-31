@@ -35,6 +35,7 @@ This repo defaults to customer-managed Azure networking and shared landing-zone 
 ## GitOps Scope
 
 - Azure Key Vault plus External Secrets Operator is the default secret pattern
+- Terraform creates the shared Azure workload identity and bootstrap metadata secret for the default Key Vault store
 - Platform apps cover identity, RBAC, registry policy, monitoring, logging, operators, onboarding, and recovery helpers
 - Workload apps cover shared platforms such as AAP, OpenShift AI, and CP4BA
 - High-risk or optional operators use manual install approval by default

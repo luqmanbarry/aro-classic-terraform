@@ -2,16 +2,23 @@ namespace: external-secrets-operator
 clusterName: "changeme"
 keyVaultName: "platform-secrets"
 environmentType: PublicCloud # PublicCloud, USGovernmentCloud, ChinaCloud, GermanCloud
-cluster_sp_k8s_secret_name: "cluster-sp-secret"
-tf_resources_namespace: "ocp-tf-resources"
+bootstrapSecretName: "azure-key-vault-auth"
+bootstrapSecretNamespace: "ocp-tf-resources"
 subscription:
   channel: stable
   installPlanApproval: Automatic
   source: community-operators
   sourceNamespace: openshift-marketplace
 provider:
-  azurekv: # Key Vault ServicePrincipal credentials
+  azurekv:
     environmentType: PublicCloud # PublicCloud, USGovernmentCloud, ChinaCloud, GermanCloud
     tenantID: changeme
     vaultURL: "https://my-keyvault-name.vault.azure.net"
-    
+    authType: WorkloadIdentity
+    serviceAccount:
+      name: azure-key-vault-auth
+    servicePrincipal:
+      secretName: cluster-sp-secret
+      secretNamespace: ocp-tf-resources
+      clientIdKey: client_id
+      clientSecretKey: client_secret

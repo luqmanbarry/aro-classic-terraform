@@ -42,3 +42,7 @@ Copy one example into `clusters/<group-path>/<cluster>/values/external-secrets-c
 The other provider examples are optional references.
 
 Use one shared `ClusterSecretStore` name, such as `platform-secrets`, and make app `ExternalSecret` objects reference that same name.
+
+The default ARO pattern is Azure workload identity. Terraform creates the Azure identity and the bootstrap metadata secret. GitOps owns the `ClusterSecretStore` and references that identity through `serviceAccountRef` plus the bootstrap secret for `clientId` and `tenantId`.
+
+Service principal auth is still supported as an opt-in override. Use it only when workload identity is not possible in your environment, and provide the client ID and client secret from a Kubernetes secret instead of the workload identity bootstrap secret.

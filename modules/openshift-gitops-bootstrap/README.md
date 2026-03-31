@@ -2,6 +2,8 @@
 
 Installs OpenShift GitOps and creates the root application that points back to this repo.
 
+This module also creates the shared Azure workload identity used by the default External Secrets Operator `ClusterSecretStore`, grants that identity read access to Key Vault, creates the federated credential for the ESO service account, and writes the client and tenant IDs into the Terraform-owned bootstrap secret namespace.
+
 The bootstrap flow uses one OpenShift GitOps operator and the default admin Argo CD instance in `openshift-gitops`.
 
 The root application points to the shared cluster overlay, which creates:

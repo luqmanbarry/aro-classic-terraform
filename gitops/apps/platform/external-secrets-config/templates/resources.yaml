@@ -7,6 +7,17 @@
 {{- if or (eq $azurekv.tenantId "changeme") (eq $azurekv.vaultUrl "https://changeme.vault.azure.net") }}
 {{- fail "external-secrets-config requires real Azure Key Vault tenantId and vaultUrl values before rendering." }}
 {{- end }}
+{{- $authType := $azurekv.authType | default "" }}
+{{- if and (ne $authType "WorkloadIdentity") (ne $authType "ServicePrincipal") }}
+{{- fail "external-secrets-config authType must be WorkloadIdentity or ServicePrincipal." }}
+{{- end }}
+{{- if and (eq $authType "WorkloadIdentity") (eq (($azurekv.serviceAccountRef | default dict).name | default "") "") }}
+{{- fail "external-secrets-config requires serviceAccountRef.name when authType is WorkloadIdentity." }}
+{{- end }}
+{{- $servicePrincipal := $azurekv.servicePrincipal | default dict }}
+{{- if and (eq $authType "ServicePrincipal") (or (eq ($servicePrincipal.secretName | default "") "") (eq ($servicePrincipal.secretNamespace | default "") "") (eq ($servicePrincipal.clientIdKey | default "") "") (eq ($servicePrincipal.clientSecretKey | default "") "")) }}
+{{- fail "external-secrets-config requires servicePrincipal secretName, secretNamespace, clientIdKey, and clientSecretKey when authType is ServicePrincipal." }}
+{{- end }}
 {{- end }}
 ---
 apiVersion: v1
@@ -44,7 +55,42 @@ metadata:
     argocd.argoproj.io/sync-wave: "10"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
+{{- $provider := ($store.spec.provider | default dict) }}
+{{- $azurekv := ($provider.azurekv | default dict) }}
+{{- $servicePrincipal := ($azurekv.servicePrincipal | default dict) }}
+{{- if $azurekv }}
+  provider:
+    azurekv:
+      authType: {{ $azurekv.authType }}
+      tenantId: {{ $azurekv.tenantId }}
+      vaultUrl: {{ $azurekv.vaultUrl }}
+{{- if eq $azurekv.authType "WorkloadIdentity" }}
+      serviceAccountRef:
+        name: {{ ($azurekv.serviceAccountRef | default dict).name }}
+        namespace: {{ ($azurekv.serviceAccountRef | default dict).namespace }}
+      authSecretRef:
+        clientId:
+          name: {{ (($azurekv.authSecretRef | default dict).clientId | default dict).name }}
+          namespace: {{ (($azurekv.authSecretRef | default dict).clientId | default dict).namespace }}
+          key: {{ (($azurekv.authSecretRef | default dict).clientId | default dict).key }}
+        tenantId:
+          name: {{ (($azurekv.authSecretRef | default dict).tenantId | default dict).name }}
+          namespace: {{ (($azurekv.authSecretRef | default dict).tenantId | default dict).namespace }}
+          key: {{ (($azurekv.authSecretRef | default dict).tenantId | default dict).key }}
+{{- else }}
+      authSecretRef:
+        clientId:
+          name: {{ ($servicePrincipal.secretName | default "") }}
+          namespace: {{ ($servicePrincipal.secretNamespace | default "") }}
+          key: {{ ($servicePrincipal.clientIdKey | default "") }}
+        clientSecret:
+          name: {{ ($servicePrincipal.secretName | default "") }}
+          namespace: {{ ($servicePrincipal.secretNamespace | default "") }}
+          key: {{ ($servicePrincipal.clientSecretKey | default "") }}
+{{- end }}
+{{- else }}
 {{ toYaml $store.spec | indent 2 }}
+{{- end }}
 ---
 {{- end }}
 {{- end }}
