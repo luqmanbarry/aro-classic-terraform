@@ -1,3 +1,4 @@
+{{- if .Values.tagVolumeSnapshotClass }}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -37,3 +38,4 @@ spec:
               oc annotate --overwrite VolumeSnapshotClass {{ .Values.storage.volumeSnapshotClassName }} "snapshot.storage.kubernetes.io/is-default-class=true"
               
       restartPolicy: Never
+{{- end }}

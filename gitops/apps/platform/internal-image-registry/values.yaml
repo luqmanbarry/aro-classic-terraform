@@ -1,5 +1,5 @@
 # Ref: https://access.redhat.com/solutions/6547281
-defaultRoute: true
+defaultRoute: false
 disableRedirect: true
 # storage:
 #   azure:

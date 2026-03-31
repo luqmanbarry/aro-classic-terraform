@@ -8,8 +8,8 @@ config:
       spec:
         provider:
           azurekv:
-            tenantId: 00000000-0000-0000-0000-000000000000
-            vaultUrl: https://my-keyvault-name.vault.azure.net
+            tenantId: changeme
+            vaultUrl: https://changeme.vault.azure.net
             authSecretRef:
               clientId:
                 name: azure-key-vault-auth

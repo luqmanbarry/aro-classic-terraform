@@ -1,0 +1,5 @@
+profile_name: system
+vm_size: Standard_D8s_v5
+labels:
+  node-role.kubernetes.io/worker: ""
+taints: []

@@ -1,4 +1,7 @@
 {{- if .Values.aap.enabled }}
+{{- if eq .Values.aap.controller.admin_user "changeme" }}
+{{- fail "aap requires a real controller.admin_user before rendering when aap.enabled is true." }}
+{{- end }}
 apiVersion: aap.ansible.com/v1alpha1
 kind: AnsibleAutomationPlatform
 metadata:

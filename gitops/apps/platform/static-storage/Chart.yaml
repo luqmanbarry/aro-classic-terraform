@@ -1,0 +1,6 @@
+apiVersion: v2
+name: static-storage
+description: Manage static PV/PVC resources for RWX workloads.
+type: application
+version: 1.0.0
+appVersion: "1.0"

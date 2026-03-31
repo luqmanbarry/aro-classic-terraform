@@ -1,4 +1,7 @@
 {{- if .Values.enabled }}
+{{- if eq (len .Values.spec) 0 }}
+{{- fail "cluster-autoscaler requires a non-empty spec when enabled is true." }}
+{{- end }}
 apiVersion: autoscaling.openshift.io/v1
 kind: ClusterAutoscaler
 metadata:

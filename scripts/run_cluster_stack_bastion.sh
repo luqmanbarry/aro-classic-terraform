@@ -8,7 +8,7 @@ Usage:
   scripts/run_cluster_stack_bastion.sh --cluster-dir <path> [options]
 
 Options:
-  --cluster-dir <path>   Cluster stack directory, for example clusters/dev/aroclassic101
+  --cluster-dir <path>   Cluster stack directory, for example clusters/dev/aroclassic101 or clusters/us-east-1/qa/aroclassic210
   --artifact-dir <path>  Artifact output directory. Default: .artifacts/bastion/<cluster-name>
   --mode <mode>          One of: validate, plan, apply. Default: plan
   --backend-false        Run terraform init with -backend=false

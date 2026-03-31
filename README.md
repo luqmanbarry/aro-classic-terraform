@@ -1,50 +1,44 @@
 # ARO Classic Factory
 
-This repo builds Azure Red Hat OpenShift classic clusters from files stored in Git.
-
-High-level flow:
-
-1. Engineers add or update files under `clusters/`.
-2. They open a pull request.
-3. CI checks the changed cluster files and validates Terraform.
-4. After merge, a gated apply flow can create or update the cluster.
-5. OpenShift GitOps applies normal day-2 cluster changes from Git.
-
-## Start Here
-
-- [Architecture Overview](./docs/architecture/platform-factory.md)
-- [Terraform vs GitOps Boundary](./docs/architecture/terraform-vs-gitops-boundary.md)
-- [Execution Models](./docs/operations/execution-models.md)
-- [Catalog](./catalog/README.md)
-- [Clusters](./clusters/README.md)
-- [Terraform Modules](./modules/README.md)
-- [GitOps](./gitops/README.md)
+This repo builds and manages Azure Red Hat OpenShift classic clusters on Azure. The inputs live in Git, Terraform builds the Azure and ARO pieces, and OpenShift GitOps manages normal in-cluster changes.
 
 ## Repository Layout
 
-- `catalog/`: shared default settings
-- `clusters/`: one folder per cluster
+- `catalog/`: shared defaults and reusable classes
+- `clusters/`: one folder per cluster under `clusters/<group-path>/<cluster-name>/`
 - `modules/`: reusable Terraform modules
-- `gitops/`: GitOps bootstrap and app config
-- `scripts/`: helper scripts used by CI and manual runs
+- `gitops/`: OpenShift GitOps bootstrap, shared overlay, and reusable apps
+- `playbooks/`: Ansible Automation Platform examples
+- `scripts/`: render, validate, and helper scripts
+- `docs/`: design notes and execution guidance
 - `.github/workflows/`: GitHub Actions example
 - `azure-pipelines.yml`: Azure Pipelines example
-- `scripts/aap/`: AAP example playbook
 
-## Core Principles
+## How It Works
 
-- Terraform builds the Azure resources, the ARO cluster, and the bootstrap pieces.
-- The Azure infrastructure module is optional. By default, customers use existing Azure resources from a customer-managed landing zone. Set `infrastructure.create_azure_resources: true` only when you want this repo to build Azure resources too.
-- This helps reduce blast radius. If cluster Terraform state is damaged, the stack is less likely to affect shared Azure resources such as VNets, subnets, and DNS that may be used by other clusters.
-- OpenShift GitOps manages normal in-cluster changes after bootstrap.
-- Use one OpenShift GitOps operator per cluster. The default admin Argo CD instance in `openshift-gitops` manages shared platform and workload apps from this repo.
-- When tenant app delivery is needed, use one separate shared tenant Argo CD instance instead of a second GitOps operator.
-- Managed identity support is Terraform-based, opt-in, and for new clusters only.
-- The first managed identity implementation in this repo currently requires `infrastructure.create_azure_resources: true`.
-- Azure Key Vault is the default secret-management backend for ARO in this repo.
-- People write YAML input files.
-- Scripts create JSON files from those YAML files.
-- Cluster differences should stay in Git, not in hidden shell scripts.
+1. Write or update `cluster.yaml`, `gitops.yaml`, and any app values under `clusters/<group-path>/<cluster-name>/`.
+2. Render and validate the cluster inputs with the shared scripts.
+3. Run Terraform from that cluster folder.
+4. Terraform builds or reuses Azure infrastructure, creates the ARO cluster, and bootstraps OpenShift GitOps.
+5. GitOps applies platform and workload apps after the cluster is ready.
+
+## Terraform Scope
+
+- Optional Azure infrastructure when `infrastructure.create_azure_resources` is `true`
+- ARO classic cluster lifecycle
+- Cluster identities, role assignments, DNS, and bootstrap outputs
+- Optional ACM registration
+- OpenShift GitOps bootstrap
+
+This repo defaults to customer-managed Azure networking and shared landing-zone resources. That keeps the normal cluster stack focused on cluster lifecycle instead of broad shared Azure resources.
+
+## GitOps Scope
+
+- Azure Key Vault plus External Secrets Operator is the default secret pattern
+- Platform apps cover identity, RBAC, registry policy, monitoring, logging, operators, onboarding, and recovery helpers
+- Workload apps cover shared platforms such as AAP, OpenShift AI, and CP4BA
+- High-risk or optional operators use manual install approval by default
+- Tenant onboarding is optional and stays separate from admin-owned platform GitOps
 
 ## Prerequisites
 
@@ -67,41 +61,23 @@ High-level flow:
   - `jq`
   - `rg`
 
-## CI/CD Requirements
+## Execution Patterns
 
-The example pipelines check for these tools:
+- Bastion or Terraform CLI for manual admin runs
+- GitHub Actions for PR validation and gated apply flows
+- Azure Pipelines for enterprise Azure DevOps runners
+- Ansible Automation Platform for controlled job templates and approvals
 
-- `bash`
-- `git`
-- `jq`
-- `python3`
-- `terraform`
-- `helm`
-- `rg`
-- `oc`
-- `az`
+See [Execution Models](./docs/operations/execution-models.md) for the exact command flow.
 
-See [factory.yml](./.github/workflows/factory.yml) and [check_required_ci_tools.sh](./scripts/check_required_ci_tools.sh).
-See [azure-pipelines.yml](./azure-pipelines.yml) for an Azure Pipelines example.
+## Read More
 
-For step-by-step examples for bastion, GitHub Actions, Azure Pipelines, AAP, and Terraform CLI, see [Execution Models](./docs/operations/execution-models.md).
-
-## Factory Model
-
-Each cluster folder under `clusters/<env>/<cluster>/` does three things:
-
-1. It uses the generated `terraform.auto.tfvars.json` file.
-2. It passes that data into `modules/factory-stack`.
-3. It returns outputs that CI or operators can use.
-
-The factory module composes:
-
-- `aro-classic-infra`
-- `aro-classic-core`
-- `aro-classic-kubeconfig`
-- `aro-classic-acm-registration`
-- `openshift-gitops-bootstrap`
-
-## Status
-
-The factory layout is now the supported way to use this repo.
+- [Platform factory](./docs/architecture/platform-factory.md)
+- [Terraform vs GitOps boundary](./docs/architecture/terraform-vs-gitops-boundary.md)
+- [Execution models](./docs/operations/execution-models.md)
+- [Tenant onboarding](./docs/operations/tenant-onboarding.md)
+- [Catalog](./catalog/README.md)
+- [Clusters](./clusters/README.md)
+- [Terraform modules](./modules/README.md)
+- [GitOps](./gitops/README.md)
+- [AAP playbooks](./playbooks/README.md)

@@ -1,0 +1,5 @@
+profile_name: ai
+vm_size: Standard_D16s_v5
+labels:
+  workload.platform/ai: "true"
+taints: []

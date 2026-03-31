@@ -2,6 +2,12 @@
 {{- $config := $eso.config | default dict }}
 {{- $certManager := .Values.certManager | default dict }}
 {{- if $eso.enabled }}
+{{- range $store := $config.cluster_secret_stores }}
+{{- $azurekv := $store.spec.provider.azurekv | default dict }}
+{{- if or (eq $azurekv.tenantId "changeme") (eq $azurekv.vaultUrl "https://changeme.vault.azure.net") }}
+{{- fail "external-secrets-config requires real Azure Key Vault tenantId and vaultUrl values before rendering." }}
+{{- end }}
+{{- end }}
 ---
 apiVersion: v1
 kind: Namespace

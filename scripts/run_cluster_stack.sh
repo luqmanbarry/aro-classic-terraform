@@ -8,7 +8,7 @@ Usage:
   scripts/run_cluster_stack.sh --cluster-dir <path> [options]
 
 Options:
-  --cluster-dir <path>   Cluster stack directory, for example clusters/dev/aroclassic101
+  --cluster-dir <path>   Cluster stack directory, for example clusters/dev/aroclassic101 or clusters/us-east-1/qa/aroclassic210
   --artifact-dir <path>  Artifact output directory. Default: .artifacts/<cluster-name>
   --mode <mode>          One of: validate, plan, apply. Default: plan
   --skip-tool-check      Skip the required tool check
@@ -123,12 +123,10 @@ if [[ "$skip_az_login" != "true" ]]; then
 fi
 
 python3 scripts/validate_stack_inputs.py \
-  --cluster "$cluster_dir/cluster.yaml" \
-  --gitops-values "$cluster_dir/gitops.yaml"
+  --cluster-dir "$cluster_dir"
 
 python3 scripts/render_effective_config.py \
-  --cluster "$cluster_dir/cluster.yaml" \
-  --gitops-values "$cluster_dir/gitops.yaml" \
+  --cluster-dir "$cluster_dir" \
   --output-dir "$artifact_dir"
 
 cp "$artifact_dir/terraform.auto.tfvars.json" "$cluster_dir/terraform.auto.tfvars.json"

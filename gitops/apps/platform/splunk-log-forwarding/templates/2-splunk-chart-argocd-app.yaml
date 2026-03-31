@@ -15,7 +15,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: {{ .Values.resourceNamePrefix }}
 spec:
-  project: default
+  project: platform
 
   source:
     repoURL: {{ .Values.helmChart.repoURL }}

@@ -10,9 +10,19 @@ This document shows five common ways to run this repo:
 
 All five methods use the same input files:
 
-- `clusters/<env>/<cluster>/cluster.yaml`
-- `clusters/<env>/<cluster>/gitops.yaml`
-- `clusters/<env>/<cluster>/values/*.yaml`
+- `clusters/<group-path>/<cluster>/cluster.yaml`
+- `clusters/<group-path>/<cluster>/gitops.yaml`
+- `clusters/<group-path>/<cluster>/values/*.yaml`
+
+Reusable execution files in this repo:
+
+- `scripts/run_cluster_stack.sh`
+- `scripts/run_cluster_stack_bastion.sh`
+- `scripts/check_required_ci_tools.sh`
+- `.github/workflows/factory.yml`
+- `azure-pipelines.yml`
+- `playbooks/aap/run_cluster_stack.yml`
+- `docs/operations/aap-execution.example.yml`
 
 ## Shared Requirements
 
@@ -32,6 +42,7 @@ These things must be ready no matter where you run the code:
   - `oc`
   - `az`
 - you have Azure access for Terraform
+- you have a valid Red Hat pull secret and any required cluster identity inputs
 - you have access to the GitOps repo if it is private
 - you have access to the Azure Key Vault secrets referenced by the cluster and GitOps values
 - if ACM registration is enabled, you have the ACM hub kubeconfig ready
@@ -49,6 +60,7 @@ Validate cluster files
   -> render effective config
   -> write terraform.auto.tfvars.json
   -> terraform init
+  -> terraform validate
   -> terraform plan
   -> terraform apply
 ```
@@ -56,7 +68,7 @@ Validate cluster files
 Example cluster path used below:
 
 ```text
-clusters/dev/aroclassic101
+clusters/us-east-1/qa/aroclassic210
 ```
 
 ## Pattern 1: GitHub Actions
@@ -77,7 +89,7 @@ Use this pattern when GitHub is your source control and deployment runner.
 
 This repo already includes a GitHub Actions example in [factory.yml](../../.github/workflows/factory.yml).
 
-What it does now:
+Current behavior:
 
 - pull request:
   - detects changed clusters
@@ -93,6 +105,8 @@ What it does now:
 Important notes:
 
 - the committed workflow now uses the shared runner script for both validation and apply
+- it installs `jq` and `ripgrep` before the shared tool check
+- changed-cluster detection on push uses the real push base SHA instead of assuming `HEAD~1`
 - you still need to add the real Terraform backend settings, approval rules, and production secret values
 
 ### Basic Flow
@@ -101,9 +115,10 @@ Important notes:
 2. Validate each changed cluster.
 3. Render `terraform.auto.tfvars.json`.
 4. Run `terraform init`.
-5. Run `terraform plan`.
-6. Save the plan and rendered artifacts.
-7. After approval, run `terraform apply`.
+5. Run `terraform validate`.
+6. Run `terraform plan`.
+7. Save the plan and rendered artifacts.
+8. After approval, run `terraform apply`.
 
 ### Secrets And Variables
 
@@ -155,9 +170,10 @@ Use this pattern when Azure DevOps is your source control or approved enterprise
 4. Run input validation.
 5. Render `terraform.auto.tfvars.json`.
 6. Run `terraform init`.
-7. Run `terraform plan`.
-8. Publish plan and render artifacts.
-9. Run `terraform apply` only after approval.
+7. Run `terraform validate`.
+8. Run `terraform plan`.
+9. Publish plan and render artifacts.
+10. Run `terraform apply` only after approval.
 
 ### Azure Pipelines Example
 
@@ -175,8 +191,9 @@ pr:
       - main
 
 variables:
-  cluster_dir: clusters/dev/aroclassic101
-  artifact_dir: $(Build.ArtifactStagingDirectory)/aroclassic101
+  cluster_dir: clusters/us-east-1/qa/aroclassic210
+  artifact_dir: $(Build.ArtifactStagingDirectory)/aroclassic210
+  azure_service_connection: your-service-connection
 
 pool:
   vmImage: ubuntu-latest
@@ -195,10 +212,11 @@ steps:
 
   - task: AzureCLI@2
     inputs:
-      azureSubscription: your-service-connection
+      azureSubscription: $(azure_service_connection)
       scriptType: bash
       scriptLocation: inlineScript
       inlineScript: |
+        scripts/check_required_ci_tools.sh bash git jq python3 terraform helm rg oc az
         chmod +x scripts/check_required_ci_tools.sh scripts/run_cluster_stack.sh
         scripts/run_cluster_stack.sh \
           --cluster-dir "$(cluster_dir)" \
@@ -243,11 +261,13 @@ export ARM_SUBSCRIPTION_ID='your-subscription-id'
 export ARM_TENANT_ID='your-tenant-id'
 
 scripts/run_cluster_stack_bastion.sh \
-  --cluster-dir clusters/dev/aroclassic101 \
+  --cluster-dir clusters/us-east-1/qa/aroclassic210 \
+  --artifact-dir .artifacts/bastion/aroclassic210 \
   --mode plan
 
 scripts/run_cluster_stack_bastion.sh \
-  --cluster-dir clusters/dev/aroclassic101 \
+  --cluster-dir clusters/us-east-1/qa/aroclassic210 \
+  --artifact-dir .artifacts/bastion/aroclassic210 \
   --mode apply
 ```
 
@@ -280,46 +300,50 @@ Use this pattern when your team wants approvals, RBAC, and managed credentials i
 3. Validate cluster files.
 4. Render `terraform.auto.tfvars.json`.
 5. Run `terraform init`.
-6. Run `terraform plan`.
-7. Add approval if needed.
-8. Run `terraform apply`.
+6. Run `terraform validate`.
+7. Run `terraform plan`.
+8. Add approval if needed.
+9. Run `terraform apply`.
 
 ### AAP Playbook Example
 
-This repo now includes an example AAP playbook at [scripts/aap/run_cluster_stack.yml](../../scripts/aap/run_cluster_stack.yml).
+This repo now includes an example AAP playbook at [playbooks/aap/run_cluster_stack.yml](../../playbooks/aap/run_cluster_stack.yml).
 
 Example extra vars:
 
 ```yaml
-cluster_dir: clusters/dev/aroclassic101
-artifact_dir: /runner/artifacts/aroclassic101
-execution_mode: plan
+cluster_dir: clusters/us-east-1/qa/aroclassic210
+artifact_dir: /runner/artifacts/aroclassic210
+workflow_mode: plan
+terraform_backend: false
 skip_tool_check: false
 skip_az_login: false
-backend_false: false
 ```
 
 Example run:
 
 ```bash
-ansible-playbook scripts/aap/run_cluster_stack.yml \
-  -e cluster_dir=clusters/dev/aroclassic101 \
-  -e artifact_dir=/runner/artifacts/aroclassic101 \
-  -e execution_mode=plan
+ansible-playbook playbooks/aap/run_cluster_stack.yml \
+  -e @docs/operations/aap-execution.example.yml \
+  -e cluster_dir=clusters/us-east-1/qa/aroclassic210 \
+  -e artifact_dir=/runner/artifacts/aroclassic210 \
+  -e workflow_mode=plan
 ```
 
 ### Command Sequence
 
 ```bash
-ansible-playbook scripts/aap/run_cluster_stack.yml \
+ansible-playbook playbooks/aap/run_cluster_stack.yml \
   -e cluster_dir="$CLUSTER_DIR" \
   -e artifact_dir="$ARTIFACT_DIR" \
-  -e execution_mode=plan
+  -e workflow_mode=plan \
+  -e terraform_backend=false
 
-ansible-playbook scripts/aap/run_cluster_stack.yml \
+ansible-playbook playbooks/aap/run_cluster_stack.yml \
   -e cluster_dir="$CLUSTER_DIR" \
   -e artifact_dir="$ARTIFACT_DIR" \
-  -e execution_mode=apply
+  -e workflow_mode=apply \
+  -e terraform_backend=true
 ```
 
 ## Pattern 5: Terraform CLI
@@ -342,11 +366,13 @@ export ARM_SUBSCRIPTION_ID='your-subscription-id'
 export ARM_TENANT_ID='your-tenant-id'
 
 scripts/run_cluster_stack.sh \
-  --cluster-dir clusters/dev/aroclassic101 \
+  --cluster-dir clusters/us-east-1/qa/aroclassic210 \
+  --artifact-dir .artifacts/cli/aroclassic210 \
   --mode plan
 
 scripts/run_cluster_stack.sh \
-  --cluster-dir clusters/dev/aroclassic101 \
+  --cluster-dir clusters/us-east-1/qa/aroclassic210 \
+  --artifact-dir .artifacts/cli/aroclassic210 \
   --mode apply
 ```
 
@@ -374,7 +400,8 @@ Engineers change Git
 - `terraform.auto.tfvars.json` is generated. Do not edit it by hand.
 - `scripts/run_cluster_stack.sh` is the main shared runner for CI and shell-based runs.
 - `scripts/run_cluster_stack_bastion.sh` is the bastion wrapper.
-- `scripts/aap/run_cluster_stack.yml` is the AAP playbook that calls the shared runner.
+- `playbooks/aap/run_cluster_stack.yml` is the AAP playbook that calls the shared runner.
+- Azure Pipelines and GitHub Actions examples both call the same shared runner so the execution path stays consistent.
 - Terraform builds the Azure resources, the ARO cluster, and optional bootstrap pieces.
 - OpenShift GitOps manages the selected platform and workload apps after bootstrap.
 - If a GitOps app needs a Kubernetes `Secret`, add that app's `externalSecrets` entries to the same values file before apply.

@@ -12,7 +12,7 @@ metadata:
   namespace: {{ .Values.namespace }}
 spec:
   channel: {{ .Values.subscriptionChannel }}
-  installPlanApproval: Automatic
+  installPlanApproval: {{ .Values.installPlanApproval }}
   name: redhat-oadp-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace

@@ -7,6 +7,21 @@
 {{- $redis := default (dict) $instance.redis }}
 {{- $applicationSet := default (dict) $instance.applicationSet }}
 {{- if $shared.enabled }}
+{{- $enabledTenantCount := 0 }}
+{{- range $tenant := $tenants }}
+{{- if $tenant.enabled }}
+{{- $enabledTenantCount = add1 $enabledTenantCount }}
+{{- if eq (len ($tenant.namespaces | default list)) 0 }}
+{{- fail "namespace-onboarding requires at least one namespace for each enabled tenant." }}
+{{- end }}
+{{- if eq (len ($tenant.source_repos | default list)) 0 }}
+{{- fail "namespace-onboarding requires at least one source_repos entry for each enabled tenant." }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if eq $enabledTenantCount 0 }}
+{{- fail "namespace-onboarding requires at least one enabled tenant when sharedTenantArgoCD.enabled is true." }}
+{{- end }}
 {{- $applicationNamespaces := list }}
 {{- $applicationSetNamespaces := list }}
 {{- range $tenant := $tenants }}

@@ -1,0 +1,17 @@
+enabled: false
+name: default
+spec:
+  resourceLimits:
+    maxNodesTotal: 12
+    cores:
+      min: 8
+      max: 96
+    memory:
+      min: 16
+      max: 384
+  scaleDown:
+    enabled: true
+    delayAfterAdd: 10m
+    delayAfterDelete: 0s
+    delayAfterFailure: 3m
+    unneededTime: 10m

@@ -1,0 +1,50 @@
+{{- if .Values.pv.enabled }}
+{{- $storageClassName := required "pv.storageClassName is required when pv.enabled is true" .Values.pv.storageClassName }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.pv.name }}
+  annotations:
+    managed-by: argocd.argoproj.io
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  storageClassName: {{ $storageClassName }}
+  capacity:
+    storage: {{ .Values.pv.capacity }}
+  accessModes:
+{{ toYaml .Values.pv.accessModes | indent 4 }}
+  persistentVolumeReclaimPolicy: {{ .Values.pv.reclaimPolicy }}
+  {{- if .Values.pv.csi.enabled }}
+  {{- $csiDriver := required "pv.csi.driver is required when pv.csi.enabled is true" .Values.pv.csi.driver }}
+  {{- $volumeHandle := required "pv.csi.volumeHandle is required when pv.csi.enabled is true" .Values.pv.csi.volumeHandle }}
+  {{- if and .Values.pv.csi.nodeStageSecretRef.name (not .Values.pv.csi.nodeStageSecretRef.namespace) }}
+  {{- fail "pv.csi.nodeStageSecretRef.namespace is required when pv.csi.nodeStageSecretRef.name is set" }}
+  {{- end }}
+  {{- if and .Values.pv.csi.nodeStageSecretRef.namespace (not .Values.pv.csi.nodeStageSecretRef.name) }}
+  {{- fail "pv.csi.nodeStageSecretRef.name is required when pv.csi.nodeStageSecretRef.namespace is set" }}
+  {{- end }}
+  csi:
+    driver: {{ $csiDriver }}
+    volumeHandle: {{ $volumeHandle }}
+    {{- with .Values.pv.csi.fsType }}
+    fsType: {{ . }}
+    {{- end }}
+    {{- with .Values.pv.csi.volumeAttributes }}
+    volumeAttributes:
+{{ toYaml . | indent 6 }}
+    {{- end }}
+    {{- if .Values.pv.csi.readOnly }}
+    readOnly: true
+    {{- end }}
+    {{- if .Values.pv.csi.nodeStageSecretRef.name }}
+    nodeStageSecretRef:
+      name: {{ .Values.pv.csi.nodeStageSecretRef.name }}
+      namespace: {{ .Values.pv.csi.nodeStageSecretRef.namespace }}
+    {{- end }}
+  {{- else }}
+  nfs:
+    server: {{ required "pv.nfs.server is required when pv.enabled is true and pv.csi.enabled is false" .Values.pv.nfs.server }}
+    path: {{ required "pv.nfs.path is required when pv.enabled is true and pv.csi.enabled is false" .Values.pv.nfs.path }}
+  {{- end }}
+{{- end }}

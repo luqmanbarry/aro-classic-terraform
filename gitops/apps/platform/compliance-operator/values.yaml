@@ -1,11 +1,12 @@
 namespace: openshift-compliance
 clusterName: "changeme"
 resourceCommonName: "stig-compliance"
+installPlanApproval: Automatic
 
 scanProfiles:
   - ocp4-stig
   - rhcos4-stig
   - ocp4-stig-node
-autoApplyRemediations: true
-enableDebug: true
+autoApplyRemediations: false
+enableDebug: false
 scanSchedule: 0 5 * * * # https://crontab.guru/

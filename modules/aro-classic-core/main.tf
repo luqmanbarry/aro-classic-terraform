@@ -143,12 +143,22 @@ resource "azapi_resource" "cluster" {
 }
 
 resource "time_sleep" "wait_for_cluster" {
-  depends_on      = var.managed_identity.enabled ? [azapi_resource.cluster] : [azurerm_redhat_openshift_cluster.cluster]
+  count           = var.managed_identity.enabled ? 0 : 1
+  depends_on      = [azurerm_redhat_openshift_cluster.cluster]
+  create_duration = "300s"
+}
+
+resource "time_sleep" "wait_for_managed_identity_cluster" {
+  count           = var.managed_identity.enabled ? 1 : 0
+  depends_on      = [azapi_resource.cluster]
   create_duration = "300s"
 }
 
 resource "null_resource" "cluster_details" {
-  depends_on = [time_sleep.wait_for_cluster]
+  depends_on = [
+    time_sleep.wait_for_cluster,
+    time_sleep.wait_for_managed_identity_cluster,
+  ]
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]

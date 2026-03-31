@@ -6,10 +6,7 @@ ocpVersion: v4.18
 
 clusterName: "changeme"
 
-registriesTrustedCerts: # Provide list of registry and key vault secret name
-  - registryHost: hostname.example.com
-    templateKey: registry_0
-    caKeyVaultSecretName: changeme
+registriesTrustedCerts: []
 
 registriesCertsConfigMap: registries-config-certs
 # REGISTRIES ARE BLOCKED BY DEFAULT - ADD REGISTRY/IMAGE TO UNBLOCK

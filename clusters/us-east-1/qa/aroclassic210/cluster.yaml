@@ -1,0 +1,28 @@
+cluster_name: aroclassic210
+class_name: qa
+cluster:
+  resource_group_name: aro-qa-aroclassic210
+  dns_prefix: aroclassic210.qa.eastus.platform
+business_metadata:
+  owner: qa-platform-team
+  cost_center: qa-shared-services
+  contact: qa-platform-team@example.com
+network:
+  base_dns_zone_name: qa.apps.example.com
+  base_dns_zone_resource_group: rg-dns-qa
+key_vault:
+  name: kv-aro-qa-shared
+  resource_group: rg-security-shared
+  pull_secret_secret_name: aro-pull-secret
+  cluster_details_secret_name: openshift-qa-aroclassic210-cluster-details
+infrastructure:
+  create_azure_resources: false
+  existing:
+    main_subnet_id: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-network-qa/providers/Microsoft.Network/virtualNetworks/vnet-qa/subnets/snet-control
+    worker_subnet_id: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-network-qa/providers/Microsoft.Network/virtualNetworks/vnet-qa/subnets/snet-worker
+    cluster_sp_client_id: 00000000-0000-0000-0000-000000000210
+managed_identity:
+  enabled: false
+gitops:
+  repository_url: https://github.com/your-org/aro-classic-terraform.git
+  target_revision: main

@@ -1,0 +1,28 @@
+cluster_name: aroclassic410
+class_name: prod-dr
+cluster:
+  resource_group_name: aro-prod-dr-aroclassic410
+  dns_prefix: aroclassic410.prod-dr.centralus.platform
+business_metadata:
+  owner: dr-platform-team
+  cost_center: disaster-recovery
+  contact: dr-platform@example.com
+network:
+  base_dns_zone_name: dr.apps.example.com
+  base_dns_zone_resource_group: rg-dns-dr
+key_vault:
+  name: kv-aro-prod-dr-shared
+  resource_group: rg-security-shared
+  pull_secret_secret_name: aro-pull-secret
+  cluster_details_secret_name: openshift-prod-dr-aroclassic410-cluster-details
+infrastructure:
+  create_azure_resources: false
+  existing:
+    main_subnet_id: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-network-dr/providers/Microsoft.Network/virtualNetworks/vnet-dr/subnets/snet-control
+    worker_subnet_id: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-network-dr/providers/Microsoft.Network/virtualNetworks/vnet-dr/subnets/snet-worker
+    cluster_sp_client_id: 00000000-0000-0000-0000-000000000410
+managed_identity:
+  enabled: false
+gitops:
+  repository_url: https://github.com/your-org/aro-classic-terraform.git
+  target_revision: main

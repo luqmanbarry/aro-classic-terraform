@@ -40,8 +40,18 @@ jobs:
         with:
           version: latest
 
+      - name: Install jq and ripgrep
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq ripgrep
+
       - name: Install Python dependencies
         run: python3 -m pip install --upgrade pyyaml
+
+      - name: Check required CI tools
+        run: |
+          chmod +x scripts/check_required_ci_tools.sh
+          scripts/check_required_ci_tools.sh bash git jq python3 terraform helm rg oc az
 
       - name: Detect changed clusters
         id: clusters
@@ -106,6 +116,11 @@ jobs:
         with:
           version: latest
 
+      - name: Install jq and ripgrep
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq ripgrep
+
       - name: Azure Login
         uses: azure/login@v2
         with:
@@ -116,12 +131,17 @@ jobs:
       - name: Install Python dependencies
         run: python3 -m pip install --upgrade pyyaml
 
+      - name: Check required CI tools
+        run: |
+          chmod +x scripts/check_required_ci_tools.sh
+          scripts/check_required_ci_tools.sh bash git jq python3 terraform helm rg oc az
+
       - name: Detect changed clusters
         id: clusters
         run: |
           chmod +x scripts/detect_changed_clusters.sh
           chmod +x scripts/run_cluster_stack.sh scripts/run_cluster_stack_bastion.sh
-          CHANGED="$(scripts/detect_changed_clusters.sh HEAD~1 HEAD)"
+          CHANGED="$(scripts/detect_changed_clusters.sh ${{ github.event.before }} HEAD)"
           {
             echo 'changed<<EOF'
             echo "$CHANGED"
@@ -133,9 +153,6 @@ jobs:
           mkdir -p .artifacts/apply
           while IFS= read -r stack; do
             [ -z "$stack" ] && continue
-            python3 scripts/validate_stack_inputs.py \
-              --cluster "$stack/cluster.yaml" \
-              --gitops-values "$stack/gitops.yaml"
             out=".artifacts/apply/${stack//\//_}"
             bash scripts/run_cluster_stack.sh \
               --cluster-dir "$stack" \

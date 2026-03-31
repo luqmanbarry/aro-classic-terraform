@@ -34,7 +34,7 @@ supplementalGroups:
   type: RunAsAny
 users:
 - system:serviceaccount:openshift-compliance:api-resource-collector 
-- system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller" 
+- system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller
 volumes:
 - configMap
 - downwardAPI

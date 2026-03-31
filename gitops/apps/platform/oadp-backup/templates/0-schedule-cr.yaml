@@ -1,4 +1,10 @@
 {{ if .Values.enabled }}
+{{- if eq .Values.clusterName "changeme" }}
+{{- fail "oadp-backup requires a real clusterName before rendering." }}
+{{- end }}
+{{- if eq (len .Values.projects) 0 }}
+{{- fail "oadp-backup requires at least one project entry when enabled is true." }}
+{{- end }}
 {{ range $projectItem := .Values.projects  }}
 ---
 apiVersion: velero.io/v1
@@ -24,7 +30,6 @@ spec:
     {{ if not $.Values.defaultVolumesToFsBackup }}
     snapshotMoveData: true
     {{ end }}
-    snapshotMoveData: true
     ttl: {{ $projectItem.backupRetentionPeriod }}
     includedNamespaces:
       - {{ $projectItem.namespace }}

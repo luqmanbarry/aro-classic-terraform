@@ -1,0 +1,6 @@
+apiVersion: v2
+name: portworx-storage
+description: A Helm chart for Portworx storage on OpenShift.
+type: application
+version: 1.0.0
+appVersion: "3.x"

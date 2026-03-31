@@ -1,0 +1,4 @@
+enabled: false
+namespace: openshift-redhat-insights
+insights:
+  credentialsSecret: changeme

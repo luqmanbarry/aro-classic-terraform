@@ -1,0 +1,51 @@
+class_name: prod
+environment: prod
+azure_region: eastus2
+azure_cloud_environment: public
+openshift_version: "4.18.18"
+private_cluster: true
+fips_enabled: true
+use_azure_provided_domain: false
+enable_acm_registration: false
+enable_gitops_bootstrap: true
+managed_identity:
+  enabled: false
+infrastructure:
+  create_azure_resources: false
+default_tags:
+  managed_by: terraform
+  workload: aro-classic
+cluster:
+  resource_group_name: aro-prod-example
+  dns_prefix: aroclassic310.prod.eastus2.platform
+  main_vm_size: Standard_D8s_v5
+  worker_vm_size: Standard_D16s_v5
+  worker_disk_size_gb: 256
+  worker_node_count: 6
+business_metadata:
+  owner: platform-team
+  cost_center: shared-services
+  contact: platform-team@example.com
+network:
+  vnet_cidr: 10.92.0.0/22
+  main_subnet_cidr: 10.92.1.0/24
+  worker_subnet_cidr: 10.92.2.0/24
+  pod_cidr: 10.136.0.0/14
+  service_cidr: 172.32.0.0/16
+  base_dns_zone_name: example.com
+  base_dns_zone_resource_group: dns-core-rg
+  dns_ttl: 300
+  inbound_traffic_security_rules: []
+key_vault:
+  name: kv-aro-prod-shared
+  resource_group: rg-security-shared
+  pull_secret_secret_name: aro-pull-secret
+  cluster_details_secret_name: openshift-prod-aroclassic310-cluster-details
+gitops:
+  enabled: true
+  overlay: cluster-applications
+  repository_url: https://github.com/your-org/aro-classic-terraform.git
+  target_revision: main
+  root_app_path: gitops/overlays/cluster-applications
+acm:
+  hub_cluster_secret_name: openshift-prod-acmhub-cluster-details

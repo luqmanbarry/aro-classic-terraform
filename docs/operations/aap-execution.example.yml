@@ -1,0 +1,6 @@
+cluster_dir: clusters/us-east-1/qa/aroclassic210
+artifact_dir: /runner/artifacts/aroclassic210
+workflow_mode: plan
+terraform_backend: false
+skip_tool_check: false
+skip_az_login: false

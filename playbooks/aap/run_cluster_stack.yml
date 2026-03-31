@@ -1,0 +1,47 @@
+---
+- name: Run ARO classic cluster stack
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    cluster_dir: clusters/dev/aroclassic101
+    artifact_dir: /tmp/aro-classic-factory
+    workflow_mode: plan
+    terraform_backend: false
+    skip_tool_check: false
+    skip_az_login: false
+  tasks:
+    - name: Validate requested workflow mode
+      ansible.builtin.assert:
+        that:
+          - workflow_mode in ["validate", "plan", "apply"]
+        fail_msg: "workflow_mode must be one of validate, plan, or apply."
+
+    - name: Run cluster stack command
+      ansible.builtin.command:
+        argv:
+          - bash
+          - scripts/run_cluster_stack.sh
+          - --cluster-dir
+          - "{{ cluster_dir }}"
+          - --artifact-dir
+          - "{{ artifact_dir }}"
+          - --mode
+          - "{{ workflow_mode }}"
+          - "{{ '--backend-false' if not terraform_backend else omit }}"
+          - "{{ '--skip-tool-check' if skip_tool_check else omit }}"
+          - "{{ '--skip-az-login' if skip_az_login else omit }}"
+        chdir: "{{ playbook_dir }}/../.."
+      environment:
+        TF_IN_AUTOMATION: "true"
+      register: workflow_run
+      changed_when: workflow_mode == "apply"
+
+    - name: Show workflow summary
+      ansible.builtin.debug:
+        msg:
+          - "Cluster dir: {{ cluster_dir }}"
+          - "Artifact dir: {{ artifact_dir }}"
+          - "Mode: {{ workflow_mode }}"
+          - "Skip tool check: {{ skip_tool_check }}"
+          - "Skip Azure login: {{ skip_az_login }}"

@@ -1,0 +1,21 @@
+{{- if .Values.enabled }}
+{{- if eq .Values.insights.credentialsSecret "changeme" }}
+{{- fail "redhat-insights requires a real insights.credentialsSecret before rendering." }}
+{{- end }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: RedHatInsights
+metadata:
+  name: openshift
+  namespace: {{ .Values.namespace }}
+spec:
+  locals:
+    credentialsSecret: {{ .Values.insights.credentialsSecret }}
+{{- end }}

@@ -1,0 +1,28 @@
+cluster_name: aroclassic310
+class_name: prod
+cluster:
+  resource_group_name: aro-prod-aroclassic310
+  dns_prefix: aroclassic310.prod.eastus2.platform
+business_metadata:
+  owner: retail-platform-team
+  cost_center: retail-prod
+  contact: retail-platform@example.com
+network:
+  base_dns_zone_name: prod.apps.example.com
+  base_dns_zone_resource_group: rg-dns-prod
+key_vault:
+  name: kv-aro-prod-shared
+  resource_group: rg-security-shared
+  pull_secret_secret_name: aro-pull-secret
+  cluster_details_secret_name: openshift-prod-aroclassic310-cluster-details
+infrastructure:
+  create_azure_resources: false
+  existing:
+    main_subnet_id: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-network-prod/providers/Microsoft.Network/virtualNetworks/vnet-prod/subnets/snet-control
+    worker_subnet_id: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-network-prod/providers/Microsoft.Network/virtualNetworks/vnet-prod/subnets/snet-worker
+    cluster_sp_client_id: 00000000-0000-0000-0000-000000000310
+managed_identity:
+  enabled: false
+gitops:
+  repository_url: https://github.com/your-org/aro-classic-terraform.git
+  target_revision: main

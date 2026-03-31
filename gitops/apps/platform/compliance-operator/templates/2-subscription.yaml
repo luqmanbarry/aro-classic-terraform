@@ -12,7 +12,7 @@ metadata:
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
   channel: "stable"
-  installPlanApproval: Automatic
+  installPlanApproval: {{ .Values.installPlanApproval }}
   name: compliance-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace

@@ -1,4 +1,4 @@
-enableUserWorkload: true
+enableUserWorkload: false
 # Cluster Metrics
 prometheusK8s:
   retention: 15d
@@ -25,4 +25,3 @@ thanosRuler:
   storageClassName: managed-csi
   volumeMode: Filesystem
   storageCapacity: 50Gi
-

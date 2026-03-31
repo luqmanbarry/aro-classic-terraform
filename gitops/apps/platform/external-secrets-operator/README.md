@@ -1,37 +1,16 @@
 # External Secrets Operator
 
-This helm chart deploys the External Secrets Operator which is used to fetch sensitive data (secrets, certs) from Azure KeyVault. The docs are available [here](https://external-secrets.io/latest/provider/azure-key-vault/).
+Installs External Secrets Operator and the shared Azure Key Vault `ClusterSecretStore`.
 
-## Inputs
+Safe defaults:
 
-Required inputs are defined in the [values.yaml](./values.yaml) file of the helm chart. 
+- Azure Key Vault is the default provider pattern
+- operator install plan approval is `Automatic` because many charts in this repo depend on ESO CRDs
+- the chart fails fast if the Azure tenant ID or vault URL is still a placeholder
+- app secrets should stay in the app charts; this chart is only for the shared operator and shared store
 
-The recommended pattern is to keep all common (defaults) parameters set in the `values.yaml` and overwrite params that change per cluster in the `values.cluster-name.yaml` file.
+Required inputs:
 
-## Dependencies
-
-- Up & Running ARO cluster
-- Azure Service Principal with read access to KeyVault
-
-## Uninstall
-
-1. Go to the Operator > Actions > Uninstall Operator or Delete ClusterServiceVersion
-2. Go to Home > Search > Resources > Select All Projects and search for these resources and delete them.
-   - ClusterExternalSecrets
-   - ExternalSecrets
-   - ClusterSecretStores
-   - SecretStores
-   - customresourcedefinition/clusterexternalsecrets.external-secrets.io
-   - customresourcedefinition/clustersecretstores.external-secrets.io
-   - customresourcedefinition/externalsecrets.external-secrets.io
-   - customresourcedefinition/operatorconfigs.operator.external-secrets.io
-   - customresourcedefinition/secretstores.external-secrets.io
-   - customresourcedefinition/webhooks.generators.external-secrets.io
-
-## Common Issues
-
-### Operator installation stuck in Pending
-
-This problem occurs when an previous installation of this operator was not property removed from the cluster.
-
-To fix this, follow the steps described under **Uninstall** and try to install the operator.
+- a running ARO cluster
+- an Azure service principal or equivalent secret with read access to Key Vault
+- real `tenantID` and `vaultURL` values in the cluster values file

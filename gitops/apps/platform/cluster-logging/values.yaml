@@ -1,6 +1,11 @@
-keyVaultName: changeme
+keyVaultName: platform-secrets
 clusterName: changeme
 hecKeyVaultSecretName: splunk-logging-hec-token
+subscription:
+  channel: stable
+  installPlanApproval: Manual
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
 splunk:
   endpoint: http://your.splunk.hec.url:8088/services/collector
   indexName: openshift

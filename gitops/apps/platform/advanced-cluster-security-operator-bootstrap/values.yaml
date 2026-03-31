@@ -1,7 +1,7 @@
 namespace: container-security-operator
 subscription:
   channel: stable
-  installPlanApproval: Automatic
+  installPlanApproval: Manual
   name: container-security-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace

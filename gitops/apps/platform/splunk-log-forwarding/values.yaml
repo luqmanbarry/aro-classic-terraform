@@ -73,13 +73,7 @@ agent:
   enabled: true
   service:
     enabled: true
-  extraEnvs:
-    - name: HTTP_PROXY
-      value: http://localhost:9098
-    - name: HTTPS_PROXY
-      value: http://localhost:9098
-    - name: NO_PROXY
-      value: http://localhost:9098
+  extraEnvs: []
   # Use volume mounts to load CA certs for TLS trust
   extraVolumes: []
   extraVolumeMounts: []

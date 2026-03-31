@@ -1,17 +1,22 @@
-# OpenShift Cluster Log Forwarder
+# Cluster Logging
 
-This helm chart deploys the openshift cluster-logforwarder operator and configures the `ClusterLogForwarder` CR to forward logs (app, audit, infra) to Splunk.
+Installs the OpenShift Logging operator and creates `ClusterLogging` and `ClusterLogForwarder` resources for Splunk forwarding.
 
-INFO: At the time of writing this code, the log forwarding was not working due to a bug. The bug has been reported.
+Safe defaults:
 
-## Inputs
+- operator install plan approval is `Manual`
+- the chart fails fast if the cluster name or Splunk endpoint still uses placeholder values
+- the HEC token is read by `ExternalSecret` from the shared Azure Key Vault store
 
-Required inputs are defined in the [values.yaml](./values.yaml) file of the helm chart. 
+Before you enable this chart:
 
-The recommended pattern is to keep all common (defaults) parameters set in the `values.yaml` and overwrite params that change per cluster in the `values.cluster-name.yaml` file.
+1. Make sure `external-secrets-operator` and `external-secrets-config` are already working.
+2. Put the Splunk HEC token in Azure Key Vault.
+3. Set real values in `clusters/<group-path>/<cluster>/values/cluster-logging.yaml`.
 
-## Dependencies
+Main inputs:
 
-- Up & Running ARO cluster
-- [External Secrets Operator](../external-secrets-operator/)
-- Splunk HEC Token defined in the Azure KeyVault referenced by the ESO
+- `keyVaultName`: shared `ClusterSecretStore` name, usually `platform-secrets`
+- `hecKeyVaultSecretName`: Key Vault secret name for the HEC token
+- `splunk.endpoint`: real Splunk HEC URL
+- `splunk.indexName`: Splunk index for forwarded logs

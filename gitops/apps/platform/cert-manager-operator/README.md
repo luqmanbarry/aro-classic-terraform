@@ -15,3 +15,4 @@ Installs the cert-manager Operator for Red Hat OpenShift.
 - This chart installs only the operator lifecycle resources.
 - Issuers, ClusterIssuers, and Certificates should live in other GitOps modules.
 - The defaults match the current OpenShift 4.20 operator guidance.
+- Automatic approval is intentional because `cert-manager-config` depends on cert-manager CRDs.

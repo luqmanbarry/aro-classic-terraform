@@ -30,10 +30,36 @@ Creates OpenShift projects, applies common namespace guardrails, and can onboard
 - `limitRange`: optional default resource policy
 - `networkPolicies`: optional namespace network policy defaults
 - `roleBindings`: optional list of namespace role bindings
+- `features`: optional namespace-level feature enrollment map
 
 The chart also supports a top-level `projectRequestTemplate` block for self-service project creation. Use that with the `self-provisioner` chart when you want new user-created projects to inherit quotas, limit ranges, and network policies.
 
 The chart uses a top-level `sharedTenantArgoCD` block for the shared tenant Argo CD instance and a top-level `tenants` list for approved teams.
+
+It also supports a top-level `featureCatalog` for shared feature defaults.
+
+## Tenant Feature Enrollment
+
+This chart can record namespace-level feature intent for shared platform capabilities without giving tenants control of operator subscriptions.
+
+Use it when:
+
+- the operator is already installed by the platform team
+- only some namespaces should consume the feature
+- you want onboarding to record and apply the namespace-level opt-in
+
+Supported feature patterns:
+
+- `serviceMesh`: labels and annotates the namespace so platform automation can map it into the approved mesh design
+- `openshiftAI`: labels the namespace and can add feature-specific access `RoleBinding` objects
+- `cp4ba`: labels the namespace and can add feature-specific access `RoleBinding` objects
+- `aap`: labels the namespace and can add feature-specific access `RoleBinding` objects
+
+Important rules:
+
+- this chart does not create tenant `Subscription` objects
+- operator lifecycle stays in the admin-managed platform or workload charts
+- the feature flags are only one part of activation; the matching shared module still needs its own cluster-side configuration
 
 ## Tenant GitOps Model
 
@@ -59,6 +85,7 @@ Design rules:
 - tenant repo credential secrets are created with `ExternalSecret`
 - tenant repo credentials support the same HTTPS and SSH pattern used in the other factory repos
 - tenant namespaces are added to the shared Argo CD instance only when the tenant is enabled
+- the shared tenant Argo CD route is off by default until an admin chooses to expose it
 
 You can also tune the shared tenant Argo CD instance through `sharedTenantArgoCD.instance`, for example:
 
@@ -121,11 +148,33 @@ namespaces:
         role: edit
       - group: team-a-operators
         role: admin
+    features:
+      serviceMesh:
+        enabled: false
+        roleBindings:
+          - name: team-a-mesh-users
+            group: team-a-developers
+            role: mesh-user
+      openshiftAI:
+        enabled: true
+        roleBindings:
+          - name: team-a-ai-edit
+            group: team-a-developers
+            role: edit
+      cp4ba:
+        enabled: false
+      aap:
+        enabled: false
     networkPolicies:
       defaultDenyIngress: true
       allowSameNamespaceIngress: true
       allowClusterDNS: true
 ```
+
+`features.<name>` can include:
+
+- `enabled`: turns the feature on for the namespace
+- `roleBindings`: optional access bindings that use the same schema as namespace `roleBindings`
 
 ## Notes
 
@@ -136,9 +185,12 @@ namespaces:
   - `group` for a single group binding
   - `serviceAccount` for a namespace or cross-namespace service account binding
   - `subjects` for explicit Kubernetes RBAC subjects
+- feature `roleBindings` use the same schema as namespace `roleBindings`
+- feature flags add labels and annotations that other platform modules can use; they do not replace the platform module configuration itself
 - `projectRequestTemplate` creates the reusable template object only. The cluster-wide `Project` configuration that points to the template is owned by the `self-provisioner` chart.
 - tenant repo credentials should use `ExternalSecret` and should point to the shared `ClusterSecretStore` name `platform-secrets` unless you intentionally override it
 - the tenant Argo CD instance is disabled by default until an admin turns it on
+- when shared tenant Argo CD is enabled, each enabled tenant must define at least one namespace and at least one approved source repo
 - this design uses Argo CD "apps in any namespace"
 - enabled tenant admin and deployer groups get namespace-scoped `Role` and `RoleBinding` objects so they can create `Application` objects in their approved namespaces
 - `ApplicationSet` in any namespace is enabled only for tenants where `allow_application_sets: true`

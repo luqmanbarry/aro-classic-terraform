@@ -1,19 +1,19 @@
-keyVaultName: changeme
+keyVaultName: platform-secrets
 idp:
   openid:
     providers:
       - type: AAD
-        enable: true
+        enable: false
         name: ActiveDirectory
         # Instructions: https://cloud.redhat.com/experts/idp/group-claims/aro/
         clientID: changeme
-        clientSecretKeyVaultSecretName: openshift-aroclassic101-aad-sp-client-secret
+        clientSecretKeyVaultSecretName: changeme
         issuerURL: https://login.microsoftonline.com/TENANT_ID/v2.0
       - type: KEYCLOAK
-        enable: true
+        enable: false
         name: KeyCloak
         clientID: changeme
-        clientSecretKeyVaultSecretName: openshift-aroclassic101-aad-sp-client-secret
+        clientSecretKeyVaultSecretName: changeme
         issuerURL: https://keycloak-url/auth/realms/realm-name
     oauthCertsConfigMapName: oauth-config-certs
     enable: false

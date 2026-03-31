@@ -1,0 +1,13 @@
+namespace: portworx
+
+storageCluster:
+  enabled: false
+  name: portworx
+  annotations:
+    portworx.io/is-openshift: "true"
+  spec:
+    csi:
+      enabled: true
+      installSnapshotController: true
+    autopilot:
+      enabled: false

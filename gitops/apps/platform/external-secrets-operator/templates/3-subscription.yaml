@@ -11,8 +11,8 @@ metadata:
     "helm.sh/hook-weight": "3"
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 spec:
-  channel: stable
-  installPlanApproval: Automatic
+  channel: {{ .Values.subscription.channel }}
+  installPlanApproval: {{ .Values.subscription.installPlanApproval }}
   name: external-secrets-operator
-  source: community-operators
-  sourceNamespace: openshift-marketplace
+  source: {{ .Values.subscription.source }}
+  sourceNamespace: {{ .Values.subscription.sourceNamespace }}

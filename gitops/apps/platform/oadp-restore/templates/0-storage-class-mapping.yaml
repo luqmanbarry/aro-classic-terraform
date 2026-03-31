@@ -1,3 +1,10 @@
+{{- if .Values.enable }}
+{{- if eq .Values.clusterName "changeme" }}
+{{- fail "oadp-restore requires a real clusterName before rendering." }}
+{{- end }}
+{{- if eq (len .Values.backups) 0 }}
+{{- fail "oadp-restore requires at least one backup name when enable is true." }}
+{{- end }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -15,3 +22,4 @@ metadata:
     argocd.argoproj.io/sync-options: "SkipDryRunOnMissingResource=true"
 data:
   {{ toYaml .Values.storageClassMapping | nindent 2 }}
+{{- end }}

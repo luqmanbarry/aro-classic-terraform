@@ -1,3 +1,6 @@
+projectSourceRepos:
+  - "*"
+
 applications:
   - name: self-provisioner
     enabled: false
@@ -41,6 +44,27 @@ applications:
     syncWave: "22"
     valueFiles:
       - clusters/dev/aroclassic101/values/machine-pools.yaml
+  - name: global-cluster-pull-secret
+    enabled: false
+    namespace: openshift-gitops
+    path: gitops/apps/platform/global-cluster-pull-secret
+    syncWave: "24"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/global-cluster-pull-secret.yaml
+  - name: netapp-trident
+    enabled: false
+    namespace: openshift-operators
+    path: gitops/apps/platform/netapp-trident
+    syncWave: "28"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/netapp-trident.yaml
+  - name: portworx-storage
+    enabled: false
+    namespace: portworx
+    path: gitops/apps/platform/portworx-storage
+    syncWave: "29"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/portworx-storage.yaml
   - name: internal-image-registry
     enabled: false
     namespace: openshift-image-registry
@@ -48,6 +72,20 @@ applications:
     syncWave: "30"
     valueFiles:
       - clusters/dev/aroclassic101/values/internal-image-registry.yaml
+  - name: nfs-csi
+    enabled: false
+    namespace: openshift-cluster-csi-drivers
+    path: gitops/apps/platform/nfs-csi
+    syncWave: "32"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/nfs-csi.yaml
+  - name: ibm-spectrum-scale-csi
+    enabled: false
+    namespace: ibm-spectrum-scale-csi-driver
+    path: gitops/apps/platform/ibm-spectrum-scale-csi
+    syncWave: "34"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/ibm-spectrum-scale-csi.yaml
   - name: image-registry-allow-deny
     enabled: false
     namespace: openshift-config
@@ -148,13 +186,6 @@ applications:
     syncWave: "19"
     valueFiles:
       - clusters/dev/aroclassic101/values/cert-manager-config.yaml
-  - name: global-cluster-pull-secret
-    enabled: false
-    namespace: openshift-gitops
-    path: gitops/apps/platform/global-cluster-pull-secret
-    syncWave: "24"
-    valueFiles:
-      - clusters/dev/aroclassic101/values/global-cluster-pull-secret.yaml
   - name: compliance-content
     enabled: false
     namespace: openshift-compliance
@@ -204,3 +235,45 @@ applications:
     syncWave: "130"
     valueFiles:
       - clusters/dev/aroclassic101/values/openshift-virtualization-operator-bootstrap.yaml
+  - name: static-storage
+    enabled: false
+    namespace: tenant-storage
+    path: gitops/apps/platform/static-storage
+    syncWave: "200"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/static-storage.yaml
+  - name: cost-management
+    enabled: false
+    namespace: cost-management
+    path: gitops/apps/platform/cost-management
+    syncWave: "210"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/cost-management.yaml
+  - name: redhat-insights
+    enabled: false
+    namespace: openshift-redhat-insights
+    path: gitops/apps/platform/redhat-insights
+    syncWave: "215"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/redhat-insights.yaml
+  - name: aap
+    enabled: false
+    namespace: ansible-automation-platform
+    path: gitops/apps/workloads/aap
+    syncWave: "300"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/aap.yaml
+  - name: cp4ba-operator
+    enabled: false
+    namespace: cp4ba
+    path: gitops/apps/workloads/cp4ba-operator
+    syncWave: "310"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/cp4ba-operator.yaml
+  - name: openshift-ai
+    enabled: false
+    namespace: redhat-ods-operator
+    path: gitops/apps/workloads/openshift-ai
+    syncWave: "320"
+    valueFiles:
+      - clusters/dev/aroclassic101/values/openshift-ai.yaml

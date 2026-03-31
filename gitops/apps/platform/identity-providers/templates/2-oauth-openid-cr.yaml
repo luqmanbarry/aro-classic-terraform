@@ -1,4 +1,16 @@
 {{ if .Values.idp.openid.enable }}
+{{- $enabledProviderCount := 0 }}
+{{- range $provider := .Values.idp.openid.providers }}
+{{- if $provider.enable }}
+{{- $enabledProviderCount = add1 $enabledProviderCount }}
+{{- if or (eq $provider.clientID "changeme") (eq $provider.clientSecretKeyVaultSecretName "changeme") (contains "TENANT_ID" $provider.issuerURL) (contains "keycloak-url" $provider.issuerURL) }}
+{{- fail "identity-providers requires real clientID, clientSecretKeyVaultSecretName, and issuerURL values for enabled providers." }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if eq $enabledProviderCount 0 }}
+{{- fail "identity-providers requires at least one enabled OpenID provider when idp.openid.enable is true." }}
+{{- end }}
 ---
 apiVersion: config.openshift.io/v1
 kind: OAuth
@@ -12,6 +24,7 @@ metadata:
 spec:
   identityProviders:
   {{ range $openIDProvider := .Values.idp.openid.providers }}
+  {{- if $openIDProvider.enable }}
     - name: {{ $openIDProvider.name }}
       mappingMethod: claim
       type: OpenID
@@ -36,5 +49,6 @@ spec:
           groups: 
           - groups
         issuer: {{ $openIDProvider.issuerURL }}
+  {{- end }}
   {{ end }}
 {{ end }}

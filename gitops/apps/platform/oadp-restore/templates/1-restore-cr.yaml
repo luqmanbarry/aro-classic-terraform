@@ -1,4 +1,10 @@
 {{ if .Values.enable }}
+{{- if eq .Values.clusterName "changeme" }}
+{{- fail "oadp-restore requires a real clusterName before rendering." }}
+{{- end }}
+{{- if eq (len .Values.backups) 0 }}
+{{- fail "oadp-restore requires at least one backup name when enable is true." }}
+{{- end }}
 {{ range $backupItem := .Values.backups }}
 ---
 apiVersion: velero.io/v1

@@ -1,13 +1,11 @@
-# OpenShift Container Security
+# Advanced Cluster Security Operator Bootstrap
 
-This helm chart deploys the OpenShift Container Security operator. Read the docs to learn more about the capabilities it comes with.
+Installs the Advanced Cluster Security operator lifecycle resources.
 
-## Inputs
+Safe defaults:
 
-Required inputs are defined in the [values.yaml](./values.yaml) file of the helm chart. 
+- operator install plan approval is `Manual`
+- this chart installs only the operator pieces
+- stack-specific ACS central or secured-cluster resources are not created here
 
-The recommended pattern is to keep all common (defaults) parameters set in the `values.yaml` and overwrite params that change per cluster in the `values.cluster-name.yaml` file.
-
-## Dependencies
-
-- Up & Running ARO cluster
+Enable this chart only after the security team has approved the operator channel, sizing, and downstream ACS design.

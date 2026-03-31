@@ -21,6 +21,7 @@ The default pattern is:
 - Azure Key Vault
 - one shared `ClusterSecretStore` called `platform-secrets`
 - app `ExternalSecret` objects that read from that shared store
+- the chart fails fast if enabled provider values still use placeholders
 
 The sample values file in `clusters/dev/aroclassic101/values/external-secrets-config.yaml` already shows the Azure Key Vault shape.
 
@@ -36,7 +37,7 @@ Provider example snippets are in:
 - [examples/google-secret-manager.yaml](./examples/google-secret-manager.yaml)
 - [examples/cyberark-conjur.yaml](./examples/cyberark-conjur.yaml)
 
-Copy one example into `clusters/<env>/<cluster>/values/external-secrets-config.yaml` only if your platform does not use Azure Key Vault.
+Copy one example into `clusters/<group-path>/<cluster>/values/external-secrets-config.yaml` only if your platform does not use Azure Key Vault.
 
 The other provider examples are optional references.
 

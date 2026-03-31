@@ -1,13 +1,12 @@
-# OpenShift Compliance Operator
+# Compliance Operator
 
-This helm chart deploys the openshift compliance operator with the STIG profiles. Read the docs to find out about other available profiles.
+Installs the Compliance Operator and the related scan settings used by this factory.
 
-## Inputs
+Safe defaults:
 
-Required inputs are defined in the [values.yaml](./values.yaml) file of the helm chart. 
+- operator install plan approval is `Automatic` because `compliance-content` depends on these CRDs
+- automatic remediation stays off
+- debug stays off
+- the chart ships with STIG-oriented profiles, but you still need to review what is appropriate for each cluster
 
-The recommended pattern is to keep all common (defaults) parameters set in the `values.yaml` and overwrite params that change per cluster in the `values.cluster-name.yaml` file.
-
-## Dependencies
-
-- Up & Running ARO cluster
+Enable this chart only after the platform and security teams approve the scan schedule, profiles, and remediation approach.

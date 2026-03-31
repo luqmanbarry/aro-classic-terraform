@@ -1,3 +1,6 @@
+{{- if eq (len .Values.tenants) 0 }}
+{{- fail "openshift-service-mesh-operator-bootstrap requires at least one approved tenant before rendering." }}
+{{- end }}
 ---
 apiVersion: v1
 kind: Namespace

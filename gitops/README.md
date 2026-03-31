@@ -2,60 +2,35 @@
 
 OpenShift GitOps manages normal in-cluster changes after Terraform finishes bootstrap.
 
-Simple flow:
+## GitOps Flow
 
-1. Terraform installs the OpenShift GitOps operator and creates a root `Application`.
-2. The root application points to the shared overlay under `gitops/overlays/cluster-applications/`.
-3. The shared overlay creates the shared `platform` and `workloads` AppProjects in the admin Argo CD instance.
-4. The shared overlay creates child Argo CD applications.
-5. Those child applications deploy platform and workload apps.
-
-Most reusable apps in this repo are Helm charts.
-
-The shared overlay is also a Helm chart. During bootstrap, Terraform passes in the real Git repo URL and Git revision.
+1. Terraform installs the OpenShift GitOps operator and creates the root `Application`.
+2. The root app points to `gitops/overlays/cluster-applications/`.
+3. The shared overlay creates the `platform` and `workloads` AppProjects and their child applications.
+4. Each child application syncs a chart from `gitops/apps/platform` or `gitops/apps/workloads`.
 
 ## Argo CD Model
 
-This repo uses one GitOps operator per cluster.
+- One GitOps operator per cluster in `openshift-gitops`.
+- The admin Argo CD instance owns shared platform and workload applications.
+- `namespace-onboarding` can optionally create one shared tenant Argo CD instance for approved teams.
+- Tenant teams do not get their own GitOps operator.
 
-It then splits Argo CD use into two layers:
+## GitOps Modules
 
-- one admin Argo CD instance in `openshift-gitops`
-- one optional shared tenant Argo CD instance for app teams
+- Azure Key Vault plus External Secrets Operator is the default secret pattern.
+- Platform charts cover identity, RBAC, logging, monitoring, registry policy, onboarding, operator bootstrap, and optional storage integration patterns.
+- Workload charts cover shared platforms such as AAP, OpenShift AI, and CP4BA.
+- `namespace-onboarding` can record namespace-level feature intent and access bindings for shared features such as service mesh, OpenShift AI, CP4BA, and AAP while keeping operator subscriptions under admin control.
+- Foundational operators that provide CRDs for other repo charts use automatic approval by default. High-risk optional operators that do not unblock dependent charts stay on manual approval.
+- High-risk charts use safer defaults: no example tenant resources, no default admin RBAC, manual install approval for optional operators, and fail-fast checks when required backend values are still placeholders.
+- Vendor storage charts stay disabled by default and document that the storage backend, secrets, and vendor support remain environment-specific.
 
-The admin instance is for platform-owned GitOps:
+## How To Enable Apps
 
-- apps from `gitops/apps/platform`
-- apps from `gitops/apps/workloads`
-- the shared `platform` AppProject
-- the shared `workloads` AppProject
-
-The tenant instance is for approved app teams:
-
-- it is created only when onboarding is enabled
-- it runs in its own namespace
-- each tenant gets its own `AppProject`
-- each tenant is limited to approved repos and namespaces
-
-Do not deploy a second OpenShift GitOps operator for tenants.
-Keep one operator and use separate Argo CD instances with separate RBAC.
-
-How to set up GitOps for one cluster:
-
-- choose apps in `clusters/<environment>/<cluster>/gitops.yaml`
-- set `enabled: true` only for the apps you want to run now
-- put each app's values in `clusters/<environment>/<cluster>/values/<app>.yaml`
-- if an app needs a Kubernetes `Secret`, add its `externalSecrets` entries to that same values file before you enable the app
-
-ARO note:
-
-- use Terraform for the base cluster
-- use GitOps for extra `MachineSet` objects, `MachineAutoscaler` objects, and the `ClusterAutoscaler` object after the cluster is up
-- for extra machine pools on ARO, copy a real `MachineSet` from the cluster first and then edit it in Git
-- use Azure Key Vault as the default shared secret backend for ARO
-- use `external-secrets-operator` and `external-secrets-config` to expose Key Vault secrets to apps
-
-The sample cluster lists every app that is available now. Only `external-secrets-operator` is enabled by default. Everything else is opt-in.
+- Choose apps in `clusters/<group-path>/<cluster>/gitops.yaml`.
+- Put each app's values in `clusters/<group-path>/<cluster>/values/<app>.yaml`.
+- Keep secrets out of Git. Put them in Azure Key Vault and sync them with External Secrets Operator.
 
 ## Layout
 

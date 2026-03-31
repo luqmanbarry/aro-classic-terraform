@@ -1,0 +1,5 @@
+profile_name: aap
+vm_size: Standard_D16s_v5
+labels:
+  workload.platform/aap: "true"
+taints: []
